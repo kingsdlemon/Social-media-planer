@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tageskarte — Social Media Planer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF3E4;
+    --bg-raised: #FFFFFF;
+    --ink: #2B1B17;
+    --ink-soft: #6B5850;
+    --line: #E6D8C3;
+    --accent-olive: #8B7A1E;
+    --accent-olive-bg: #F1E9C9;
+    --accent-teal: #1F6F5C;
+    --accent-teal-bg: #DDEDE7;
+    --accent-berry: #9C3B3B;
+    --accent-berry-bg: #F5DEDE;
+    --shadow: 0 1px 2px rgba(43,27,23,0.06), 0 6px 20px rgba(43,27,23,0.06);
+    --radius-s: 8px;
+    --radius-m: 14px;
+    --radius-l: 22px;
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #211714;
+      --bg-raised: #2C211D;
+      --ink: #F3E9DE;
+      --ink-soft: #C4AFA1;
+      --line: #4A3B33;
+      --accent-olive: #D9C34E;
+      --accent-olive-bg: #3B3620;
+      --accent-teal: #6FBBA6;
+      --accent-teal-bg: #1F3B34;
+      --accent-berry: #E38C8C;
+      --accent-berry-bg: #3E2323;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 6px 20px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #211714;
+    --bg-raised: #2C211D;
+    --ink: #F3E9DE;
+    --ink-soft: #C4AFA1;
+    --line: #4A3B33;
+    --accent-olive: #D9C34E;
+    --accent-olive-bg: #3B3620;
+    --accent-teal: #6FBBA6;
+    --accent-teal-bg: #1F3B34;
+    --accent-berry: #E38C8C;
+    --accent-berry-bg: #3E2323;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 6px 20px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .app {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 28px 20px 80px;
+  }
+
+  header.top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 18px;
+  }
+  header.top .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  header.top h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  header.top .tagline {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    max-width: 320px;
+  }
+
+  nav.tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+  }
+  nav.tabs button {
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 9px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+  }
+  nav.tabs button.active {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  section.view { display: none; }
+  section.view.active { display: block; }
+
+  /* ---------- Kalender ---------- */
+  .cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 26px 0 14px;
+  }
+  .cal-header h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 21px;
+    margin: 0;
+  }
+  .cal-nav { display: flex; gap: 8px; align-items: center; }
+  .cal-nav button {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--bg-raised);
+    color: var(--ink);
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .cal-nav button:hover { background: var(--accent-olive-bg); }
+
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 720px) {
+    .week-grid { grid-template-columns: 1fr; }
+  }
+  .day-col {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    padding: 12px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .day-col .day-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .day-col .day-num {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .day-col.today { border-color: var(--accent-teal); box-shadow: 0 0 0 1px var(--accent-teal); }
+
+  .post-chip {
+    border-radius: var(--radius-s);
+    padding: 7px 9px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    line-height: 1.3;
+  }
+  .post-chip small { display: block; font-weight: 500; opacity: .75; font-size: 11px; margin-top: 2px; }
+  .post-chip.insta { background: var(--accent-berry-bg); color: var(--accent-berry); }
+  .post-chip.tiktok { background: var(--accent-olive-bg); color: var(--accent-olive); }
+
+  .add-chip {
+    margin-top: auto;
+    border: 1px dashed var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    border-radius: var(--radius-s);
+    padding: 7px 9px;
+    font-size: 12.5px;
+    cursor: pointer;
+    text-align: left;
+  }
+  .add-chip:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+  /* ---------- Post Builder ---------- */
+  .builder {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 28px;
+    margin-top: 24px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .builder { grid-template-columns: 1fr; }
+  }
+
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .field input[type="text"],
+  .field input[type="date"],
+  .field input[type="time"],
+  .field select,
+  .field textarea {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    color: var(--ink);
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    padding: 10px 12px;
+    outline: none;
+  }
+  .field textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--accent-teal);
+    box-shadow: 0 0 0 3px var(--accent-teal-bg);
+  }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .template-picks {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .template-picks button {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    background: var(--bg-raised);
+    color: var(--ink-soft);
+    padding: 8px 13px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .template-picks button.active {
+    background: var(--accent-teal);
+    border-color: var(--accent-teal);
+    color: #fff;
+  }
+
+  .btn-primary {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14.5px;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius-s);
+    padding: 12px 20px;
+    cursor: pointer;
+  }
+  .btn-secondary {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    background: transparent;
+    color: var(--accent-berry);
+    border: none;
+    padding: 8px 4px;
+    cursor: pointer;
+  }
+  .btn-ghost {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 10px 16px;
+    border-radius: var(--radius-s);
+    cursor: pointer;
+  }
+
+  .hashtag-suggest {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .hashtag-suggest span {
+    font-size: 12px;
+    color: var(--accent-teal);
+    background: var(--accent-teal-bg);
+    padding: 4px 9px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  /* ---------- Preview card ---------- */
+  .preview-wrap { position: sticky; top: 20px; }
+  .preview-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-l);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .preview-photo {
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(155deg, var(--accent-olive-bg), var(--accent-teal-bg));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    font-size: 13px;
+    text-align: center;
+    padding: 20px;
+  }
+  .preview-meta {
+    padding: 14px 16px 18px;
+  }
+  .preview-meta .handle {
+    font-weight: 700;
+    font-size: 13.5px;
+    margin-bottom: 6px;
+  }
+  .preview-meta .cap {
+    font-size: 13.5px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: var(--ink);
+  }
+  .preview-meta .platform-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .preview-meta .platform-tag.insta { background: var(--accent-berry-bg); color: var(--accent-berry); }
+  .preview-meta .platform-tag.tiktok { background: var(--accent-olive-bg); color: var(--accent-olive); }
+
+  .queue-list { margin-top: 26px; }
+  .queue-list h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+  .queue-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    padding: 12px 14px;
+    margin-bottom: 8px;
+  }
+  .queue-item .qi-left { display: flex; align-items: center; gap: 10px; }
+  .queue-item .qi-date { font-size: 12.5px; color: var(--ink-soft); min-width: 78px; }
+  .queue-item .qi-title { font-size: 14px; font-weight: 600; }
+  .queue-item .qi-sub { font-size: 12px; color: var(--ink-soft); }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(43,27,23,0.45);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 50;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--bg);
+    width: 100%;
+    max-width: 520px;
+    border-radius: var(--radius-l) var(--radius-l) 0 0;
+    padding: 22px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+  @media (min-width: 640px) {
+    .modal-backdrop { align-items: center; }
+    .modal { border-radius: var(--radius-l); }
+  }
+  .modal h3 { font-family: var(--font-display); font-size: 19px; margin: 0 0 16px; }
+  .modal-actions { display: flex; justify-content: space-between; margin-top: 6px; gap: 10px; }
+
+  footer.note {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <h1>Tageskarte</h1>
+      <span class="tagline">Content-Plan und Post-Builder für deine Gastro-Kunden — wie eine Tageskarte, nur für Instagram und TikTok.</span>
+    </div>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="kalender">Kalender</button>
+      <button class="tab-btn" data-tab="builder">Post-Builder</button>
+    </nav>
+  </header>
+
+  <!-- KALENDER -->
+  <section class="view active" id="view-kalender">
+    <div class="cal-header">
+      <h2 id="week-range">Diese Woche</h2>
+      <div class="cal-nav">
+        <button id="prev-week">‹</button>
+        <button id="today-btn" class="btn-ghost" style="border-radius:999px;padding:7px 14px;font-size:12.5px;">Heute</button>
+        <button id="next-week">›</button>
+      </div>
+    </div>
+    <div class="week-grid" id="week-grid"></div>
+
+    <div class="queue-list">
+      <h3>Alle geplanten Posts</h3>
+      <div id="queue-container"></div>
+    </div>
+  </section>
+
+  <!-- BUILDER -->
+  <section class="view" id="view-builder">
+    <div class="builder">
+      <div>
+        <div class="field">
+          <label>Kunde / Betrieb</label>
+          <input type="text" id="f-client" placeholder="z. B. Eiscafé La Fenice">
+        </div>
+
+        <div class="field">
+          <label>Vorlage</label>
+          <div class="template-picks" id="template-picks">
+            <button data-tpl="tagesangebot" class="active">Tagesangebot</button>
+            <button data-tpl="neu">Neues Produkt</button>
+            <button data-tpl="behind">Behind the Scenes</button>
+            <button data-tpl="frei">Freier Post</button>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>Produkt / Thema</label>
+            <input type="text" id="f-product" placeholder="z. B. Pistazien-Eis">
+          </div>
+          <div class="field">
+            <label>Preis (optional)</label>
+            <input type="text" id="f-price" placeholder="z. B. 3,50 €">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Caption</label>
+          <textarea id="f-caption" placeholder="Wird automatisch vorgeschlagen — du kannst sie danach frei bearbeiten."></textarea>
+          <div class="hashtag-suggest" id="hashtag-suggest"></div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>Plattform</label>
+            <select id="f-platform">
+              <option value="insta">Instagram</option>
+              <option value="tiktok">TikTok</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Bild-/Video-Notiz</label>
+            <input type="text" id="f-media" placeholder="z. B. Nahaufnahme Waffel">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>Datum</label>
+            <input type="date" id="f-date">
+          </div>
+          <div class="field">
+            <label>Uhrzeit</label>
+            <input type="time" id="f-time" value="18:00">
+          </div>
+        </div>
+
+        <button class="btn-primary" id="save-post">Post einplanen</button>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-card">
+          <div class="preview-photo" id="preview-photo">Bild-/Video-Notiz erscheint hier</div>
+          <div class="preview-meta">
+            <span class="platform-tag insta" id="preview-tag">Instagram</span>
+            <div class="handle" id="preview-handle">@deinkunde</div>
+            <div class="cap" id="preview-caption">Caption erscheint hier, sobald du etwas einträgst.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="note">
+    Alles wird nur lokal in diesem Browser gespeichert (kein Server, keine geteilten Daten). Zum Posten selbst exportierst oder kopierst du die Caption in die App der Plattform.
+  </footer>
+</div>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <h3 id="modal-title">Post</h3>
+    <div class="field"><label>Kunde</label><div id="modal-client" style="font-weight:600;"></div></div>
+    <div class="field"><label>Caption</label><div id="modal-caption" style="white-space:pre-wrap; font-size:14px; line-height:1.5;"></div></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="modal-delete">Löschen</button>
+      <button class="btn-ghost" id="modal-close">Schließen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const STORAGE_KEY = 'tageskarte_posts_v1';
+
+  function loadPosts() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function savePosts(posts) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
+    catch (e) { console.error('Speichern fehlgeschlagen', e); }
+  }
+  let posts = loadPosts();
+
+  // ---------- Tabs ----------
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const views = {
+    kalender: document.getElementById('view-kalender'),
+    builder: document.getElementById('view-builder')
+  };
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      Object.values(views).forEach(v => v.classList.remove('active'));
+      views[btn.dataset.tab].classList.add('active');
+      if (btn.dataset.tab === 'kalender') renderCalendar();
+    });
+  });
+
+  // ---------- Templates ----------
+  const templates = {
+    tagesangebot: {
+      label: 'Tagesangebot',
+      caption: (p) => {
+        const product = p.product || '[Produkt]';
+        const price = p.price ? ` — heute für ${p.price}` : '';
+        return `Heute frisch auf der Tageskarte: ${product}${price} 🍽️\n\nVorbeikommen, bevor es weg ist!`;
+      },
+      tags: ['#tagesangebot', '#frischgemacht', '#lecker']
+    },
+    neu: {
+      label: 'Neues Produkt',
+      caption: (p) => {
+        const product = p.product || '[Produkt]';
+        const price = p.price ? `Ab sofort für ${p.price}.` : '';
+        return `Neu bei uns: ${product} 🎉\n${price}\nSchon probiert? Sag uns, was du davon hältst!`;
+      },
+      tags: ['#neuimsortiment', '#mussmanprobieren']
+    },
+    behind: {
+      label: 'Behind the Scenes',
+      caption: (p) => {
+        const product = p.product || 'unsere Küche';
+        return `Ein Blick hinter die Kulissen: so entsteht ${product} bei uns 👀\n\nHandarbeit, jeden Tag.`;
+      },
+      tags: ['#behindthescenes', '#handgemacht']
+    },
+    frei: {
+      label: 'Freier Post',
+      caption: (p) => p.product ? `${p.product}` : '',
+      tags: []
+    }
+  };
+  let activeTpl = 'tagesangebot';
+
+  const tplPicks = document.getElementById('template-picks');
+  tplPicks.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    [...tplPicks.children].forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    activeTpl = btn.dataset.tpl;
+    suggestCaption();
+  });
+
+  // ---------- Builder fields ----------
+  const fClient = document.getElementById('f-client');
+  const fProduct = document.getElementById('f-product');
+  const fPrice = document.getElementById('f-price');
+  const fCaption = document.getElementById('f-caption');
+  const fPlatform = document.getElementById('f-platform');
+  const fMedia = document.getElementById('f-media');
+  const fDate = document.getElementById('f-date');
+  const fTime = document.getElementById('f-time');
+  const hashtagSuggest = document.getElementById('hashtag-suggest');
+
+  function todayISO() {
+    const d = new Date();
+    return d.toISOString().slice(0, 10);
+  }
+  fDate.value = todayISO();
+
+  function suggestCaption() {
+    const tpl = templates[activeTpl];
+    const text = tpl.caption({ product: fProduct.value.trim(), price: fPrice.value.trim() });
+    fCaption.value = text;
+    hashtagSuggest.innerHTML = '';
+    tpl.tags.forEach(tag => {
+      const span = document.createElement('span');
+      span.textContent = tag;
+      span.addEventListener('click', () => {
+        if (!fCaption.value.includes(tag)) {
+          fCaption.value = fCaption.value.trim() + '\n\n' + tpl.tags.join(' ');
+          updatePreview();
+        }
+      });
+      hashtagSuggest.appendChild(span);
+    });
+    updatePreview();
+  }
+  [fProduct, fPrice].forEach(el => el.addEventListener('input', suggestCaption));
+
+  function updatePreview() {
+    document.getElementById('preview-caption').textContent = fCaption.value || 'Caption erscheint hier, sobald du etwas einträgst.';
+    document.getElementById('preview-handle').textContent = '@' + (fClient.value.trim() ? fClient.value.trim().toLowerCase().replace(/\s+/g, '') : 'deinkunde');
+    document.getElementById('preview-photo').textContent = fMedia.value.trim() || 'Bild-/Video-Notiz erscheint hier';
+    const tag = document.getElementById('preview-tag');
+    tag.textContent = fPlatform.value === 'tiktok' ? 'TikTok' : 'Instagram';
+    tag.className = 'platform-tag ' + fPlatform.value;
+  }
+  [fClient, fCaption, fPlatform, fMedia].forEach(el => el.addEventListener('input', updatePreview));
+
+  document.getElementById('save-post').addEventListener('click', () => {
+    if (!fClient.value.trim()) { fClient.focus(); return; }
+    if (!fDate.value) { fDate.focus(); return; }
+    const post = {
+      id: Date.now().toString(36),
+      client: fClient.value.trim(),
+      template: templates[activeTpl].label,
+      product: fProduct.value.trim(),
+      caption: fCaption.value.trim(),
+      platform: fPlatform.value,
+      media: fMedia.value.trim(),
+      date: fDate.value,
+      time: fTime.value
+    };
+    posts.push(post);
+    savePosts(posts);
+    fProduct.value = ''; fPrice.value = ''; fMedia.value = '';
+    suggestCaption();
+    renderCalendar();
+    document.querySelector('.tab-btn[data-tab="kalender"]').click();
+  });
+
+  // ---------- Calendar ----------
+  let weekOffset = 0;
+  const weekGrid = document.getElementById('week-grid');
+  const weekRangeEl = document.getElementById('week-range');
+  const dayNames = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+  const monthNames = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+
+  function startOfWeek(offset) {
+    const now = new Date();
+    now.setHours(0,0,0,0);
+    const day = now.getDay();
+    const diffToMonday = (day === 0 ? -6 : 1 - day);
+    now.setDate(now.getDate() + diffToMonday + offset * 7);
+    return now;
+  }
+
+  function isoDate(d) { return d.toISOString().slice(0,10); }
+
+  function renderCalendar() {
+    const start = startOfWeek(weekOffset);
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      days.push(d);
+    }
+    weekRangeEl.textContent = `${days[0].getDate()}. ${monthNames[days[0].getMonth()]} – ${days[6].getDate()}. ${monthNames[days[6].getMonth()]} ${days[6].getFullYear()}`;
+
+    weekGrid.innerHTML = '';
+    const todayStr = isoDate(new Date());
+    days.forEach(d => {
+      const dStr = isoDate(d);
+      const col = document.createElement('div');
+      col.className = 'day-col' + (dStr === todayStr ? ' today' : '');
+      const dayPosts = posts.filter(p => p.date === dStr).sort((a,b) => a.time.localeCompare(b.time));
+
+      col.innerHTML = `
+        <div class="day-label">${dayNames[d.getDay()]}</div>
+        <div class="day-num">${d.getDate()}</div>
+      `;
+      dayPosts.forEach(p => {
+        const chip = document.createElement('div');
+        chip.className = 'post-chip ' + p.platform;
+        chip.innerHTML = `${p.client}<small>${p.time} · ${p.template}</small>`;
+        chip.addEventListener('click', () => openModal(p));
+        col.appendChild(chip);
+      });
+      const addBtn = document.createElement('button');
+      addBtn.className = 'add-chip';
+      addBtn.textContent = '+ Post planen';
+      addBtn.addEventListener('click', () => {
+        fDate.value = dStr;
+        document.querySelector('.tab-btn[data-tab="builder"]').click();
+      });
+      col.appendChild(addBtn);
+      weekGrid.appendChild(col);
+    });
+
+    renderQueue();
+  }
+
+  function renderQueue() {
+    const container = document.getElementById('queue-container');
+    container.innerHTML = '';
+    const upcoming = [...posts].sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time));
+    if (upcoming.length === 0) {
+      container.innerHTML = '<div class="empty-state">Noch keine Posts geplant — leg im Post-Builder deinen ersten an.</div>';
+      return;
+    }
+    upcoming.forEach(p => {
+      const item = document.createElement('div');
+      item.className = 'queue-item';
+      item.innerHTML = `
+        <div class="qi-left">
+          <div class="qi-date">${p.date.slice(8,10)}.${p.date.slice(5,7)}. · ${p.time}</div>
+          <div>
+            <div class="qi-title">${p.client} — ${p.template}</div>
+            <div class="qi-sub">${p.platform === 'tiktok' ? 'TikTok' : 'Instagram'}${p.product ? ' · ' + p.product : ''}</div>
+          </div>
+        </div>
+      `;
+      item.addEventListener('click', () => openModal(p));
+      container.appendChild(item);
+    });
+  }
+
+  // ---------- Modal ----------
+  const modalBackdrop = document.getElementById('modal-backdrop');
+  let modalPostId = null;
+  function openModal(p) {
+    modalPostId = p.id;
+    document.getElementById('modal-title').textContent = `${p.template} · ${p.date}`;
+    document.getElementById('modal-client').textContent = p.client;
+    document.getElementById('modal-caption').textContent = p.caption;
+    modalBackdrop.classList.add('open');
+  }
+  document.getElementById('modal-close').addEventListener('click', () => modalBackdrop.classList.remove('open'));
+  modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) modalBackdrop.classList.remove('open'); });
+  document.getElementById('modal-delete').addEventListener('click', () => {
+    posts = posts.filter(p => p.id !== modalPostId);
+    savePosts(posts);
+    modalBackdrop.classList.remove('open');
+    renderCalendar();
+  });
+
+  document.getElementById('prev-week').addEventListener('click', () => { weekOffset--; renderCalendar(); });
+  document.getElementById('next-week').addEventListener('click', () => { weekOffset++; renderCalendar(); });
+  document.getElementById('today-btn').addEventListener('click', () => { weekOffset = 0; renderCalendar(); });
+
+  // ---------- Init ----------
+  suggestCaption();
+  renderCalendar();
+})();
+</script>
+</body>
+</html>
