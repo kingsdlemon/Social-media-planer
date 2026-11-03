@@ -12,8 +12,8 @@ const FPS=30;
   const job=JSON.parse(fs.readFileSync(path.join(qdir,mine+'.'+port)));const tmp=path.join(out,`shot_${String(job.i).padStart(3,'0')}.tmp.mp4`),fin=tmp.replace('.tmp','');
   const ff=spawn('ffmpeg',['-y','-loglevel','error','-f','image2pipe','-framerate',String(FPS),'-c:v','mjpeg','-i','-','-c:v','libx264','-preset','medium','-crf','15','-pix_fmt','yuv420p','-r',String(FPS),'-video_track_timescale','15360',tmp],{stdio:['pipe','inherit','inherit']});
   const t0=Date.now();
-  for(let f=job.f0;f<job.f1;f++){const t=f/FPS;await p.evaluate(t=>window.renderFrame(t),t);
-   const buf=await p.screenshot({type:'jpeg',quality:92,clip:{x:0,y:0,width:1080,height:1920}});if(!ff.stdin.write(buf))await new Promise(r=>ff.stdin.once('drain',r));}
+  let buf=null;for(let f=job.f0;f<job.f1;f++){if((f-job.f0)%(+process.env.STEP||2)===0){const t=f/FPS;await p.evaluate(t=>window.renderFrame(t),t);
+   buf=await p.screenshot({type:'jpeg',quality:92,clip:{x:0,y:0,width:1080,height:1920}});}if(!ff.stdin.write(buf))await new Promise(r=>ff.stdin.once('drain',r));}
   ff.stdin.end();await new Promise(r=>ff.on('close',r));fs.renameSync(tmp,fin);fs.renameSync(path.join(qdir,mine+'.'+port),path.join(qdir,mine+'.done'));
   console.log(`[${port}] shot ${job.i} frames ${job.f1-job.f0} in ${((Date.now()-t0)/1000).toFixed(0)}s (${((Date.now()-t0)/(job.f1-job.f0)).toFixed(0)}ms/f)`);}
  await b.close();process.exit(0);})();

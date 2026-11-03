@@ -6,7 +6,7 @@ import {rng} from './textures.js';
 import {loadTiming,buildTimeline,W,lineStart,lineEnd,trainPos,trainVel,railJoints,ST,TM,clamp,sstep,lerp,ease,easeOut,easeIn} from './timeline.js';
 import {HUD} from './hud.js';
 const V=(x,y,z)=>new THREE.Vector3(x,y,z);
-const RW=810,RH=1440;
+const RW=432,RH=768;
 let renderer,scene,camera,world,post,hud,SH=[],EV={};
 const hash=(x)=>{const s=Math.sin(x*127.1+311.7)*43758.5453;return s-Math.floor(s);};
 async function init(){await loadTiming();buildTimeline();

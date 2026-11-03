@@ -1,0 +1,20 @@
+[8211] shot 4 frames 49 in 97s (1975ms/f)
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.screenshot: Target page, context or browser has been closed
+Call log:
+[2m  - taking page screenshot[22m
+[2m  - waiting for fonts to load...[22m
+[2m  - fonts loaded[22m
+
+    at /home/user/Social-media-planer/last-train-night2/render/render.js:16:16 {
+  log: [
+    '  - taking page screenshot',
+    '  - waiting for fonts to load...',
+    '  - fonts loaded'
+  ]
+}
+
+Node.js v22.23.4
