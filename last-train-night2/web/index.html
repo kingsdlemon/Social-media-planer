@@ -1,0 +1,73 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Last Train Night 2</title>
+<style>
+@font-face{font-family:"Bebas Neue";src:url(fonts/BebasNeue-Regular.ttf);}
+@font-face{font-family:"Montserrat";src:url(fonts/Montserrat.ttf);font-weight:100 900;}
+html,body{margin:0;background:#000;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#000}
+#gl{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#hud{position:absolute;inset:0;font-family:Montserrat;color:#fff}
+#top{position:absolute;inset:0}
+#tl{position:absolute;left:54px;top:120px;font-weight:800;letter-spacing:2px}
+#tl .night{font-family:"Bebas Neue";font-size:50px;color:#fff;letter-spacing:3px;text-shadow:0 2px 8px #000}
+#tl .night b{color:#E5322D;text-shadow:0 0 14px #E5322D}
+#tl .line{font-size:21px;color:#DDE8F5;opacity:.85;margin-top:-2px;text-shadow:0 2px 6px #000}
+#tr{position:absolute;right:160px;top:120px;text-align:right}
+#tr .stl{font-family:"Bebas Neue";font-size:50px;letter-spacing:3px;color:#DDE8F5;text-shadow:0 2px 8px #000}
+#tr .stl b{display:inline-block;font-weight:400;color:#fff;min-width:24px;text-align:center}
+#tr.bad .stl,#tr.bad .stl b{color:#E5322D}
+#dots{margin-top:2px}
+#dots span{display:inline-block;width:15px;height:15px;border-radius:50%;margin-left:7px;border:2px solid rgba(221,232,245,.75);box-sizing:border-box}
+#dots span.on{background:#DDE8F5;box-shadow:0 0 10px #DDE8F5}
+#dots span.red{background:#E5322D;border-color:#E5322D;box-shadow:0 0 14px #E5322D}
+#clock{position:absolute;left:50%;top:205px;transform:translateX(-50%);padding:6px 34px 0 34px;border-radius:30px;background:linear-gradient(180deg,rgba(43,58,85,.42),rgba(14,18,32,.55));border:2px solid rgba(221,232,245,.28);box-shadow:0 10px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.18);display:flex;align-items:flex-start;color:#fff}
+#clock .big{font-family:"Bebas Neue";font-size:170px;line-height:170px;height:170px;text-shadow:0 0 26px rgba(221,232,245,.55);display:flex}
+.col{display:inline-block;height:1em;overflow:hidden;line-height:1em}
+.col span{display:block;transform:translateY(0)}
+.strip{display:block}
+#clock .side{display:flex;flex-direction:column;margin-left:8px;margin-top:26px;font-family:"Bebas Neue"}
+#ss{font-size:56px;line-height:56px;color:#DDE8F5}
+#ampm{font-size:40px;line-height:44px;color:#FFB547;letter-spacing:2px}
+#clock.red{border-color:rgba(229,50,45,.7);background:linear-gradient(180deg,rgba(120,20,20,.45),rgba(30,6,8,.6))}
+#clock.red .big{color:#ff8a80;text-shadow:0 0 30px rgba(229,50,45,.9)}
+#clock.red #ss{color:#ffb0a8}
+#clabel{position:absolute;left:50%;top:400px;transform:translateX(-50%);font-family:"Bebas Neue";font-size:40px;letter-spacing:6px;color:#E5322D;text-shadow:0 0 16px rgba(229,50,45,.9),0 2px 4px #000;white-space:nowrap}
+#rule{position:absolute;left:50%;top:455px;transform:translateX(-50%);text-align:center;display:none;white-space:nowrap}
+#rtag{display:inline-block;background:#E5322D;color:#fff;font-family:"Bebas Neue";font-size:46px;letter-spacing:4px;padding:2px 22px 0;border-radius:8px;box-shadow:0 0 24px rgba(229,50,45,.7)}
+#rhead{font-family:"Bebas Neue";font-size:76px;line-height:80px;letter-spacing:2px;margin-top:8px;color:#fff;text-shadow:0 4px 0 #000,0 0 20px rgba(0,0,0,.8)}
+#cap{position:absolute;left:60px;width:810px;top:1210px;text-align:center;display:none}
+#cap .row{font-weight:900;font-size:84px;line-height:96px;letter-spacing:1px}
+#cap .w{display:inline-block;color:#fff;-webkit-text-stroke:11px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000,0 8px 18px rgba(0,0,0,.6)}
+#cap .w.key{color:#D4FF3A}
+#cap .w.char{color:#FFB547}
+#cap .who{display:inline-block;font-family:"Bebas Neue";font-size:40px;letter-spacing:5px;color:#0E1220;background:#FFB547;padding:2px 18px 0;border-radius:8px;margin-bottom:10px}
+#vote{position:absolute;left:50%;top:470px;transform:translateX(-50%);text-align:center;white-space:nowrap}
+#vote .k{font-weight:900;font-size:46px;letter-spacing:6px;color:#fff;text-shadow:0 3px 0 #000,0 0 18px rgba(0,0,0,.9)}
+#vote2{font-family:"Bebas Neue";font-size:170px;line-height:170px;color:#ffd6d3;text-shadow:0 0 8px #ff3b30,0 0 22px #E5322D,0 0 60px #E5322D,0 0 110px rgba(229,50,45,.8)}
+#vote .card{padding:26px 50px 18px;border-radius:30px;background:rgba(14,18,32,.55);border:2px solid rgba(229,50,45,.55);box-shadow:0 0 50px rgba(229,50,45,.25)}
+#choice{position:absolute;inset:0;display:none;text-align:center}
+#q{position:absolute;left:0;width:930px;top:640px;font-family:"Bebas Neue";font-size:150px;line-height:150px;color:#fff;text-shadow:0 0 30px rgba(229,50,45,.7),0 6px 0 #000}
+.btn{position:absolute;width:330px;height:130px;border-radius:26px;top:880px;font-family:"Bebas Neue";font-size:66px;line-height:136px;letter-spacing:3px;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+#b1{left:90px;background:linear-gradient(180deg,#2fd866,#169c43);border:3px solid #8ff5b0}
+#b2{left:500px;background:linear-gradient(180deg,#f0453f,#b3201b);border:3px solid #ff9c97}
+#cb{position:absolute;left:0;width:930px;top:1080px;font-weight:900;font-size:50px;letter-spacing:4px;color:#D4FF3A;text-shadow:0 4px 0 #000}
+#endcard{position:absolute;inset:0;display:none;background:radial-gradient(ellipse at 50% 45%,rgba(30,10,14,.75),rgba(0,0,0,.95));text-align:center}
+#e1{position:absolute;left:0;width:1080px;top:640px;font-family:"Bebas Neue";font-size:190px;line-height:190px;color:#fff;letter-spacing:8px;text-shadow:0 0 40px rgba(229,50,45,.6)}
+#e2{position:absolute;left:0;width:1080px;top:840px;font-family:"Bebas Neue";font-size:90px;color:#E5322D;letter-spacing:20px;text-shadow:0 0 24px #E5322D}
+#e3{position:absolute;left:0;width:1080px;top:1010px;font-weight:900;font-size:52px;letter-spacing:5px;color:#DDE8F5}
+#e3 b{color:#D4FF3A}
+</style>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js"}}</script>
+</head><body><div id="stage"><canvas id="gl" width="810" height="1440"></canvas>
+<div id="hud"><div id="top">
+ <div id="tl"><div class="night"><b>●</b> NIGHT 2</div><div class="line">LINE 0 · CAR 3</div></div>
+ <div id="tr"><div class="stl">STATION <b id="stn">0</b>/7</div><div id="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+ <div id="clock"><div class="big"><span>1:</span><span class="col"><span class="strip" id="m1"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></span></span><span class="col"><span class="strip" id="m2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></div><div class="side"><span id="ss">:12</span><span id="ampm">AM</span></div></div>
+ <div id="clabel"></div>
+ <div id="rule"><span id="rtag">RULE #4</span><div id="rhead"></div></div>
+</div>
+ <div id="cap"></div>
+ <div id="vote"><div class="card"><div class="k">MOST OF YOU SAID</div><div id="vote2">STAY SEATED</div></div></div>
+ <div id="choice"><div id="q">DO YOU ANSWER?</div><div class="btn" id="b1">ANSWER</div><div class="btn" id="b2">STAY SILENT</div><div id="cb">COMMENT BELOW ↓</div></div>
+ <div id="endcard"><div id="e1">LAST TRAIN</div><div id="e2">NIGHT 2</div><div id="e3">FOLLOW FOR <b>NIGHT 3</b></div></div>
+</div></div>
+<script type="module" src="js/main.js"></script></body></html>

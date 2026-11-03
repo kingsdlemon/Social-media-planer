@@ -1,0 +1,27 @@
+LINES = [
+ ("N","Most of you said... stay seated."),
+ ("N","So you don't move. The doors close... and your sister stops waving."),
+ ("N","She walks up to the glass. Slowly. And tilts her head."),
+ ("N","The train pulls away. She doesn't follow. She just watches."),
+ ("N","You check your phone. One thirty-one A.M."),
+ ("N","A minute later... still one thirty-one."),
+ ("N","Ten minutes later... still one thirty-one. The seconds keep looping. Time isn't moving. Only the train is."),
+ ("N","Something is scratched into the window. Rule number four. Count the stations. There are only seven."),
+ ("N","One... Two... Three..."),
+ ("N","At station four, the lights flicker back on."),
+ ("N","And every seat in your car... is taken."),
+ ("N","No faces. No breathing. And every single head... is turned toward you."),
+ ("N","Rule number five. If they look at you, look at the floor."),
+ ("N","Footsteps. Slow. Heavy. Coming down the aisle."),
+ ("N","They stop. Right in front of you."),
+ ("SIS","Why didn't you get off?"),
+ ("N","Five... Six..."),
+ ("N","Then your clock starts moving again. Backwards."),
+ ("N","Station seven. The train doesn't stop."),
+ ("N","And on the map above the door... an eighth station just appeared."),
+ ("SPK","Next stop... your stop."),
+ ("N","Rule two says never answer the announcements. But that voice... knows where you live."),
+ ("N","Do you answer? Tell me in the comments."),
+]
+# extra pause (s) AFTER line i (0-based) beyond default gap
+EXTRA_GAP = {0:0.25, 3:0.2, 8:0.3, 10:0.2, 11:0.25, 14:0.6, 15:0.5, 16:0.2, 19:0.5, 20:0.5, 21:0.3}
