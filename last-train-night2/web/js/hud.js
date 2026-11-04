@@ -25,7 +25,7 @@ export class HUD{constructor(TM){this.TM=TM;this.build();this.chunks=this.makeCh
   else if(t<this.t.rev){ss=(Math.floor(t-this.t.loop1)+0)%60;}
   else{rev=true;red=1;label='TIME: REVERSING';const d=t-this.t.rev;const minutes=d*0.9+d*d*0.012;mf=31-minutes;const m=Math.floor(mf);hm='1:'+String(Math.max(0,m)).padStart(2,'0');ss=String(59-Math.floor((d*45)%60)).padStart(2,'0');}
   ss=String(ss).padStart(2,'0');return {hm,ss,red,glitch,rev,label,mf};}
- glitch(t){const c=this.clock(t);let g=c.glitch*0.6;if(t>this.t.eighth&&t<this.t.appeared+0.4&&Math.sin(t*90)>0.6)g=Math.max(g,0.5);return g;}
+ glitch(t){const c=this.clock(t);let g=c.glitch*0.6;if(t>this.t.eighth&&t<this.t.appeared+0.4&&Math.sin(t*22)>0.75)g=Math.max(g,0.5);return g;}
  update(t){const c=this.clock(t);
   // clock digits: odometer columns for minutes
   const hmEl=$('hm');

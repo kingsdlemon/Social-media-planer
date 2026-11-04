@@ -30,11 +30,16 @@ function times(){Object.assign(T_,{
  tallWalk0:lineStart(14)-0.75,tallStop:W(15,'stop').s,bend0:lineEnd(15)+0.15,bend1:W(16,'get').s,tallGone:W(17,'five').s-0.45,
  redOn:lineStart(18),reverse:W(18,'moving').s,eighth:W(20,'eighth').s,appeared:W(20,'appeared').s,spk0:lineStart(21)-1.2,spk1:lineEnd(21),
  choice:lineStart(23),endcard:lineStart(23)+7.0});}
+const vnoise=(x)=>{const i=Math.floor(x),f=x-i,u=f*f*(3-2*f);return hash(i*7.31)*(1-u)+hash((i+1)*7.31)*u;};
+// fixed, readable flicker patterns (max ~2.5 flashes/s, no per-frame strobing)
+const FLK_ON=[[0,0.5],[0.12,0.04],[0.35,0.9],[0.5,0.06],[0.75,1.0]];   // fractions of flickerOn..lightsOn
+const FLK_OUT=[[0,0.45],[0.12,0.9],[0.22,0.15],[0.34,0]];             // seconds after lightsOut
+function seg(tab,x){let v=tab[0][1];for(const [a,b] of tab)if(x>=a)v=b;return v;}
 function neonLevel(t){let L=1;
- if(t>T_.lightsOut&&t<T_.flickerOn){const u=(t-T_.lightsOut);L=u<0.35?(hash(Math.floor(t*30))>0.5?0.6:0.1)*(1-u/0.35):0;}
- if(t>=T_.flickerOn&&t<T_.lightsOn){const f=Math.floor(t*30);const p=(t-T_.flickerOn)/(T_.lightsOn-T_.flickerOn);L=hash(f*1.7)<0.25+0.7*p?1:0.05;}
- if(t>=T_.redOn){L*=lerp(1,0.32,sstep(T_.redOn,T_.redOn+1.5,t));if(hash(Math.floor(t*30)*3.1)<0.06)L*=0.4;}
- if(t>=T_.spk0&&t<T_.spk1+0.6&&hash(Math.floor(t*30)*5.3)<0.18)L*=0.3;
+ if(t>T_.lightsOut&&t<T_.flickerOn)L=seg(FLK_OUT,t-T_.lightsOut);
+ if(t>=T_.flickerOn&&t<T_.lightsOn)L=seg(FLK_ON,(t-T_.flickerOn)/(T_.lightsOn-T_.flickerOn));
+ if(t>=T_.redOn){L*=lerp(1,0.32,sstep(T_.redOn,T_.redOn+1.5,t));L*=0.86+0.14*vnoise(t*4.0);}
+ if(t>=T_.spk0&&t<T_.spk1+0.6)L*=0.62+0.38*vnoise(t*5.0+3.0);
  return L;}
 function redLevel(t){let r=0;if(t>T_.lightsOut&&t<T_.lightsOn)r=0.5;r=Math.max(r,sstep(T_.redOn,T_.redOn+1.5,t));return r;}
 function doorOpen(t){return 1-ease(sstep(T_.doorsClose,T_.doorsClose+0.95,t));}
@@ -73,7 +78,7 @@ function setScene(t){const p=trainPos(t);world.p=p;const vel=trainVel(t);
  // station lights
  // neon + emergency
  const N=neonLevel(t),R=redLevel(t);world.neonLevel=N;world.neonL.forEach(l=>{l.intensity=5.5*N;l.color.setRGB(lerp(0.87,1,R*0.3),lerp(0.91,0.8,R*0.3),lerp(0.96,0.8,R*0.3));});
- world.neonMeshes.forEach((m,i)=>{const fl=(t>T_.flickerOn&&t<T_.lightsOn)?(hash(Math.floor(t*30)+i*13)<0.5+0.5*((t-T_.flickerOn)/(T_.lightsOn-T_.flickerOn))?1:0.05):1;m.material.color.setRGB(2.2*N*fl+0.02,2.3*N*fl+0.02,2.5*N*fl+0.03);});
+ world.neonMeshes.forEach((m,i)=>{m.material.color.setRGB(2.2*N+0.02,2.3*N+0.02,2.5*N+0.03);});
  world.emL.intensity=R*(t>T_.redOn?7:3);world.rimL.intensity=(t>T_.tallWalk0-1.5&&t<T_.tallGone)?9*(1-sstep(T_.tallStop-0.5,T_.tallStop+0.8,t))+1.2:0;world.emL.position.set(0,2.0,0);
  world.hemi.intensity=0.45+0.35*N;
  // doors
@@ -117,7 +122,7 @@ function setScene(t){const p=trainPos(t);world.p=p;const vel=trainVel(t);
    TF.legIK('L',-0.12,TF.L.ankle,0.0);TF.legIK('R',0.12,TF.L.ankle,0.0);TF.ua.L.rotation.set(-1.25*b,0,-0.12-0.2*b);TF.ua.R.rotation.set(-1.25*b,0,0.12+0.2*b);TF.fa.L.rotation.set(-0.5*b,0,0);TF.fa.R.rotation.set(-0.5*b,0,0);
    const wt=sstep(W(16,'why').s,lineEnd(16),t);TF.look(0,0,0.5*wt+0.08*Math.sin(t*3)*wt);}}
  // passengers
- const vis=t>=T_.flickerOn&&!(t<T_.lightsOn&&neonLevel(t)<0.5&&hash(Math.floor(t*30)*7.7)<0.5);
+ const vis=t>=T_.flickerOn&&(t>=T_.lightsOn||neonLevel(t)>0.5);
  const hero=V(0,1.28,-1.12);
  for(const f of world.passengers){f.visible=vis;if(!vis)continue;const s=f.seat;f.rest();f.sit(0.45,0.1,0.42,s.lean);const yaw=s.sz<0?0:Math.PI;f.placeAt(s.x,0,s.sz*1.17,yaw);
   const tt=clamp((t-(T_.headTurn+s.dl))/0.32);const e=ease(tt);

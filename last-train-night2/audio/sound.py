@@ -56,9 +56,12 @@ n=int(1.6*SR);x=np.arange(n)/SR
 place(bed.setdefault('squeal',np.zeros(N)),np.sin(2*np.pi*(2750+140*np.sin(2*np.pi*6*x))*x)*np.minimum(1,x/0.2)*np.minimum(1,(1.6-x)/0.4)*0.07,E['lightsOut']+0.5)
 # power-down / power-up (lights)
 n=int(0.8*SR);x=np.arange(n)/SR;place(bed.setdefault('power',np.zeros(N)),np.sin(2*np.pi*np.cumsum(120*np.exp(-x*3)+30)/SR)*np.exp(-x*2.5)*0.5,E['lightsOut'])
-for k in range(10):
-    tt=E['flickerOn']+k*(E['lightsOn']-E['flickerOn'])/10;n=int(0.05*SR)
-    place(bed['power'],bp(r.standard_normal(n),1500,7000)*env(n,0.001,0.01)*0.25,tt)
+nc=np.array(CV['neon']);nt=np.arange(len(nc))/CV['fps']
+edges=[nt[i] for i in range(1,len(nc)) if nc[i-1]<0.4<=nc[i] and E['lightsOut']-0.1<nt[i]<E['lightsOn']+0.2]
+print('light on-edges',[round(x,2) for x in edges])
+for tt in edges:
+    n=int(0.12*SR);x=np.arange(n)/SR
+    place(bed['power'],bp(r.standard_normal(n),1200,7000)*env(n,0.0008,0.012)*0.5+np.sin(2*np.pi*120*x)*env(n,0.002,0.05)*0.35,tt)
 # --- drone, rising, with risers into shocks ---
 f0=40+12*(t/T)
 drone=np.sin(2*np.pi*np.cumsum(f0)/SR)+0.55*np.sin(2*np.pi*np.cumsum(f0*1.5)/SR+1)+0.3*np.sin(2*np.pi*np.cumsum(f0*2.01)/SR)+0.15*np.sin(2*np.pi*np.cumsum(f0*3.02)/SR)
