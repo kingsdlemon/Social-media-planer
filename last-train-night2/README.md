@@ -15,3 +15,14 @@ Three.js r160 in headless Chromium (SwiftShader), voices with Kokoro TTS, sound 
 5. `render/finish.sh` – concat (`-c copy`), mux, 4K master + 1080×1920 + ~60 MB phone version.
 
 Tools for checking: `render/snap.js` (test frames, `FRAC=0.1,0.5,0.9` = 3 frames per shot), `render/sheet.py` (contact sheets), `render/bench.js`, `render/prof.js`.
+
+## Deliverables (`out/`)
+| File | Format | Size |
+|---|---|---|
+| `last_train_night2_4k_2160x3840.mp4` | native 4K master, 2160×3840, 30 fps, H.264 CRF 16 + AAC 256k | ~1.9 GB (not in git) |
+| `last_train_night2_4k_upload.mp4` | 4K upload version, ~39 Mbit/s | ~430 MB (not in git) |
+| `last_train_night2_1080x1920.mp4` | 1080×1920, downscaled from the 4K master | ~420 MB (not in git) |
+| `last_train_night2_phone.mp4` | 1080×1920, two-pass ~5.6 Mbit/s | ~63 MB |
+
+All versions: 87.13 s, 2614 frames, audio mastered to −14 LUFS / −1.5 dBTP.
+Every frame is rendered natively (no frame stepping); the 3D layer is rendered at 2160×3840.

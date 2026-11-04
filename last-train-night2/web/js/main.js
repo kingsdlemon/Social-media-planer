@@ -27,7 +27,7 @@ function times(){Object.assign(T_,{
  depart:lineStart(4)+0.15,phoneUp:lineStart(5)+0.2,phoneDown:lineStart(8)+0.4,
  lightsOut:W(9,'three').e+0.15,flickerOn:W(10,'flicker').s,lightsOn:W(10,'on').e+0.1,
  headTurn:W(12,'head').s-0.05,lookDown:W(13,'look',1).s,
- tallWalk0:lineStart(14)-0.75,tallStop:W(15,'stop').s,bend0:lineEnd(15)+0.15,bend1:W(16,'get').s,tallGone:W(17,'five').s-0.45,
+ tallWalk0:lineStart(14)-0.75,tallStop:W(15,'stop').s,bend0:lineEnd(15)+0.15,bend1:W(16,'get').s,tallGone:W(17,'five').s-0.3,
  redOn:lineStart(18),reverse:W(18,'moving').s,eighth:W(20,'eighth').s,appeared:W(20,'appeared').s,spk0:lineStart(21)-1.2,spk1:lineEnd(21),
  choice:lineStart(23),endcard:lineStart(23)+7.0});}
 const vnoise=(x)=>{const i=Math.floor(x),f=x-i,u=f*f*(3-2*f);return hash(i*7.31)*(1-u)+hash((i+1)*7.31)*u;};
