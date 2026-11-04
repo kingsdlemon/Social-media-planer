@@ -3,7 +3,8 @@ import * as THREE from 'three';
 const CYL=new THREE.CylinderGeometry(1,1,1,14,1,true).translate(0,-0.5,0);
 const SPH=new THREE.SphereGeometry(1,20,14);
 const HEAD=new THREE.SphereGeometry(1,40,28);
-const _m=new THREE.Matrix4(),_s=new THREE.Vector3(),_p=new THREE.Vector3(),_q=new THREE.Quaternion();
+const _m=new THREE.Matrix4(),_s=new THREE.Vector3(),_p=new THREE.Vector3(),_q=new THREE.Quaternion(),_q2=new THREE.Quaternion();
+const _A=new THREE.Vector3(),_u=new THREE.Vector3(),_n=new THREE.Vector3(),_K=new THREE.Vector3(),_d1=new THREE.Vector3(),_d2=new THREE.Vector3(),_P=new THREE.Vector3(),DOWN=new THREE.Vector3(0,-1,0);
 export class Batch{ // instanced renderer for one material
  constructor(scene,mat,cap){this.items={};for(const [k,g] of [['cyl',CYL],['sph',SPH],['head',HEAD]]){const m=new THREE.InstancedMesh(g,mat,cap*(k==='cyl'?14:k==='sph'?20:1));m.frustumCulled=false;m.count=0;scene.add(m);this.items[k]=m;}this.figs=[];}
  add(f){this.figs.push(f);f.batch=this;}
@@ -37,17 +38,20 @@ export class Figure{
  rest(){for(const o of [this.hip,this.torso,this.neck,this.headJ,...Object.values(this.ua),...Object.values(this.fa),...Object.values(this.th),...Object.values(this.sn),...Object.values(this.ft)])o.rotation.set(0,0,0);
   this.hip.position.set(0,this.L.thigh+this.L.shin+this.L.ankle,0);this.armsDown();}
  armsDown(spread=0.12){this.ua.L.rotation.set(0.05,0,-spread);this.ua.R.rotation.set(0.05,0,spread);this.fa.L.rotation.set(-0.1,0,0);this.fa.R.rotation.set(-0.1,0,0);}
- // 2-bone leg IK in the figure's local frame (hip-relative target, sagittal + lateral)
- legIK(S,tx,ty,tz){const L=this.L,h=this.hip.position;const dx=tx-h.x,dy=ty-h.y,dz=tz-h.z;
-  const roll=Math.atan2(dx,-dy);const dyz=-Math.hypot(dx,dy);let d=Math.hypot(dyz,dz);d=Math.min(d,L.thigh+L.shin-1e-4);
-  const phT=Math.atan2(dz,-dyz);const a=Math.acos(THREE.MathUtils.clamp((L.thigh*L.thigh+d*d-L.shin*L.shin)/(2*L.thigh*d),-1,1));
-  const b=Math.acos(THREE.MathUtils.clamp((L.shin*L.shin+d*d-L.thigh*L.thigh)/(2*L.shin*d),-1,1));
-  const p1=phT+a,p2=phT-b;this.th[S].rotation.set(-p1,0,0);this.th[S].rotation.order='ZXY';this.th[S].rotation.z=roll;
-  this.sn[S].rotation.set(p1-p2,0,0);this.ft[S].rotation.set(p2,0,-roll);}
- // seated pose: hip on seat (seatY top, hip at seat front-back), knees spread
+ // 3D two-bone leg IK in the root frame with pole vector (knee direction)
+ legIK(S,tx,ty,tz,pole){const L=this.L,H=this.hip.position;_A.set(tx,ty,tz);_u.subVectors(_A,H);let d=_u.length();const md=L.thigh+L.shin-1e-4;
+  if(d>md){_u.multiplyScalar(md/d);d=md;}_A.copy(H).add(_u);_u.normalize();
+  const a=(L.thigh*L.thigh-L.shin*L.shin+d*d)/(2*d),h=Math.sqrt(Math.max(0,L.thigh*L.thigh-a*a));const sd=S==='L'?-1:1;
+  _P.set(pole?pole[0]*sd:0.12*sd,pole?pole[1]:0.1,pole?pole[2]:1).normalize();_n.copy(_P).addScaledVector(_u,-_P.dot(_u));if(_n.lengthSq()<1e-8)_n.set(0,0,1);_n.normalize();
+  _K.copy(H).addScaledVector(_u,a).addScaledVector(_n,h);this.legFK(S,_K,_A);}
+ // set leg from explicit knee + ankle positions (root frame); foot kept flat
+ legFK(S,K,A){const H=this.hip.position;_d1.subVectors(K,H).normalize();_d2.subVectors(A,K).normalize();
+  this.th[S].quaternion.setFromUnitVectors(DOWN,_d1);_q.copy(this.th[S].quaternion).invert();_d2.applyQuaternion(_q);
+  this.sn[S].quaternion.setFromUnitVectors(DOWN,_d2);_q2.multiplyQuaternions(this.th[S].quaternion,this.sn[S].quaternion).invert();this.ft[S].quaternion.copy(_q2);}
+ // seated pose: thighs forward/outward, shins vertical, feet flat on the floor
  sit(seatY=0.45,kneeSpread=0.11,footZ=0.42,lean=-0.05){const L=this.L;this.hip.position.set(0,seatY+L.r*1.2,0);this.torso.rotation.set(lean,0,0);
-  for(const [S,sd] of [['L',-1],['R',1]])this.legIK(S,sd*kneeSpread,L.ankle,footZ);
-  // hands rest on thighs
+  const kneeY=L.ankle+L.shin,dy=this.hip.position.y-kneeY;const kz=Math.sqrt(Math.max(0.01,L.thigh*L.thigh-kneeSpread*kneeSpread-dy*dy));
+  for(const [S,sd] of [['L',-1],['R',1]]){_K.set(sd*kneeSpread,kneeY,kz);_A.set(sd*kneeSpread,L.ankle,kz);this.legFK(S,_K.clone(),_A.clone());}
   for(const [S,sd] of [['L',-1],['R',1]]){this.ua[S].rotation.set(-0.55,0,sd*0.18);this.fa[S].rotation.set(-0.85,0,0);}}
  // walking: foot plants in local frame; called by world with computed targets
  placeAt(x,y,z,yaw){this.root.position.set(x,y,z);this.root.rotation.set(0,yaw,0);}

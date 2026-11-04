@@ -4,3 +4,9 @@ render/clips/
 out/*.mp4
 !out/*_phone.mp4
 audio/out/*.wav
+render/clips4k/
+render/clips4k_old_fogbug/
+render/q/
+render/q4k/
+render/log*.txt
+render/concat.txt

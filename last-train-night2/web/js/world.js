@@ -19,7 +19,7 @@ export class World{
    glowR:TX.radial('rgba(255,60,40,1)','rgba(255,20,10,0)'),glowW:TX.radial('rgba(255,255,255,1)','rgba(255,255,255,0)'),fog:TX.fogTex(),grille:TX.grille(),smudge:TX.glassSmudge(),scratch:TX.scratchText()};
   const M=this.M={
    clay:new THREE.MeshLambertMaterial({color:C.clay,normalMap:T.clayN,normalScale:new THREE.Vector2(0.55,0.55)}),
-   darkClay:new THREE.MeshLambertMaterial({color:C.dark,normalMap:T.clayN,normalScale:new THREE.Vector2(0.7,0.7)}),
+   darkClay:new THREE.MeshPhongMaterial({color:C.dark,specular:0x2a2f3a,shininess:14,normalMap:T.clayN,normalScale:new THREE.Vector2(0.7,0.7)}),
    hair:new THREE.MeshLambertMaterial({color:0x17110f,normalMap:T.clayN,normalScale:new THREE.Vector2(1.2,1.2),side:THREE.DoubleSide}),
    dress:new THREE.MeshLambertMaterial({color:0xF1EEE8,normalMap:T.clayN,normalScale:new THREE.Vector2(0.8,0.8),side:THREE.DoubleSide}),
    wallIn:new THREE.MeshLambertMaterial({color:0x1a2338,side:THREE.DoubleSide}),
@@ -55,7 +55,7 @@ export class World{
    scratch:new THREE.MeshBasicMaterial({map:T.scratch,transparent:true,depthWrite:false,opacity:0.0,blending:THREE.AdditiveBlending}),
    fog:new THREE.MeshBasicMaterial({map:T.fog,transparent:true,depthWrite:false,color:0xff6a5a,blending:THREE.AdditiveBlending,opacity:0.6}),
    glowR:new THREE.MeshBasicMaterial({map:T.glowR,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}),
-   spark:new THREE.MeshBasicMaterial({map:T.glowW,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,color:0xffc070}),
+   spark:new THREE.MeshBasicMaterial({map:T.glowW,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,color:new THREE.Color(0xffc070).multiplyScalar(3)}),
    map:null,phone:null};
   this.buildCar();this.buildTunnel();this.buildStations();this.buildOtherCars();this.buildLights();this.buildFigures();this.mergeStatics();}
  addS(mat,geo,parent){(this.statics[mat]=this.statics[mat]||[]).push({geo,parent});}
@@ -76,8 +76,8 @@ export class World{
     const gg=new THREE.PlaneGeometry(WIN.w,WIN.y1-WIN.y0);gg.translate(w,(WIN.y0+WIN.y1)/2,side*1.4);this.addS('glass',gg);}
    // exterior blue stripe segments between door openings (y 0.55-0.7) and top stripe
    const cuts=[-8,...doors.flatMap(d=>[d-DOOR.w/2,d+DOOR.w/2]).sort((a,b)=>a-b),8];for(let i=0;i<cuts.length;i+=2){const a=cuts[i],b=cuts[i+1];if(b-a>0.05){this.box('stripe',b-a,0.16,0.01,(a+b)/2,0.62,side*(CAR.ow+0.006));this.box('stripe',b-a,0.06,0.01,(a+b)/2,1.85,side*(CAR.ow+0.006));}}
-   // skirt / underframe
-   this.box('under',15.6,0.5,0.1,0,-0.62,side*1.2);}
+   // skirt / underframe (open at the bogies)
+   for(const [x0,x1] of [[-4.15,4.15],[6.98,7.8],[-7.8,-6.98]])this.box('under',x1-x0,0.5,0.1,(x0+x1)/2,-0.62,side*1.2);}
   // ceiling arc
   const R=2.478,cy=CAR.roofIn-R,ang=Math.asin(CAR.hw/R);  // after rotateZ, cylinder axis along x; arc must face +y: rotate so theta=0 points up
   const cg2=new THREE.CylinderGeometry(R,R,16,40,1,true,Math.PI/2-ang,2*ang);cg2.rotateZ(Math.PI/2);cg2.translate(0,cy,0);this.addS('ceil',cg2);
@@ -86,9 +86,9 @@ export class World{
   for(const side of [1,-1])this.box('roof',16,0.12,0.02,0,CAR.wallH+0.06,side*CAR.ow);
   // end walls with connecting doors
   for(const ex of [-8,8]){const s=new THREE.Shape();s.moveTo(-1.35,0);s.lineTo(1.35,0);s.lineTo(1.35,2.0);s.quadraticCurveTo(0,2.75,-1.35,2.0);s.lineTo(-1.35,0);const h=new THREE.Path();h.moveTo(-0.45,0.001);h.lineTo(-0.45,1.9);h.lineTo(0.45,1.9);h.lineTo(0.45,0.001);s.holes.push(h);
-   const g=new THREE.ShapeGeometry(s,6);g.rotateY(Math.PI/2);g.translate(ex,0,0);this.addS('wallIn',g);
+   const g=new THREE.ShapeGeometry(s,6);g.rotateY(Math.PI/2);g.translate(ex,0,0);this.addS('doorIn',g);
    const dg=new THREE.BoxGeometry(0.04,1.9,0.9);dg.translate(ex+(ex>0?0.05:-0.05),0.95,0);this.addS('frame',dg);
-   const wg=new THREE.PlaneGeometry(0.5,0.6);wg.rotateY(ex>0?-Math.PI/2:Math.PI/2);wg.translate(ex+(ex>0?0.02:-0.02),1.35,0);this.addS('redGlow',wg);}
+   const wg=new THREE.PlaneGeometry(0.62,1.05);wg.rotateY(ex>0?-Math.PI/2:Math.PI/2);wg.translate(ex+(ex>0?-0.025:0.025),1.25,0);this.addS('redGlow',wg);}
   // benches
   const bench=(x0,x1,side)=>{const L=x1-x0,cx=(x0+x1)/2,z=side*(CAR.hw-0.24);
    const seat=new RoundedBoxGeometry(L,0.1,0.46,3,0.04);seat.translate(cx,0.4,z);this.addS('bench',seat);
@@ -131,13 +131,17 @@ export class World{
     for(const w of wins){const p=new THREE.PlaneGeometry(WIN.w,WIN.y1-WIN.y0);p.translate(w,(WIN.y0+WIN.y1)/2,side*(CAR.ow-0.12));this.addS('winGlow',p,g);}
     for(const d of doors){const p=new THREE.PlaneGeometry(DOOR.w,DOOR.h);p.translate(d,DOOR.h/2,side*(CAR.ow-0.03));this.addS('frame',p,g);const p2=new THREE.PlaneGeometry(0.42,0.75);for(const sx of [-0.33,0.33]){const q=p2.clone();q.translate(d+sx,1.32,side*(CAR.ow-0.02));this.addS('winGlow',q,g);}}
     const cuts=[-8,...doors.flatMap(d=>[d-DOOR.w/2,d+DOOR.w/2]).sort((a,b)=>a-b),8];for(let i=0;i<cuts.length;i+=2){const a=cuts[i],b=cuts[i+1];this.box('stripe',b-a,0.16,0.01,(a+b)/2,0.62,side*(CAR.ow+0.006),g);this.box('stripe',b-a,0.06,0.01,(a+b)/2,1.85,side*(CAR.ow+0.006),g);}
-    this.box('under',15.6,0.5,0.1,0,-0.62,side*1.2,g);this.box('roof',16,0.12,0.02,0,CAR.wallH+0.06,side*CAR.ow,g);}
+    for(const [x0,x1] of [[-4.15,4.15],[6.98,7.8],[-7.8,-6.98]])this.box('under',x1-x0,0.5,0.1,(x0+x1)/2,-0.62,side*1.2,g);this.box('roof',16,0.12,0.02,0,CAR.wallH+0.06,side*CAR.ow,g);}
    const R=2.478+0.17,a=Math.asin(CAR.ow/R);const rg=new THREE.CylinderGeometry(R,R,16,30,1,true,Math.PI/2-a,2*a);rg.rotateZ(Math.PI/2);rg.translate(0,CAR.roofOut-R,0);this.addS('roof',rg,g);
-   for(const ex of [-8,8]){const eg=new THREE.PlaneGeometry(2.9,2.9);eg.rotateY(Math.PI/2);eg.translate(ex,1.07,0);this.addS('wallOut',eg,g);}
+   for(const ex of [-8,8]){const es=new THREE.Shape();es.moveTo(-CAR.ow,CAR.floorBot);es.lineTo(CAR.ow,CAR.floorBot);es.lineTo(CAR.ow,CAR.wallH+0.12);es.quadraticCurveTo(0,CAR.roofOut+0.32,-CAR.ow,CAR.wallH+0.12);es.lineTo(-CAR.ow,CAR.floorBot);
+    const eg=new THREE.ShapeGeometry(es,8);eg.rotateY(Math.PI/2);eg.translate(ex,0,0);this.addS('wallOut',eg,g);
+    const rw=new THREE.PlaneGeometry(0.9,0.75);rw.rotateY(ex>0?Math.PI/2:-Math.PI/2);rw.translate(ex+(ex>0?0.01:-0.01),1.35,0);this.addS('winGlow',rw,g);
+    this.box('stripe',0.01,0.16,2.9,ex+(ex>0?0.006:-0.006),0.62,0,g);}
    this.addUnder(g);this.others.push(g);}
   // gangways
   for(const gx of [-8.3,8.3,24.9]){this.box('rubber',0.6,2.2,2.4,gx,1.0,0);}
   // headlight on front car
+  for(const z of [-0.9,0.9]){const tl=new THREE.Mesh(new THREE.SphereGeometry(0.1,12,8),this.M.redGlow);tl.position.set(-8.03,0.55,z);this.others[0].add(tl);}
   const hl=new THREE.Mesh(new THREE.SphereGeometry(0.12,12,8),new THREE.MeshBasicMaterial({color:0xfff2d0}));hl.position.set(8.02,0.5,0.9);this.others[2].add(hl);const hl2=hl.clone();hl2.position.z=-0.9;this.others[2].add(hl2);}
  buildTunnel(){const M=this.M;this.tunnel=[];this.SEG=12;const N=22;
   for(let i=0;i<N;i++){const g=new THREE.Group();this.scene.add(g);const parts={};
@@ -205,5 +209,5 @@ export class World{
   this.phoneScreen=new TX.PhoneScreen();const ph=this.phone=new THREE.Group();const body=new THREE.Mesh(new RoundedBoxGeometry(0.075,0.15,0.01,3,0.008),new THREE.MeshStandardMaterial({color:0x111318,roughness:0.3,metalness:0.4}));ph.add(body);
   const scr=new THREE.Mesh(new THREE.PlaneGeometry(0.066,0.138),new THREE.MeshBasicMaterial({map:this.phoneScreen.t,color:0xffffff}));scr.position.z=0.0055;ph.add(scr);this.hero.hand.R.add(ph);ph.position.set(0,-0.06,0.02);ph.rotation.set(0,0,Math.PI);
   // sparks
-  this.sparks=new THREE.InstancedMesh(new THREE.PlaneGeometry(1,1),this.M.spark,120);this.sparks.frustumCulled=false;this.sparks.count=0;s.add(this.sparks);}
+  this.sparks=new THREE.InstancedMesh(new THREE.PlaneGeometry(1,1),this.M.spark,240);this.sparks.frustumCulled=false;this.sparks.count=0;s.add(this.sparks);}
 }

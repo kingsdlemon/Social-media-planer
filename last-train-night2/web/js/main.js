@@ -6,7 +6,7 @@ import {rng} from './textures.js';
 import {loadTiming,buildTimeline,W,lineStart,lineEnd,trainPos,trainVel,railJoints,ST,TM,clamp,sstep,lerp,ease,easeOut,easeIn} from './timeline.js';
 import {HUD} from './hud.js';
 const V=(x,y,z)=>new THREE.Vector3(x,y,z);
-const RW=432,RH=768;
+const QS=new URLSearchParams(location.search);const RW=+(QS.get('rw')||432),RH=+(QS.get('rh')||768);
 let renderer,scene,camera,world,post,hud,SH=[],EV={};
 const hash=(x)=>{const s=Math.sin(x*127.1+311.7)*43758.5453;return s-Math.floor(s);};
 async function init(){await loadTiming();buildTimeline();
@@ -71,13 +71,10 @@ function setScene(t){const p=trainPos(t);world.p=p;const vel=trainVel(t);
   const I=near?5.5*Math.pow(Math.cos(Math.PI*x/12),2):0;world.tunL[0].position.set(x,1.7,2.25);world.tunL[1].position.set(x+6>6?x-6:x+6,1.7,-2.25);world.tunL[0].intensity=I*1.2;
   let x2=x+6>6?x-6:x+6;world.tunL[1].intensity=near?6.5*Math.pow(Math.cos(Math.PI*x2/12),2):0;world.lampX=x;}
  // station lights
- let best=null,bd=1e9;for(const s of world.stations){const d=Math.abs(s.position.x);if(d<bd){bd=d;best=s;}}
- world.stL.forEach((l,i)=>{l.position.set(best.position.x+(i-1)*14,4.2,3.2);l.intensity=bd<70?(best.userData.red?9:16):0;});
- world.nearStation=best;world.nearStationD=bd;
  // neon + emergency
  const N=neonLevel(t),R=redLevel(t);world.neonLevel=N;world.neonL.forEach(l=>{l.intensity=5.5*N;l.color.setRGB(lerp(0.87,1,R*0.3),lerp(0.91,0.8,R*0.3),lerp(0.96,0.8,R*0.3));});
  world.neonMeshes.forEach((m,i)=>{const fl=(t>T_.flickerOn&&t<T_.lightsOn)?(hash(Math.floor(t*30)+i*13)<0.5+0.5*((t-T_.flickerOn)/(T_.lightsOn-T_.flickerOn))?1:0.05):1;m.material.color.setRGB(2.2*N*fl+0.02,2.3*N*fl+0.02,2.5*N*fl+0.03);});
- world.emL.intensity=R*(t>T_.redOn?7:3);world.rimL.intensity=(t>T_.tallWalk0-1.5&&t<T_.tallGone)?3.5*(1-sstep(T_.tallStop-0.5,T_.tallStop+0.8,t))+0.8:0;world.emL.position.set(0,2.0,0);
+ world.emL.intensity=R*(t>T_.redOn?7:3);world.rimL.intensity=(t>T_.tallWalk0-1.5&&t<T_.tallGone)?9*(1-sstep(T_.tallStop-0.5,T_.tallStop+0.8,t))+1.2:0;world.emL.position.set(0,2.0,0);
  world.hemi.intensity=0.45+0.35*N;
  // doors
  const o=doorOpen(t);for(const d of world.doorLeaves){const {d:dx,sd,lw}=d.userData;const isMain=true;d.position.x=dx+sd*(lw/2-0.012)+sd*o*(lw-0.02);}
@@ -89,7 +86,7 @@ function setScene(t){const p=trainPos(t);world.p=p;const vel=trainVel(t);
  // scratch visibility: lit by passing lamps
  const lx=world.lampX;world.M.scratch.opacity=0.22+0.9*Math.pow(Math.cos(Math.PI*(lx+1.75)/12),8)+0.15*N;
  // --- figures ---
- const ldn=sstep(T_.lookDown-0.3,T_.lookDown+0.4,t);const H=world.hero;H.rest();H.sit(0.45,lerp(0.16,0.21,ldn),lerp(0.45,0.5,ldn),-0.04);H.placeAt(0,0,-1.17,0);
+ const ldn=sstep(T_.lookDown-0.3,T_.lookDown+0.4,t);const H=world.hero;H.rest();H.sit(0.45,lerp(0.14,0.2,ldn),0.42,-0.04);H.placeAt(0,0,-1.17,0);
  let hy=0.03*Math.sin(t*0.7),hp=0.05;
  // phone
  const ph=sstep(T_.phoneUp,T_.phoneUp+0.8,t)*(1-sstep(T_.phoneDown,T_.phoneDown+0.7,t));world.phone.visible=ph>0.02;
@@ -106,7 +103,6 @@ function setScene(t){const p=trainPos(t);world.p=p;const vel=trainVel(t);
   S.ua.R.rotation.set(0,0,lerp(0.12,2.55,waving));S.fa.R.rotation.set(0,0,lerp(-0.05,0.35+w,waving));S.ua.L.rotation.set(0.05,0,-0.1);
   const tl=sstep(T_.tilt,T_.tilt+0.9,t);S.look(0.0,lerp(-0.12,0.05,tl),lerp(0,1.05,easeOut(tl)));
   S.torso.rotation.z=0.06*tl;world.sisFx.position.set(S.root.position.x,0,S.root.position.z);
-  world.fogPlanes.forEach((f,i)=>{const d=f.userData;f.position.x=Math.sin(t*d.sp+d.ph)*0.6;f.rotation.y=Math.sin(t*0.1+d.ph)*0.5+ (camera?Math.atan2(camera.position.x-f.position.x-world.sisFx.position.x,camera.position.z-world.sisFx.position.z):0);f.material.opacity=0.5;});
   world.redL.position.set(S.root.position.x,0.25,S.root.position.z);world.redL.intensity=1.6;}
  else world.redL.intensity=0;
  // passing-window light on sister when train leaves
@@ -131,10 +127,6 @@ function setScene(t){const p=trainPos(t);world.p=p;const vel=trainVel(t);
  const s3=ST.pos[3]-p;world.st3figs.forEach((f,i)=>{f.visible=Math.abs(s3)<60&&t<T_.lightsOn+2;if(!f.visible)return;f.rest();f.placeAt(s3-2.2+i*1.6,0,2.35+0.25*(i%2),Math.PI);f.legIK('L',-0.08,f.L.ankle,0);f.legIK('R',0.08,f.L.ankle,0);f.look(0,0.05,0);});
  // phone screen
  const clk=hud.clock(t);world.phoneScreen.draw(clk.hm,clk.ss,clk.red,clk.glitch);
- // sparks (station 7)
- const s7=ST.pos[7]-p;let ns=0;if(Math.abs(s7)<40){const r=rng(Math.floor(t*30));for(const wx of [-5.6-0.9,-5.6+0.9,5.6-0.9,5.6+0.9,-16.6-5.6,-16.6+5.6,16.6-5.6,16.6+5.6])for(let k=0;k<6;k++){if(ns>=120)break;
-   const m=new THREE.Matrix4();const age=r();const px=wx-age*1.6,py=-1.02+age*0.5*r(),pz=0.72+0.05+age*0.8*r();const sc=0.04+0.06*(1-age);m.compose(V(px,py,pz),new THREE.Quaternion(),V(sc*4,sc,sc));world.sparks.setMatrixAt(ns++,m);}}
- world.sparks.count=ns;world.sparks.instanceMatrix.needsUpdate=true;
 }
 function updateFigures(){world.white.update();world.darkB.update();
  // blob shadows under feet
@@ -142,6 +134,17 @@ function updateFigures(){world.white.update();world.darkB.update();
  for(const f of [...world.white.figs,...world.darkB.figs]){if(!f.visible)continue;for(const S of ['L','R']){f.ft[S].getWorldPosition(tmpV);if(tmpV.y<0.25)add(tmpV.x,tmpV.z+0.0,0.22*f.s.rad*1.3,0.3*Math.max(1,f.s.leg*0.8));}
   if(f!==world.tall&&!f.seat&&f!==world.hero){f.hip.getWorldPosition(tmpV);add(tmpV.x,tmpV.z,0.55,0.55);}}
  world.blobs.count=n;world.blobs.instanceMatrix.needsUpdate=true;}
+function stationLights(camX,reserve2){let best=null,bd=1e9;for(const s of world.stations){const d=Math.abs(s.position.x-camX);if(d<bd){bd=d;best=s;}}
+ world.stL.forEach((l,i)=>{if(i===2&&reserve2)return;l.position.set(best.position.x+(i-1)*14,4.2,3.2);l.intensity=bd<70?(best.userData.red?9:16):0;});}
+function updateSparks(t){const p=world.p;const s7=ST.pos[7]-p;let ns=0;let best=null,bd=1e9;
+ if(Math.abs(s7)<70&&trainVel(t)>10){const r=rng(Math.floor(t*30));const q=camera.quaternion;
+  for(const wx of [-5.6-0.9,-5.6+0.9,5.6-0.9,5.6+0.9,-16.6-5.6-0.9,-16.6-5.6+0.9,-16.6+5.6-0.9,-16.6+5.6+0.9,16.6-5.6,16.6+5.6,33.2-5.6,33.2+5.6])for(let k=0;k<14;k++){if(ns>=240)break;
+   if(Math.abs(wx-s7)>24)continue;const d=Math.abs(wx-camera.position.x);if(d<bd){bd=d;best=wx;}
+   const m=new THREE.Matrix4();const age=r();const px=wx-age*3.0,py=-1.0+age*(0.3+1.6*r()),pz=0.75+age*1.1*r();const sc=(0.1+0.2*(1-age))*(0.7+0.6*r());
+   m.compose(V(px,py,pz),q,V(sc*(2+5*r()),sc*0.6,sc));world.sparks.setMatrixAt(ns++,m);}}
+ world.sparks.count=ns;world.sparks.instanceMatrix.needsUpdate=true;
+ if(best!==null&&!world.sister.visible){world.redL.color.setHex(0xff9a40);world.redL.position.set(best,-0.6,1.1);world.redL.intensity=6*(0.6+0.4*rng(Math.floor(t*60))());}
+ else if(!world.sister.visible)world.redL.intensity=0;else world.redL.color.setHex(0xE5322D);}
 // ---------------- shots ----------------
 function shot(a,b,cam,fx={}){SH.push({a,b,cam,fx});}
 const hero=V(0,1.15,-1.1);
@@ -149,17 +152,17 @@ function buildShots(){times();SH=[];const w=W;
  const s0x=()=>ST.pos[0]-world.p;
  const SX=(k)=>ST.pos[k]-world.p;
  // 1 platform OTS around sister
- shot(0,w(2,'so').s,(u)=>{const a=lerp(0.35,-0.95,ease(u));const c=V(s0x()-0.3,0.95,2.55);return {p:V(c.x+Math.sin(a)*1.25,1.12-0.1*u,c.z+Math.cos(a)*1.25),l:V(s0x()-0.1*u,0.85,-0.6),fov:lerp(38,34,u)};},{focus:3.5,aperture:0.25});
+ shot(0,w(2,'so').s,(u)=>{const e=ease(u);return {p:V(s0x()+lerp(0.6,-0.85,e),lerp(1.55,1.5,e),lerp(3.95,3.75,e)),l:V(s0x()+lerp(0.05,-0.12,e),1.3,-1.1),fov:lerp(36,33,u)};},{aperture:0.22});
  // 2 inside, hero, slow push
  shot(w(2,'so').s,w(2,'the').s,(u)=>({p:V(lerp(2.2,1.5,u),lerp(1.15,1.08,u),lerp(0.75,0.45,u)),l:V(0,1.12,-1.05),fov:40}),{aperture:0.35});
  // 3 floor-level door close
  shot(w(2,'the').s,w(2,'and').s,(u)=>({p:V(lerp(-0.55,-0.3,u),0.16,lerp(0.3,0.42,u)),l:V(0.05,0.85,1.4),fov:62,roll:-0.05}),{aperture:0.3,focus:1.3});
  // 4 through door window: sister lowers arm
- shot(w(2,'and').s,lineStart(3),(u)=>({world:true,p:V(ST.pos[0]+lerp(-1.9,-1.6,u),0.45,lerp(3.6,3.4,u)),l:V(ST.pos[0]-0.2,0.8,2.2),fov:lerp(44,40,u),roll:0.04}),{aperture:0.35});
+ shot(w(2,'and').s,lineStart(3),(u)=>({world:true,p:V(ST.pos[0]+lerp(-2.5,-2.2,u),0.78,lerp(4.7,4.5,u)),l:V(ST.pos[0]-0.3,0.88,2.2),fov:lerp(40,37,u),roll:0.03}),{aperture:0.3});
  // 5 close to glass, she walks up, focus pull glass->her
  shot(lineStart(3),w(3,'and').s,(u)=>({p:V(-0.36,1.13,lerp(1.02,1.1,u)),l:V(s0x()-0.3,0.9,2.0),fov:44}),(u)=>({aperture:1.2,focus:lerp(0.32,0.75,sstep(0.25,0.75,u))}));
  // 6 head tilt close
- shot(w(3,'and').s,lineStart(4),(u)=>({p:V(lerp(-0.42,-0.33,u),lerp(1.02,1.0,u),lerp(1.05,1.15,u)),l:V(s0x()-0.3,0.93,1.78),fov:lerp(40,30,u)}),{aperture:0.9,focus:0.65});
+ shot(w(3,'and').s,lineStart(4),(u)=>({p:V(lerp(-0.42,-0.34,u),lerp(1.32,1.27,u),lerp(0.98,1.06,u)),l:V(s0x()-0.3,0.88,1.78),fov:lerp(52,46,u)}),{aperture:0.6});
  // 7 fly backwards through glass onto platform (world frame)
  shot(lineStart(4),w(4,'she').s,(u)=>{const e=ease(u);const z=lerp(0.75,3.35,e);const y=lerp(1.28,1.18,e);const x=lerp(0.33,0.42,sstep(0.55,1,u));
   return {world:true,p:V(ST.pos[0]+x,y,z),l:V(ST.pos[0]+lerp(0.1,-0.1,e),lerp(1.05,0.95,e),lerp(-1.2,0.0,e)),fov:lerp(50,44,e)};},(u)=>({aperture:0.3,focus:lerp(1.9,1.7,u)}));
@@ -179,15 +182,15 @@ function buildShots(){times();SH=[];const w=W;
  // 13 exterior: fly alongside train in tunnel
  shot(w(7,'the').s,w(7,'only').s,(u)=>({p:V(lerp(-11.5,-3.6,u),lerp(1.45,1.3,u),1.98),l:V(lerp(-6.5,-1.2,u),1.25,1.2),fov:58,roll:0.05}),{aperture:0.2,tilt:0.75});
  // 14 turn in, fly through window x=-1.75 into the car
- shot(w(7,'only').s,lineStart(8),(u)=>{const e=ease(u);const p=V(lerp(-2.6,-1.75,sstep(0,0.45,u)),1.33,lerp(1.98,0.35,sstep(0.25,1,u)));const l=V(lerp(-0.6,-1.2,e),lerp(1.3,1.0,e),lerp(1.2,-1.0,sstep(0,0.5,u)));return {p,l,fov:lerp(58,44,e)};},{aperture:0.25});
+ shot(w(7,'only').s,lineStart(8),(u)=>{const e=ease(u);const p=V(lerp(-2.6,-1.75,sstep(0,0.45,u)),1.33,lerp(1.98,0.35,sstep(0.25,1,u)));const l=V(lerp(-0.6,0.0,e),lerp(1.3,1.15,e),lerp(1.2,-1.1,sstep(0,0.5,u)));return {p,l,fov:lerp(58,46,e)};},{aperture:0.25});
  // 15 macro on scratched window
- shot(lineStart(8),w(8,'rule').s,(u)=>({p:V(lerp(-2.15,-1.55,u),1.47,1.12),l:V(lerp(-2.0,-1.42,u),1.5,1.39),fov:44}),{aperture:1.0,focusAuto:true,tilt:0.5});
+ shot(lineStart(8),w(8,'rule').s,(u)=>{const x=lerp(-1.08,-1.78,ease(u));return {p:V(x,1.52,0.94),l:V(x,1.52,1.385),fov:50};},{aperture:0.8,tilt:0.3});
  // 16 oblique, RULE #4
- shot(w(8,'rule').s,w(8,'count').s,(u)=>({p:V(lerp(-0.95,-1.1,u),lerp(1.15,1.2,u),lerp(0.75,0.85,u)),l:V(-1.75,1.36,1.39),fov:lerp(46,40,u),roll:0.06}),{aperture:0.8,focusAuto:true});
+ shot(w(8,'rule').s,w(8,'count').s,(u)=>({p:V(lerp(-0.7,-0.85,u),lerp(1.22,1.26,u),lerp(0.5,0.58,u)),l:V(-1.72,1.32,1.385),fov:lerp(46,42,u),roll:0.05}),{aperture:0.35});
  // 17 glide along "THERE ARE ONLY 7"
- shot(w(8,'count').s,w(9,'one').s-0.55,(u)=>({p:V(lerp(-2.05,-1.5,u),1.2,1.1),l:V(lerp(-1.95,-1.5,u),1.19,1.39),fov:42,roll:-0.04}),{aperture:1.0,focusAuto:true});
+ shot(w(8,'count').s,w(9,'one').s-0.55,(u)=>{const e=ease(u);const x=lerp(-1.1,-1.58,e),y=lerp(1.26,1.12,sstep(0.45,0.6,u));return {p:V(x,y,0.94),l:V(x,y,1.385),fov:50,roll:-0.03};},{aperture:0.8,tilt:0.3});
  // 18 station 1 from platform
- shot(w(9,'one').s-0.55,(w(9,'one').s+w(9,'two').s)/2,(u)=>({world:true,p:V(ST.pos[1]+lerp(7,6.4,u),1.6,4.6),l:V(ST.pos[1]-1,0.9,1.0),fov:52}),(u,t)=>({mblur:V(0.07,0),mbDepth:[2.5,9],aperture:0.15}));
+ shot(w(9,'one').s-0.55,(w(9,'one').s+w(9,'two').s)/2,(u)=>({world:true,p:V(ST.pos[1]+lerp(9.3,8.8,u),2.0,3.05),l:V(ST.pos[1]-8,0.6,1.3),fov:62}),(u,t)=>({mblur:V(0.035,0),mbDepth:[2.5,9],aperture:0.15}));
  // 19 interior through window, station 2 flashes past
  shot((w(9,'one').s+w(9,'two').s)/2,(w(9,'two').s+w(9,'three').s)/2,(u)=>({p:V(lerp(0.4,0.6,u),1.15,-0.25),l:V(1.9,1.25,1.5),fov:50}),{mblur:V(0.06,0),mbDepth:[2.4,40],aperture:0.3,focus:1.3});
  // 20 top-down above train, station 3 with three figures
@@ -209,18 +212,18 @@ function buildShots(){times();SH=[];const w=W;
  // 28 POV: all heads toward you
  shot(w(12,'is').s,lineStart(13),(u)=>({p:V(0.02,1.36,-0.93),l:V(lerp(-3.2,-2.6,u),1.15,lerp(-0.4,0.2,u)),fov:lerp(52,46,u)}),{aperture:0.25});
  // 29 POV rule 5
- shot(lineStart(13),w(13,'look',1).s,(u)=>({p:V(0.0,1.36,-0.93),l:V(lerp(0.8,0.2,u),1.25,1.1),fov:lerp(54,46,u)}),{aperture:0.2});
+ shot(lineStart(13),w(13,'look',1).s,(u)=>({p:V(0.0,1.36,-0.93),l:V(lerp(2.6,2.0,u),1.1,1.0),fov:lerp(54,46,u)}),{aperture:0.2});
  // 30 tilt down to floor
  shot(w(13,'look',1).s,lineStart(14),(u)=>{const e=ease(clamp(u*1.3));return {p:V(0.0,1.4,-0.93),l:V(0.0,lerp(1.3,0.0,e),lerp(1.1,-0.38,e)),fov:54};},{aperture:0.2});
  // 31 floor-level, legs coming down aisle
- shot(lineStart(14),w(14,'coming').s,(u)=>({p:V(lerp(1.8,1.65,u),0.16,0.08),l:V(-4,0.55,0.0),fov:50,roll:0.02}),{aperture:0.25,focusAuto:false,focus:4});
+ shot(lineStart(14),w(14,'coming').s,(u)=>({p:V(lerp(1.5,1.4,u),0.14,0.06),l:V(-4.6,lerp(0.75,0.85,u),0.12),fov:30,roll:0.02}),{aperture:0.2,tilt:0.35});
  // 32 low diagonal close
- shot(w(14,'coming').s,lineStart(15)-0.65,(u)=>({p:V(1.1,0.22,-0.3),l:V(-1.4,0.7,0.2),fov:46}),{aperture:0.3,focus:2.2});
+ shot(w(14,'coming').s,lineStart(15)-0.65,(u)=>({p:V(lerp(0.55,0.5,u),0.2,-0.3),l:V(-2.4,0.85,0.12),fov:44}),{aperture:0.25});
  // 33 POV down: dark feet stop in front of white feet
  shot(lineStart(15)-0.65,lineStart(16)-0.25,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.0,-0.3),fov:60}),{aperture:0.15});
  // 34 head lowers upside-down
  shot(lineStart(16)-0.25,w(16,'get').s,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.1,-0.33),fov:lerp(60,52,u)}),{aperture:0.2});
- shot(w(16,'get').s,w(17,'five').s-0.35,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.4,-0.36),fov:lerp(38,30,u),roll:lerp(0,0.06,u)}),{aperture:0.35,focusAuto:true});
+ shot(w(16,'get').s,w(17,'five').s-0.35,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.36,-0.34),fov:lerp(46,38,u),roll:lerp(0,0.06,u)}),{aperture:0.3});
  // 35 station 5 extreme low
  shot(w(17,'five').s-0.35,(w(17,'five').s+w(17,'six').s)/2,(u)=>({world:true,p:V(ST.pos[5]+9,0.28,1.95),l:V(ST.pos[5]-6,1.0,1.1),fov:72,roll:0.3}),{mblur:V(0.06,0),mbDepth:[0.6,30],aperture:0});
  // 36 station 6 high corner
@@ -229,11 +232,11 @@ function buildShots(){times();SH=[];const w=W;
  shot(lineStart(18),w(18,'backwards').s,(u)=>({p:V(lerp(-4.2,-3.4,u),1.25,0.05),l:V(1,1.0,-0.6),fov:44,roll:lerp(0,0.5,u)}),{aperture:0.3});
  shot(w(18,'backwards').s,lineStart(19),(u)=>({p:V(lerp(1.3,1.1,u),1.12,-0.2),l:V(0,1.05,-1.1),fov:40,roll:lerp(0.5,0.85,u)}),{aperture:0.4});
  // 39 station 7 thunders through
- shot(lineStart(19),w(19,'the').s,(u)=>({world:true,p:V(ST.pos[7]-9,1.6,5.6),l:V(ST.pos[7]+2,0.6,0.8),fov:54}),{mblur:V(0.09,0),mbDepth:[3,9],aperture:0});
- shot(w(19,'the').s,lineStart(20),(u)=>({world:true,p:V(ST.pos[7]+4,0.16,1.78),l:V(ST.pos[7]-3,-0.7,0.9),fov:66,roll:-0.12}),{mblur:V(0.08,0),mbDepth:[0.5,12],aperture:0});
+ shot(lineStart(19),w(19,'the').s,(u)=>({world:true,p:V(ST.pos[7]-10,1.45,3.0),l:V(ST.pos[7]+3,0.8,1.0),fov:56}),{mblur:V(0.05,0),mbDepth:[1.2,30],aperture:0});
+ shot(w(19,'the').s,lineStart(20),(u)=>({world:true,p:V(ST.pos[7]+13,0.24,1.86),l:V(ST.pos[7]+30,-0.25,0.85),fov:62,roll:-0.1}),(u,t)=>({mblur:V(0.04*clamp(1-u*1.5),0),mbDepth:[0.5,12],aperture:0}));
  // 41 line map
- shot(lineStart(20),w(20,'an').s,(u)=>({p:V(lerp(0.55,0.05,u),1.5,0.28),l:V(lerp(0.42,-0.08,u),2.03,1.13),fov:46,roll:-0.03}),{aperture:0.25,tilt:0.3});
- shot(w(20,'an').s,lineStart(21)-1.25,(u)=>{const e=ease(clamp(u*1.4));return {p:V(lerp(-0.1,-0.5,e),1.55,lerp(0.35,0.45,u)),l:V(lerp(-0.18,-0.5,e),2.03,1.13),fov:lerp(42,34,u),roll:0.03};},{aperture:0.3,tilt:0.3});
+ shot(lineStart(20),w(20,'an').s,(u)=>({p:V(lerp(0.55,0.05,u),1.5,0.28),l:V(lerp(0.42,-0.08,u),2.03,1.13),fov:46,roll:-0.03}),{aperture:0,tilt:0});
+ shot(w(20,'an').s,lineStart(21)-1.25,(u)=>{const e=ease(clamp(u*1.4));return {p:V(lerp(-0.1,-0.5,e),1.55,lerp(0.35,0.45,u)),l:V(lerp(-0.18,-0.5,e),2.03,1.13),fov:lerp(42,34,u),roll:0.03};},{aperture:0,tilt:0});
  // 43 speaker
  shot(lineStart(21)-1.25,lineStart(22),(u)=>({p:V(2.75,1.95,lerp(0.35,0.3,u)),l:V(2.4,2.3,0),fov:lerp(38,30,u),roll:0.1}),{aperture:0.6,focusAuto:true});
  // 44 pull back
@@ -264,6 +267,9 @@ window.renderFrame=function(t){setScene(t);const sh=SH.find(s=>t>=s.a&&t<s.b)||S
  const c=window.DEBUGCAM?{p:V(...window.DEBUGCAM.p),l:V(...window.DEBUGCAM.l),fov:window.DEBUGCAM.fov||45,world:window.DEBUGCAM.world}:sh.cam(u,t);let p=c.p.clone(),l=c.l.clone();if(c.world){p.x-=world.p;l.x-=world.p;}
  camera.fov=c.fov||45;camera.updateProjectionMatrix();camera.position.copy(p);camera.up.copy(c.up||V(0,1,0));camera.lookAt(l);
  const interior=Math.abs(p.z)<1.35&&p.y>0&&p.y<2.4&&Math.abs(p.x)<8;const s=shake(t,interior);camera.translateX(s.x);camera.translateY(s.y);camera.rotateZ((c.roll||0)+s.r);
+ stationLights(camera.position.x,world.sister.visible&&t>T_.depart);updateSparks(t);
+ if(world.sisFx.visible)world.fogPlanes.forEach((f)=>{const d=f.userData;f.position.x=Math.sin(t*d.sp+d.ph)*0.6;f.rotation.y=Math.sin(t*0.1+d.ph)*0.5+Math.atan2(camera.position.x-f.position.x-world.sisFx.position.x,camera.position.z-world.sisFx.position.z);});
+ for(const l of [...world.neonL,...world.tunL,...world.stL,world.redL,world.emL,world.fillL,world.rimL])l.visible=l.intensity>0.02;
  updateFigures();
  const fx=window.DEBUGCAM?{aperture:0,tilt:0}:(typeof sh.fx==='function'?sh.fx(u,t):sh.fx);const U=post.U;const dist=p.distanceTo(l);
  U.focus.value=fx.focus??dist;U.aperture.value=fx.aperture??0.3;U.tilt.value=(fx.tilt??0.55)*0.6;U.tiltC.value=0.5;U.maxBlur.value=11;
@@ -272,6 +278,7 @@ window.renderFrame=function(t){setScene(t);const sh=SH.find(s=>t>=s.a&&t<s.b)||S
  const hg=hud.glitch(t);U.glitch.value=Math.max(hg,sk>0.6?0.5*sk:0);U.fade.value=fx.fade??1;U.red.value=redLevel(t)*0.35;U.blurAll.value=fx.blurAll??0;
  // cut flash at station passes
  for(const k in ST.times){if(k==0)continue;const dt=t-ST.times[k];if(dt>-0.05&&dt<0.25)U.fade.value*=1+0.8*Math.exp(-Math.abs(dt)/0.07);}
- post.render(camera);hud.update(t);renderer.getContext().finish();return true;};
+ post.render(camera);hud.update(t);if(window.SYNC){const g=renderer.getContext();const px=new Uint8Array(4);g.readPixels(0,0,1,1,g.RGBA,g.UNSIGNED_BYTE,px);}return true;};
+window.exportAudio=()=>{const o={fps:100,speed:[],neon:[],red:[],spk:[]};for(let t=0;t<TM.total;t+=0.01){o.speed.push(+trainVel(t).toFixed(2));o.neon.push(+neonLevel(t).toFixed(3));o.red.push(+redLevel(t).toFixed(3));}return o;};
 window.shotAt=t=>SH.findIndex(s=>t>=s.a&&t<s.b);window.shotList=()=>SH.map(s=>[s.a,s.b]);
 init().catch(e=>{window.INIT_ERR=String(e.stack||e);console.error(e);});

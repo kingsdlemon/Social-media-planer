@@ -55,8 +55,8 @@ export class HUD{constructor(TM){this.TM=TM;this.build();this.chunks=this.makeCh
   if(ch&&t<this.t.choice){const key=ch.ws[0].s;if(cap.dataset.k!=String(key)){cap.dataset.k=key;cap.innerHTML='';
      if(ch.who!=='N'){const lb=document.createElement('div');lb.className='who';lb.textContent=ch.who==='SIS'?'YOUR SISTER?':'SPEAKER · CAR 3';cap.appendChild(lb);}
      const row=document.createElement('div');row.className='row';cap.appendChild(row);
-     for(const w of ch.ws){const sp=document.createElement('span');const raw=w.w.replace(/\.\.\.$/,'…');sp.textContent=raw.toUpperCase().replace(/[.,]$/,'');sp.className='w'+(ch.who!=='N'?' char':KEY.has(norm(w.w))?' key':'');row.appendChild(sp);row.appendChild(document.createTextNode(' '));}}
-   const spans=cap.querySelectorAll('span.w');ch.ws.forEach((w,i)=>{const dt=t-w.s+0.04;const sp=spans[i];if(dt<0){sp.style.opacity=0;sp.style.transform='scale(0.6)';}else{const e=clamp(dt/0.13);sp.style.opacity=1;sp.style.transform=`scale(${lerp(1.38,1,easeOut(e))}) translateY(${lerp(-10,0,easeOut(e))}px)`;}});
+     for(const w of ch.ws){const sp=document.createElement('span');const raw=w.w.replace(/\.\.\.$/,'…');sp.textContent=raw.toUpperCase().replace(/[.,]$/,'');sp.className='w'+(ch.who!=='N'?' char':KEY.has(norm(w.w))?' key':'');row.appendChild(sp);}}
+   const spans=cap.querySelectorAll('span.w');ch.ws.forEach((w,i)=>{const dt=t-w.s+0.04;const sp=spans[i];if(dt<0){sp.style.opacity=0;sp.style.transform='scale(0.6)';}else{const e=clamp(dt/0.13);sp.style.opacity=1;sp.style.transform=`scale(${lerp(1.09,1,easeOut(e))}) translateY(${lerp(-10,0,easeOut(e))}px)`;}});
    cap.style.display='block';cap.classList.toggle('charcap',ch.who!=='N');}
   else{cap.style.display='none';}
   // vote card
