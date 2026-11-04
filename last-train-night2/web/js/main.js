@@ -115,7 +115,7 @@ function setScene(t){const p=trainPos(t);world.p=p;const vel=trainVel(t);
   const L3=world.stL[2];L3.position.set(S.root.position.x,1.3,1.6);const inTrain=(-24.6+p)<0.5;L3.intensity=inTrain?6*Math.pow(Math.max(0,Math.sin(p*Math.PI/1.75)),2)*clamp(vel/6):0;L3.color.setHex(0xcfe0ff);}
  // tall figure
  const TF=world.tall;TF.visible=t>T_.tallWalk0-0.3&&t<T_.tallGone;EV.tallSteps=EV.tallSteps||[];
- if(TF.visible){TF.rest();const A=[-6.7,0.12],B=[0.0,0.15];const st=walk(TF,t,T_.tallWalk0,T_.tallStop,A,B,5,Math.PI/2,Math.PI,{stance:0.12,lift:0.16,bob:0.06,heavy:true,turn0:0.72});
+ if(TF.visible){TF.rest();const A=[-6.7,0.12],B=[0.0,0.45];const st=walk(TF,t,T_.tallWalk0,T_.tallStop,A,B,5,Math.PI/2,Math.PI,{stance:0.12,lift:0.16,bob:0.06,heavy:true,turn0:0.72});
   TF.ua.L.rotation.set(0.05+0.12*Math.sin(t*2),0,-0.06);TF.ua.R.rotation.set(0.05-0.12*Math.sin(t*2),0,0.06);
   const b=ease(sstep(T_.bend0,T_.bend1,t)),bn=ease(sstep(T_.bend0+0.5,T_.bend1+0.5,t));if(b>0){TF.hip.position.y-=0.15*b;TF.hip.position.z=-0.05*b;
    TF.torso.rotation.x=2.3*b;TF.neck.rotation.x=0.75*bn;
@@ -225,10 +225,10 @@ function buildShots(){times();SH=[];const w=W;
  // 32 low diagonal close
  shot(w(14,'coming').s,lineStart(15)-0.65,(u)=>({p:V(lerp(0.55,0.5,u),0.2,-0.3),l:V(-2.4,0.85,0.12),fov:44}),{aperture:0.25});
  // 33 POV down: dark feet stop in front of white feet
- shot(lineStart(15)-0.65,lineStart(16)-0.25,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.0,-0.3),fov:60}),{aperture:0.15});
+ shot(lineStart(15)-0.65,lineStart(16)-0.25,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.0,-0.12),fov:60}),{aperture:0.15});
  // 34 head lowers upside-down
- shot(lineStart(16)-0.25,w(16,'get').s,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.1,-0.33),fov:lerp(60,52,u)}),{aperture:0.2});
- shot(w(16,'get').s,w(17,'five').s-0.35,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.36,-0.34),fov:lerp(46,38,u),roll:lerp(0,0.06,u)}),{aperture:0.3});
+ shot(lineStart(16)-0.25,w(16,'get').s,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,lerp(0.05,0.3,u),-0.1),fov:lerp(60,52,u)}),{aperture:0.2});
+ shot(w(16,'get').s,w(17,'five').s-0.35,(u)=>({p:V(0.0,1.4,-0.93),l:V(0.0,0.42,-0.06),fov:lerp(46,38,u),roll:lerp(0,0.06,u)}),{aperture:0.3});
  // 35 station 5 extreme low
  shot(w(17,'five').s-0.35,(w(17,'five').s+w(17,'six').s)/2,(u)=>({world:true,p:V(ST.pos[5]+9,0.28,1.95),l:V(ST.pos[5]-6,1.0,1.1),fov:72,roll:0.3}),{mblur:V(0.06,0),mbDepth:[0.6,30],aperture:0});
  // 36 station 6 high corner
@@ -285,5 +285,5 @@ window.renderFrame=function(t){setScene(t);const sh=SH.find(s=>t>=s.a&&t<s.b)||S
  for(const k in ST.times){if(k==0)continue;const dt=t-ST.times[k];if(dt>-0.05&&dt<0.25)U.fade.value*=1+0.8*Math.exp(-Math.abs(dt)/0.07);}
  post.render(camera);hud.update(t);if(window.SYNC){const g=renderer.getContext();const px=new Uint8Array(4);g.readPixels(0,0,1,1,g.RGBA,g.UNSIGNED_BYTE,px);}return true;};
 window.exportAudio=()=>{const o={fps:100,speed:[],neon:[],red:[],spk:[]};for(let t=0;t<TM.total;t+=0.01){o.speed.push(+trainVel(t).toFixed(2));o.neon.push(+neonLevel(t).toFixed(3));o.red.push(+redLevel(t).toFixed(3));}return o;};
-window.shotAt=t=>SH.findIndex(s=>t>=s.a&&t<s.b);window.shotList=()=>SH.map(s=>[s.a,s.b]);
+window.shotAt=t=>SH.findIndex(s=>t>=s.a&&t<s.b);window.shotList=()=>SH.map(s=>[s.a,s.b]);window.headCamDist=(t)=>{window.renderFrame(t);return world.tall.visible?world.tall.headC.getWorldPosition(new THREE.Vector3()).distanceTo(camera.position):99;};
 init().catch(e=>{window.INIT_ERR=String(e.stack||e);console.error(e);});
