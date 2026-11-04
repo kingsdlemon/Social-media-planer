@@ -10,3 +10,4 @@ render/q/
 render/q4k/
 render/log*.txt
 render/concat.txt
+render/popcheck.json

@@ -176,7 +176,7 @@ function buildShots(){times();SH=[];const w=W;
   const d=toH.clone().multiplyScalar(Math.cos(a)).add(side.multiplyScalar(Math.sin(a))).add(V(0,0.18,0)).normalize();
   return {p:ph.clone().add(d.multiplyScalar(0.24)),l:ph.clone().add(V(0,0.005,0)),fov:38,roll:lerp(0.1,-0.05,u)};},{aperture:1.4,focusAuto:true});
  // 11 top orbit 360 (line 6)
- shot(lineStart(6),lineStart(7),(u)=>{const a=lerp(0,Math.PI*2,u)+Math.PI;const c=V(0,1.95,-0.78);return {p:V(c.x+Math.sin(a)*0.5,c.y,c.z+Math.cos(a)*0.45),l:V(0,1.12,-1.0),fov:70};},{aperture:0.3});
+ shot(lineStart(6),lineStart(7),(u)=>{const a=lerp(0,Math.PI*2,u)+Math.PI;const c=V(0,2.0,-0.5);return {p:V(c.x+Math.sin(a)*0.25,c.y,c.z+Math.cos(a)*0.25),l:V(0,1.1,-1.0),fov:68,roll:lerp(-0.35,0.35,ease(u))+Math.sin(u*Math.PI*2)*0.25};},{aperture:0.3});
  // 12 front semi-orbit (ten minutes later)
  shot(lineStart(7),w(7,'the').s,(u)=>{const a=lerp(-1.2,1.2,u);return {p:V(Math.sin(a)*1.25,lerp(0.85,1.0,u),-1.05+Math.cos(a)*1.25),l:V(0,1.15,-1.05),fov:46};},{aperture:0.35});
  // 13 exterior: fly alongside train in tunnel
