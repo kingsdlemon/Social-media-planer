@@ -20,7 +20,7 @@ export function EinsatzMap() {
         {active ? (
           <LeafletMap />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-5 px-6 text-center">
+          <div className="flex h-full flex-col items-center justify-center gap-6 px-6 text-center">
             <svg aria-hidden="true" viewBox="0 0 24 24" className="size-12 text-brand dark:text-[#2997ff]" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" />
               <circle cx="12" cy="9.5" r="2.5" />

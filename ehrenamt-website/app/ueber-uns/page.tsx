@@ -86,7 +86,7 @@ export default function UeberUnsPage() {
       </Container>
 
       <Section id="vorstand" title="Vorstand" intro="Alle Vorstandsmitglieder arbeiten ehrenamtlich.">
-        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {vorstand.map((v) => (
             <li key={`${v.role}-${v.name}`}>
               <Card className="h-full">

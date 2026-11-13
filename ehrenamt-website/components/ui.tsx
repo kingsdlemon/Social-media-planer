@@ -8,7 +8,7 @@ export function Container({ className = "", children }: { className?: string; ch
 type Variant = "primary" | "secondary" | "ghost" | "inverse";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-brand text-white hover:bg-[#0077ed]",
+  primary: "bg-brand text-white hover:bg-[#0077ed] motion-safe:hover:scale-[1.02]",
   secondary: "bg-ink text-white hover:bg-black dark:bg-white dark:text-ink dark:hover:bg-mist",
   inverse: "bg-white text-ink hover:bg-mist",
   ghost: "text-brand-dark ring-1 ring-brand-dark/40 hover:bg-brand-dark hover:text-white dark:text-[#2997ff] dark:ring-[#2997ff]/50 dark:hover:bg-[#2997ff] dark:hover:text-black",
@@ -36,7 +36,7 @@ export function PageHero({ eyebrow, title, children }: { eyebrow?: string; title
   return (
     <section className="bg-paper dark:bg-night">
       <Container className="pt-16 pb-12 text-center sm:pt-24 sm:pb-16">
-        {eyebrow && <p className="mb-3 text-lg font-semibold text-brand dark:text-[#2997ff]">{eyebrow}</p>}
+        {eyebrow && <p className="mb-4 text-lg font-semibold text-brand-dark dark:text-[#2997ff]">{eyebrow}</p>}
         <h1 className="mx-auto max-w-4xl text-[2.6rem] sm:text-7xl">{title}</h1>
         {children && <div className="mx-auto mt-6 max-w-2xl text-xl text-ink-soft sm:text-2xl dark:text-white/70">{children}</div>}
       </Container>
@@ -58,7 +58,7 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className={`py-16 sm:py-24 ${className}`}>
+    <section id={id} className={`py-12 sm:py-24 ${className}`}>
       <Container>
         {(title || intro) && (
           <div data-reveal>
@@ -66,7 +66,7 @@ export function Section({
             {intro && <div className="mt-4 max-w-2xl text-xl text-ink-soft dark:text-white/70">{intro}</div>}
           </div>
         )}
-        <div className={title || intro ? "mt-10 sm:mt-12" : ""}>{children}</div>
+        <div className={title || intro ? "mt-12" : ""}>{children}</div>
       </Container>
     </section>
   );
@@ -76,7 +76,7 @@ export function Card({ className = "", reveal = true, children }: { className?: 
   return (
     <div
       data-reveal={reveal ? "" : undefined}
-      className={`rounded-[28px] bg-mist p-7 transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] sm:p-9 dark:bg-night-raised ${className}`}
+      className={`rounded-[28px] bg-mist p-6 transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] sm:p-12 dark:bg-night-raised ${className}`}
     >
       {children}
     </div>

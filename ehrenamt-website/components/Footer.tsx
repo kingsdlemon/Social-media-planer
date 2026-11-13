@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="mt-auto border-t border-line/60 bg-mist text-ink-soft dark:border-white/10 dark:bg-night-raised dark:text-ink dark:text-white/60">
       <Container className="grid grid-cols-1 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-6">
             {/* alt leer: Der Vereinsname steht direkt daneben als Text */}
             <img
               src={site.logo.src}

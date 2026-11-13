@@ -16,7 +16,7 @@ export default function AktuellesPage() {
         <p>Berichte, Termine und Hinweise rund um unsere Arbeit in Darmstadt.</p>
       </PageHero>
 
-      <Container className="py-14 sm:py-20">
+      <Container className="py-12 sm:py-24">
         <ol className="grid grid-cols-1 max-w-4xl gap-8">
           {getMeldungen().map((m) => (
             <li key={m.id} id={m.id}>

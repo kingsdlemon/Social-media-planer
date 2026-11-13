@@ -114,7 +114,7 @@
 
   /* Inhalte aus redaktionellem Text */
   .prose-efd {
-    @apply max-w-3xl text-lg;
+    @apply max-w-[42.5rem] text-lg; /* ~680px Lesebreite */
   }
   .prose-efd > * + * {
     @apply mt-5;

@@ -32,7 +32,7 @@ export default function AktivWerdenPage() {
 
       <section id="anmelden" className="scroll-mt-24 px-4 sm:px-8">
         <div className="mx-auto max-w-3xl rounded-[36px] bg-mist p-6 sm:p-12 dark:bg-night-raised">
-          <p className="text-lg font-semibold text-brand dark:text-[#2997ff]">In 2 Minuten online</p>
+          <p className="text-lg font-semibold text-brand-dark dark:text-[#2997ff]">In 2 Minuten online</p>
           <h2 className="mt-2 mb-8 text-4xl sm:text-5xl">Jetzt unverbindlich melden.</h2>
           <AktivWerdenForm />
         </div>

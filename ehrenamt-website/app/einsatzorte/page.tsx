@@ -43,7 +43,7 @@ export default function EinsatzortePage() {
       </nav>
 
       {getKategorien().map((k) => (
-        <section key={k.id} id={k.id} className="scroll-mt-28 py-14 sm:py-20">
+        <section key={k.id} id={k.id} className="scroll-mt-28 py-12 sm:py-24">
           <Container>
             <div data-reveal className="flex items-center gap-4">
               <CultureIcon name={k.icon} size={40} className="shrink-0 text-brand dark:text-[#2997ff]" />
@@ -74,7 +74,7 @@ export default function EinsatzortePage() {
         </section>
       ))}
 
-      <section id="karte" className="scroll-mt-28 py-14 sm:py-20">
+      <section id="karte" className="scroll-mt-28 py-12 sm:py-24">
         <Container>
           <h2 data-reveal className="text-4xl sm:text-6xl">Auf der Karte.</h2>
           <p className="mt-3 mb-10 max-w-xl text-xl text-ink-soft dark:text-white/70">Ausgewählte Einsatzorte in Darmstadt.</p>

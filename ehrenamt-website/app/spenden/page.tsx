@@ -24,7 +24,7 @@ export default function SpendenPage() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           <Card>
             <h2 className="text-3xl sm:text-4xl">Spendenkonto</h2>
-            <dl className="mt-6 grid grid-cols-1 gap-5 text-xl">
+            <dl className="mt-6 grid grid-cols-1 gap-6 text-xl">
               <div>
                 <dt className="text-sm text-ink-soft dark:text-white/60">Empfänger</dt>
                 <dd className="mt-1 font-semibold">{site.bank.holder}</dd>

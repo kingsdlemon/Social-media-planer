@@ -45,7 +45,7 @@ export default function HomePage() {
       {/* Hero – zentriert, ruhig, große Typo */}
       <section className="overflow-hidden bg-paper dark:bg-night">
         <Container className="pt-16 text-center sm:pt-24">
-          <p className="text-lg font-semibold text-brand dark:text-[#2997ff]">
+          <p className="text-lg font-semibold text-brand-dark dark:text-[#2997ff]">
             {site.name} · seit {site.founded}
           </p>
           <h1 className="mx-auto mt-4 max-w-5xl text-[2.9rem] leading-[1.04] sm:text-8xl">
@@ -79,7 +79,7 @@ export default function HomePage() {
       </section>
 
       {/* Zahlen */}
-      <section aria-label="Der Verein in Zahlen" className="py-16 sm:py-24">
+      <section aria-label="Der Verein in Zahlen" className="py-12 sm:py-24">
         <Container className="grid grid-cols-2 gap-x-6 gap-y-10 text-center lg:grid-cols-4">
           {zahlen.map((z) => (
             <div key={z.label} data-reveal>
@@ -93,14 +93,14 @@ export default function HomePage() {
       </section>
 
       {/* Einsatzbereiche – Swipe */}
-      <section className="bg-mist py-16 sm:py-24 dark:bg-night-raised/50">
+      <section className="bg-mist py-12 sm:py-24 dark:bg-night-raised/50">
         <RowHeading title="Wo Sie wirken können." intro="Wischen Sie durch unsere Einsatzbereiche." href="/einsatzorte/" linkLabel="Alle Einsatzorte" />
         <Carousel label="Einsatzbereiche">
           {kategorien.map((k) => (
             <Slide key={k.id}>
               <Link
                 href={`/einsatzorte/#${k.id}`}
-                className="group flex h-[26rem] flex-col rounded-[28px] bg-paper p-8 no-underline transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_10px_50px_rgba(0,0,0,0.10)] motion-safe:hover:scale-[1.015] dark:bg-night"
+                className="group flex h-[26rem] flex-col rounded-[28px] bg-paper p-6 sm:p-8 no-underline transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] motion-safe:hover:scale-[1.015] dark:bg-night"
               >
                 <CultureIcon name={k.icon} size={44} className="text-brand dark:text-[#2997ff]" />
                 <h3 className="mt-auto text-3xl">{k.title}</h3>
@@ -115,7 +115,7 @@ export default function HomePage() {
       </section>
 
       {/* So geht's */}
-      <section className="py-16 sm:py-24">
+      <section className="py-12 sm:py-24">
         <Container>
           <div data-reveal className="text-center">
             <h2 className="text-4xl sm:text-6xl">In drei Schritten dabei.</h2>
@@ -123,9 +123,9 @@ export default function HomePage() {
               Sie brauchen nichts mitzubringen außer Neugier und ein wenig Zeit.
             </p>
           </div>
-          <ol className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+          <ol className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             {schritte.map((s, i) => (
-              <li key={s.title} data-reveal className="rounded-[28px] bg-mist p-8 dark:bg-night-raised">
+              <li key={s.title} data-reveal className="rounded-[28px] bg-mist p-6 sm:p-8 dark:bg-night-raised">
                 <span className="font-display text-5xl font-semibold text-brand dark:text-[#2997ff]">{i + 1}</span>
                 <h3 className="mt-6 text-2xl">{s.title}</h3>
                 <p className="mt-2 text-lg text-ink-soft dark:text-white/70">{s.text}</p>
@@ -156,7 +156,7 @@ export default function HomePage() {
             <Slide key={g.id}>
               <Link
                 href={`/aktiv-werden/#gesucht-${g.id}`}
-                className="flex h-[19rem] flex-col rounded-[28px] bg-[#1c1c1e] p-8 text-white no-underline transition-[background-color] duration-300 hover:bg-[#2c2c2e]"
+                className="flex h-[19rem] flex-col rounded-[28px] bg-[#1c1c1e] p-6 sm:p-8 text-white no-underline transition-[background-color] duration-300 hover:bg-[#2c2c2e]"
               >
                 <p className="text-base text-white/50">{g.place}</p>
                 <h3 className="mt-auto text-2xl text-white dark:text-white">{g.title}</h3>
@@ -168,14 +168,14 @@ export default function HomePage() {
       </section>
 
       {/* Aktuelles – Swipe */}
-      <section className="py-16 sm:py-24">
+      <section className="py-12 sm:py-24">
         <RowHeading title="Aktuelles." href="/aktuelles/" linkLabel="Alle Meldungen" />
         <Carousel label="Aktuelle Meldungen">
           {aktuell.map((m) => (
             <Slide key={m.id} className="self-stretch">
               <Link
                 href={`/aktuelles/#${m.id}`}
-                className="flex h-full min-h-[20rem] flex-col rounded-[28px] bg-mist p-8 no-underline transition-[box-shadow] duration-300 hover:shadow-[0_10px_50px_rgba(0,0,0,0.08)] dark:bg-night-raised"
+                className="flex h-full min-h-[20rem] flex-col rounded-[28px] bg-mist p-6 sm:p-8 no-underline transition-[box-shadow] duration-300 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] dark:bg-night-raised"
               >
                 <p className="text-base text-ink-soft dark:text-white/50">{m.dateLabel}</p>
                 <h3 className="mt-3 text-2xl">{m.title}</h3>

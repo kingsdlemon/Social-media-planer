@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { mainNav } from "@/lib/site";
 import { Logo } from "./Logo";
-import { ThemeToggle } from "./ThemeToggle";
 
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -65,14 +64,11 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden xl:block">
-            <ThemeToggle compact />
-          </div>
           {/* Ab Tablet-Breite im Header, auf dem Handy als feste Leiste unten */}
           <Link
             href="/aktiv-werden/"
             aria-current={isActive(pathname, "/aktiv-werden/") ? "page" : undefined}
-            className="hidden min-h-10 items-center rounded-full bg-brand px-5 text-[0.95rem] font-medium whitespace-nowrap text-white no-underline transition-[background-color,scale] duration-200 hover:bg-[#0077ed] active:scale-[0.97] sm:inline-flex"
+            className="hidden min-h-10 items-center rounded-full bg-brand px-5 text-[0.95rem] font-medium whitespace-nowrap text-white no-underline transition-[background-color,scale] duration-200 hover:bg-[#0077ed] motion-safe:hover:scale-[1.02] active:scale-[0.97] sm:inline-flex"
           >
             Aktiv werden
           </Link>
@@ -107,11 +103,7 @@ export function Header() {
                   );
                 })}
               </ul>
-              <div className="mt-4 flex items-center justify-between gap-4 has-[button[hidden]]:hidden border-t border-black/5 pt-4 dark:border-white/10">
-                <span className="text-base font-semibold">Darstellung</span>
-                <ThemeToggle />
-              </div>
-            </nav>
+                </nav>
             </div>
           </details>
         </div>
