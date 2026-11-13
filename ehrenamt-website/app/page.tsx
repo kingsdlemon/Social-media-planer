@@ -33,11 +33,23 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -right-24 size-[28rem] rounded-full bg-terracotta-light/50 blur-2xl dark:bg-terracotta/20" />
-          <div className="absolute -bottom-32 -left-20 size-[22rem] rounded-full bg-teal-soft dark:bg-teal-dark/60" />
-        </div>
+      <section className="relative isolate overflow-hidden">
+        {/* Dekorativer Farbverlauf als Hintergrund – daher leerer Alt-Text */}
+        <img
+          src="/images/hero-bg.webp"
+          alt=""
+          aria-hidden="true"
+          width={1376}
+          height={768}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 -z-20 size-full object-cover"
+        />
+        {/* Aufhellung links für gut lesbaren Text */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-gradient-to-r from-cream via-cream/85 to-cream/10 dark:from-night dark:via-night/85 dark:to-night/30"
+        />
         <Container className="relative py-16 sm:py-28">
           <p className="text-base font-bold tracking-[0.14em] text-terracotta-dark uppercase dark:text-terracotta-light">
             {site.name} · seit {site.founded}

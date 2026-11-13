@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Illustration } from "@/components/Illustration";
 import { ButtonA, ButtonLink, Card, Container, Icon, PageHero, Section, Todo } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
@@ -72,6 +73,11 @@ export default function UeberUnsPage() {
           überparteilich, ehrenamtlich und unabhängig – bis zu 30.000 Stunden im Jahr.
         </p>
       </PageHero>
+
+      <Illustration
+        alt="Illustration: Ehrenamtliche in orangefarbenen Shirts mit Namensschildern helfen in verschiedenen Kultureinrichtungen – an der Kasse, beim Platzanweisen im Theater, im Museum bei einer Familie mit Kindern, am Infotresen, an der Garderobe und bei einem Konzert."
+        caption="Über 200 Ehrenamtliche unterstützen rund 40 Kultureinrichtungen in Darmstadt."
+      />
 
       <Container className="py-10">
         <nav aria-label="Bereiche auf dieser Seite">

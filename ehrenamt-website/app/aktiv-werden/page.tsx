@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { gesuche } from "@/content/gesucht";
+import { Illustration } from "@/components/Illustration";
 import { ButtonA, ButtonLink, Card, Icon, PageHero, Section } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
@@ -25,6 +26,8 @@ export default function AktivWerdenPage() {
           gemeinsam mit Ihnen eine Aufgabe, die zu Ihren Interessen und Ihrem Zeitbudget passt.
         </p>
       </PageHero>
+
+      <Illustration alt="Illustration: So vielfältig kann Ihr Ehrenamt sein – Ehrenamtliche verkaufen Eintrittskarten, weisen Plätze im Theater an, erklären einer Familie ein Museumsstück, beraten am Infotresen, betreuen die Garderobe und helfen bei Konzerten." />
 
       <Section id="so-gehts" title="So einfach geht’s">
         <ol className="grid grid-cols-1 gap-6 lg:grid-cols-3">
