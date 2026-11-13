@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { mainNav } from "@/lib/site";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
@@ -14,19 +14,20 @@ function isActive(pathname: string, href: string) {
 
 export function Header() {
   const pathname = usePathname() ?? "/";
+  const menu = useRef<HTMLDetailsElement>(null);
   const [open, setOpen] = useState(false);
-  const menuId = useId();
-  const menuButton = useRef<HTMLButtonElement>(null);
 
-  // Menü schließen, wenn die Seite wechselt oder Escape gedrückt wird
-  useEffect(() => setOpen(false), [pathname]);
+  // Menü ist ein natives <details>: funktioniert auch ohne JavaScript (z. B. im WordPress-Import).
+  // Mit JavaScript: beim Seitenwechsel schließen, Escape schließt und gibt den Fokus zurück.
+  useEffect(() => {
+    if (menu.current) menu.current.open = false;
+  }, [pathname]);
   useEffect(() => {
     if (!open) return;
-    // Escape schließt das Menü und gibt den Fokus an den Menü-Button zurück
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      setOpen(false);
-      menuButton.current?.focus();
+      if (e.key !== "Escape" || !menu.current) return;
+      menu.current.open = false;
+      menu.current.querySelector("summary")?.focus();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -75,49 +76,45 @@ export function Header() {
           >
             Aktiv werden
           </Link>
-          <button
-            ref={menuButton}
-            type="button"
-            className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-base font-medium text-ink xl:hidden dark:text-white"
-            aria-expanded={open}
-            aria-controls={menuId}
-            onClick={() => setOpen((o) => !o)}
-          >
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              {open ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-            </svg>
-            <span>{open ? "Schließen" : "Menü"}</span>
-          </button>
+          <details ref={menu} className="menu xl:hidden" onToggle={(e) => setOpen((e.currentTarget as HTMLDetailsElement).open)}>
+            <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-full px-3 text-base font-medium text-ink select-none dark:text-white [&::-webkit-details-marker]:hidden">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path className="menu-icon-open" d="M4 7h16M4 12h16M4 17h16" />
+                <path className="menu-icon-close" d="M6 6l12 12M18 6 6 18" />
+              </svg>
+              <span className="menu-label-open">Menü</span>
+              <span className="menu-label-close">Schließen</span>
+            </summary>
+            <div className="menu-sheet absolute inset-x-0 top-full h-[calc(100dvh-3.6rem)] overflow-y-auto bg-paper dark:bg-night overscroll-contain pb-24 shadow-[0_12px_30px_rgba(0,0,0,0.08)] sm:pb-0">
+            <nav aria-label="Hauptnavigation (mobil)" className="mx-auto max-w-6xl px-5 pt-3 pb-6 sm:px-8">
+              <ul className="grid grid-cols-1 gap-1">
+                {mainNav.map((item) => {
+                  const active = isActive(pathname, item.href);
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        aria-current={active ? "page" : undefined}
+                        className={`flex min-h-14 items-center rounded-2xl px-4 font-display text-3xl font-semibold tracking-tight no-underline ${
+                          active
+                            ? "text-ink dark:text-white"
+                            : "text-ink/70 hover:text-ink dark:text-white/70 dark:hover:text-white"
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+              <div className="mt-4 flex items-center justify-between gap-4 has-[button[hidden]]:hidden border-t border-black/5 pt-4 dark:border-white/10">
+                <span className="text-base font-semibold">Darstellung</span>
+                <ThemeToggle />
+              </div>
+            </nav>
+            </div>
+          </details>
         </div>
-      </div>
-
-      <div id={menuId} hidden={!open} className="menu-sheet max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain border-t border-black/5 pb-24 sm:pb-0 xl:hidden dark:border-white/10">
-        <nav aria-label="Hauptnavigation (mobil)" className="mx-auto max-w-6xl px-5 pt-3 pb-6 sm:px-8">
-          <ul className="grid grid-cols-1 gap-1">
-            {mainNav.map((item) => {
-              const active = isActive(pathname, item.href);
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={`flex min-h-14 items-center rounded-2xl px-4 font-display text-3xl font-semibold tracking-tight no-underline ${
-                      active
-                        ? "text-ink dark:text-white"
-                        : "text-ink/70 hover:text-ink dark:text-white/70 dark:hover:text-white"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-          <div className="mt-4 flex items-center justify-between gap-4 border-t border-black/5 pt-4 dark:border-white/10">
-            <span className="text-base font-semibold">Darstellung</span>
-            <ThemeToggle />
-          </div>
-        </nav>
       </div>
     </header>
       <div className="glass fixed inset-x-0 bottom-0 z-50 border-t border-black/5 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:hidden dark:border-white/10">

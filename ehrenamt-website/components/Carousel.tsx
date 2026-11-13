@@ -19,6 +19,7 @@ export function Carousel({ label, children }: { label: string; children: ReactNo
   const anim = useRef<SpringHandle | null>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const update = useCallback(() => {
     const el = row.current;
@@ -58,6 +59,7 @@ export function Carousel({ label, children }: { label: string; children: ReactNo
   }, []);
 
   useEffect(() => {
+    setReady(true);
     update();
     const el = row.current;
     if (!el) return;
@@ -194,7 +196,8 @@ export function Carousel({ label, children }: { label: string; children: ReactNo
       <div ref={row} className="snap-row cursor-grab [&.is-dragging]:cursor-grabbing [&.is-dragging]:select-none" tabIndex={0}>
         {children}
       </div>
-      <div className="mx-auto flex max-w-6xl justify-end gap-3 px-5 sm:px-8">
+      {/* Pfeile nur mit JavaScript – ohne (WordPress-Import) wird einfach gewischt/gescrollt */}
+      <div hidden={!ready} className="mx-auto flex max-w-6xl justify-end gap-3 px-5 sm:px-8">
         <button type="button" className={btn} onClick={() => go(-1)} disabled={atStart} aria-label="Zurück">
           <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M15 5l-7 7 7 7" />

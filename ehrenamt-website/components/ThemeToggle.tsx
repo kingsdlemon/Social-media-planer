@@ -58,6 +58,7 @@ export function ThemeToggle({ className = "", compact = false }: { className?: s
   return (
     <button
       type="button"
+      hidden={theme === null /* ohne JavaScript (z. B. WordPress-Import) nicht anzeigen */}
       onClick={cycle}
       className={`inline-flex min-h-10 items-center gap-2 rounded-full ${compact ? "w-10 justify-center" : "px-4 bg-mist dark:bg-night-raised"} text-base font-medium text-ink/70 hover:text-ink dark:text-white/70 dark:hover:text-white ${className}`}
       aria-label={`Darstellung: ${labels[current]}. Wechseln zu ${labels[next]}.`}
