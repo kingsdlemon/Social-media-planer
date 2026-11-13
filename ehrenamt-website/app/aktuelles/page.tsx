@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
-import { archivDokumente, meldungen } from "@/content/aktuelles";
+import { pageMetadata } from "@/lib/seo";
+import { archivDokumente, getMeldungen } from "@/lib/content";
 import { Card, Container, Icon, PageHero, Section, Todo } from "@/components/ui";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Aktuelles",
-  description: "Neuigkeiten, Termine und Berichte von Ehrenamt für Darmstadt e.V.",
-};
+  description:
+    "Neuigkeiten, Termine und Berichte von Ehrenamt für Darmstadt e.V.: Mitgliederversammlungen, Projekte und Aktionen für Darmstadts Kultur.",
+  path: "/aktuelles/",
+});
 
 export default function AktuellesPage() {
   return (
@@ -16,12 +18,12 @@ export default function AktuellesPage() {
 
       <Container className="py-14 sm:py-20">
         <ol className="grid grid-cols-1 max-w-4xl gap-8">
-          {meldungen.map((m) => (
+          {getMeldungen().map((m) => (
             <li key={m.id} id={m.id}>
               <Card>
                 <article>
                   <p className="text-base font-bold text-brand-dark dark:text-brand-light">
-                    {m.date ? <time dateTime={m.date}>{m.dateLabel}</time> : m.dateLabel}
+                    {m.exactDate ? <time dateTime={m.date}>{m.dateLabel}</time> : m.dateLabel}
                   </p>
                   <h2 className="mt-2 text-2xl sm:text-3xl">{m.title}</h2>
                   <div className="mt-4 space-y-4 text-lg">
@@ -29,7 +31,7 @@ export default function AktuellesPage() {
                       <p key={t.slice(0, 32)}>{t}</p>
                     ))}
                   </div>
-                  {m.links && (
+                  {m.links.length > 0 && (
                     <ul className="mt-5 space-y-2 text-lg">
                       {m.links.map((l) => (
                         <li key={l.href}>

@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Container, DraftNotice, PageHero, Todo } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Impressum",
-  robots: { index: false },
-};
+  description:
+    "Impressum von Ehrenamt für Darmstadt e.V.: Anschrift der Geschäftsstelle, Kontakt, Vereinsregister und Verantwortliche.",
+  path: "/impressum/",
+});
 
 export default function ImpressumPage() {
   return (

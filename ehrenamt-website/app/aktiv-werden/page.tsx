@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
-import { gesuche } from "@/content/gesucht";
+import { pageMetadata } from "@/lib/seo";
+import { getGesuche } from "@/lib/content";
 import { Illustration } from "@/components/Illustration";
 import { ButtonA, ButtonLink, Card, Icon, PageHero, Section } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Aktiv werden",
-  description: "So werden Sie ehrenamtlich in Darmstädter Kultureinrichtungen aktiv: Fragebogen, Kennenlerngespräch, Vermittlung.",
-};
+  description:
+    "So werden Sie ehrenamtlich in Darmstädter Kultureinrichtungen aktiv: Fragebogen, Kennenlerngespräch, Vermittlung.",
+  path: "/aktiv-werden/",
+});
 
 const angebote = [
   "ein persönliches Kennenlerngespräch vor Ihrem Eintritt, in dem wir Ihre Interessen mit dem Bedarf der Einrichtungen zusammenbringen",
@@ -103,7 +105,7 @@ export default function AktivWerdenPage() {
         }
       >
         <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {gesuche.map((g) => (
+          {getGesuche().map((g) => (
             <li key={g.id} id={`gesucht-${g.id}`}>
               <Card className="h-full">
                 <p className="text-base font-bold text-brand-dark dark:text-brand-light">{g.place}</p>
@@ -113,7 +115,7 @@ export default function AktivWerdenPage() {
                     <p key={t.slice(0, 24)}>{t}</p>
                   ))}
                 </div>
-                {g.facts && (
+                {g.facts.length > 0 && (
                   <ul className="mt-5 space-y-2 text-lg">
                     {g.facts.map((f) => (
                       <li key={f} className="flex gap-3">

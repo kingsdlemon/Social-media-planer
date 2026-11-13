@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { kategorien } from "@/content/einsatzorte";
+import { getKategorien } from "@/lib/content";
 import { CultureIcon, type CultureIconName } from "./CultureIcons";
 
 /**
@@ -9,13 +9,8 @@ import { CultureIcon, type CultureIconName } from "./CultureIcons";
  *   [              ][ Musik ][ Parks       ]
  *   [ Bildung (2)  ][ Alle Einsatzorte (2) ]
  */
-const layout: Record<string, string> = {
-  "museen-shops": "sm:col-span-2 lg:row-span-2",
-  "archive-sammlungen": "lg:col-span-2",
-  "musik-veranstaltungen": "",
-  "parks-denkmaeler": "",
-  soziales: "lg:col-span-2",
-};
+/** Kachelgrößen nach Position (1. Kategorie groß); weitere Kategorien aus dem CMS werden normal angehängt */
+const layout = ["sm:col-span-2 lg:row-span-2", "lg:col-span-2", "", "", "lg:col-span-2"];
 
 const tileBase =
   "group flex h-full flex-col rounded-3xl p-6 no-underline sm:p-8 focus-visible:outline-offset-4 " +
@@ -42,10 +37,10 @@ export function EinsatzBento({ headingLevel = "h3", linkToSections = true }: { h
 
   return (
     <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {kategorien.map((k) => {
-        const featured = k.id === "museen-shops";
+      {getKategorien().map((k, i) => {
+        const featured = i === 0;
         return (
-          <li key={k.id} data-reveal className={layout[k.id] ?? ""}>
+          <li key={k.id} data-reveal className={layout[i] ?? ""}>
             <Link
               href={href(k.id)}
               className={`${tileBase} ${

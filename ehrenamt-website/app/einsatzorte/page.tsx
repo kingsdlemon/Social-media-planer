@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
-import { kategorien } from "@/content/einsatzorte";
+import { pageMetadata } from "@/lib/seo";
+import { getKategorien } from "@/lib/content";
 import { CultureIcon } from "@/components/CultureIcons";
 import { EinsatzBento } from "@/components/EinsatzBento";
 import { ButtonA, ButtonLink, Card, Container, Icon, PageHero, Todo } from "@/components/ui";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Einsatzorte",
-  description: "Museumsshops, Archive, Konzerte, Parks und Denkmäler: Hier sind die Ehrenamtlichen von Ehrenamt für Darmstadt e.V. im Einsatz.",
-};
+  description:
+    "Museumsshops, Archive, Konzerte, Parks und Denkmäler: Hier sind die Ehrenamtlichen von Ehrenamt für Darmstadt e.V. im Einsatz.",
+  path: "/einsatzorte/",
+});
 
 export default function EinsatzortePage() {
   return (
@@ -22,11 +24,11 @@ export default function EinsatzortePage() {
 
       <Container className="py-10 sm:py-14">
         <nav aria-label="Bereiche auf dieser Seite">
-          <EinsatzBento linkToSections={false} />
+          <EinsatzBento headingLevel="h2" linkToSections={false} />
         </nav>
       </Container>
 
-      {kategorien.map((k, i) => (
+      {getKategorien().map((k, i) => (
         <section key={k.id} id={k.id} className={`py-14 sm:py-16 ${i % 2 === 1 ? "bg-mist/50 dark:bg-night-raised/40" : ""}`}>
           <Container>
             <div data-reveal className="flex items-center gap-4">

@@ -1,0 +1,152 @@
+# Decap CMS – Redaktionsoberfläche unter /admin/
+# Anleitung zum Login: siehe README.md, Abschnitt „CMS: Login einrichten“.
+# Jede Änderung im CMS wird als Commit im Branch „main“ gespeichert; Netlify baut die Website danach automatisch neu.
+
+backend:
+  name: github
+  repo: kingsdlemon/Social-media-planer
+  branch: main
+  commit_messages:
+    create: "Inhalt angelegt: {{collection}} „{{slug}}“"
+    update: "Inhalt geändert: {{collection}} „{{slug}}“"
+    delete: "Inhalt gelöscht: {{collection}} „{{slug}}“"
+    uploadMedia: "Bild hochgeladen: {{path}}"
+    deleteMedia: "Bild gelöscht: {{path}}"
+
+# Lokal ohne Login bearbeiten: im Repository-Ordner `npx decap-server` starten,
+# dann die Website lokal öffnen und /admin/index.html aufrufen.
+local_backend: true
+
+locale: de
+site_url: https://www.ehrenamt-darmstadt.org
+display_url: https://www.ehrenamt-darmstadt.org
+logo_url: /images/logo.png
+
+# Pfade relativ zum Repository (die Website liegt im Unterordner ehrenamt-website/)
+media_folder: ehrenamt-website/public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: aktuelles
+    label: Aktuelles
+    label_singular: Meldung
+    description: Neuigkeiten für die Seite „Aktuelles“. Die neuesten drei erscheinen auch auf der Startseite.
+    folder: ehrenamt-website/content/aktuelles
+    extension: json
+    format: json
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title
+    summary: "{{date | date('DD.MM.YYYY')}} – {{title}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: "Überschrift", name: title, widget: string }
+      - label: Datum
+        name: date
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: DD.MM.YYYY
+        time_format: false
+        picker_utc: true
+        hint: Bestimmt die Reihenfolge (neueste oben).
+      - label: Datum anders anzeigen (optional)
+        name: dateLabel
+        widget: string
+        required: false
+        hint: Statt des Datums z. B. „Juni 2023“ oder „Neu“ anzeigen. Leer lassen, um das Datum zu zeigen.
+      - { label: "Text", name: text, widget: text, hint: "Absätze durch eine Leerzeile trennen." }
+      - label: Links
+        name: links
+        widget: list
+        required: false
+        summary: "{{fields.label}}"
+        fields:
+          - { label: "Linktext", name: label, widget: string }
+          - { label: "Adresse", name: href, widget: string, hint: "https://… für andere Websites, /downloads/… für eigene Dateien" }
+      - label: Interner Hinweis (TODO)
+        name: todo
+        widget: string
+        required: false
+        hint: Erscheint auf der Website als gestrichelter Hinweis – für noch fehlende Angaben. Leer lassen, wenn alles vollständig ist.
+
+  - name: seiten
+    label: Seiteninhalte
+    description: Inhalte der Seiten „Aktiv werden“, „Einsatzorte“ und „Über uns“.
+    editor: { preview: false }
+    files:
+      - name: gesucht
+        label: Wir suchen (Seite „Aktiv werden“)
+        file: ehrenamt-website/content/gesucht.json
+        format: json
+        fields:
+          - label: Gesuche
+            name: gesuche
+            widget: list
+            summary: "{{fields.title}} – {{fields.place}}"
+            collapsed: true
+            hint: Reihenfolge per Ziehen ändern. Die ersten drei erscheinen auch auf der Startseite.
+            fields:
+              - { label: "Was wird gesucht?", name: title, widget: string }
+              - { label: "Wo?", name: place, widget: string }
+              - { label: "Beschreibung", name: text, widget: text, hint: "Absätze durch eine Leerzeile trennen." }
+              - { label: "Stichpunkte", name: facts, widget: list, required: false, field: { label: "Stichpunk" }, name: fact, widget: "string }" }
+
+      - name: einsatzorte
+        label: Einsatzorte
+        file: ehrenamt-website/content/einsatzorte.json
+        format: json
+        fields:
+          - label: Bereiche
+            name: kategorien
+            widget: list
+            summary: "{{fields.title}}"
+            collapsed: true
+            hint: Der erste Bereich erscheint in der Übersicht als große Kachel.
+            fields:
+              - { label: "Name des Bereichs", name: title, widget: string }
+              - label: Symbol
+                name: icon
+                widget: select
+                default: column
+                options:
+                  - { label: "Säule (Museum)", value: column }
+                  - { label: "Filmrolle (Archiv)", value: film }
+                  - { label: "Noten (Musik)", value: music }
+                  - { label: "Pinsel (Kunst, Denkmal)", value: brush }
+                  - { label: "Buch (Bildung)", value: book }
+                  - { label: "Maske (Theater)", value: theater }
+              - { label: "Kurzbeschreibung", name: intro, widget: string }
+              - label: Einsatzorte
+                name: orte
+                widget: list
+                summary: "{{fields.name}}"
+                collapsed: true
+                fields:
+                  - { label: "Name", name: name, widget: string }
+                  - { label: "Über die Einrichtung", name: about, widget: text }
+                  - { label: "Das machen unsere Mitglieder dort", name: tasks, widget: text }
+                  - { label: "Verstärkung gesucht?", name: wanted, widget: boolean, default: false }
+                  - { label: "Interner Hinweis (TODO)", name: note, widget: string, required: false }
+
+      - name: verein
+        label: Vorstand und Koordination (Seite „Über uns“)
+        file: ehrenamt-website/content/verein.json
+        format: json
+        fields:
+          - label: Vorstand
+            name: vorstand
+            widget: list
+            summary: "{{fields.role}}: {{fields.name}}"
+            fields:
+              - { label: "Amt", name: role, widget: string }
+              - { label: "Name", name: name, widget: string, required: false, hint: "Leer lassen, wenn das Amt unbesetzt ist (dann erscheint „Wir suchen Sie!“)." }
+          - label: Koordinatorinnen und Koordinatoren
+            name: koordination
+            widget: list
+            summary: "{{fields.area}}: {{fields.name}}"
+            fields:
+              - { label: "Bereich", name: area, widget: string }
+              - { label: "Name", name: name, widget: string }
+          - { label: "Kassenprüfung", name: kassenpruefung, widget: string, required: false }
+          - { label: "Interner Hinweis (TODO)", name: todo, widget: string, required: false }

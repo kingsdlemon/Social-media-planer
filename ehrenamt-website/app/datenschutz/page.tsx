@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Container, DraftNotice, PageHero, Todo } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Datenschutz",
-  robots: { index: false },
-};
+  description:
+    "Datenschutzerklärung von Ehrenamt für Darmstadt e.V.: Welche Daten wir auf der Website und als Verein verarbeiten und welche Rechte Sie haben.",
+  path: "/datenschutz/",
+});
 
 export default function DatenschutzPage() {
   return (

@@ -1,28 +1,16 @@
-import type { Metadata } from "next";
+import { getVerein } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 import { Illustration } from "@/components/Illustration";
 import { ButtonA, ButtonLink, Card, Container, Icon, PageHero, Section, Todo } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Über uns",
-  description: "Vorstand, Mitglieder, Finanzierung und Geschichte von Ehrenamt für Darmstadt e.V. – gegründet 1994.",
-};
+  description:
+    "Vorstand, Mitglieder, Finanzierung und Geschichte von Ehrenamt für Darmstadt e.V. – gegründet 1994.",
+  path: "/ueber-uns/",
+});
 
-const vorstand = [
-  { role: "1. Vorsitz", name: null },
-  { role: "2. Vorsitzende", name: "Beatrice Wesp" },
-  { role: "Schatzmeister", name: "Peter Kailing" },
-  { role: "Schriftführerin", name: "Marion Mojzis" },
-  { role: "Mitgliederbetreuung", name: "Beatrice Wesp" },
-];
-
-const koordination = [
-  { area: "Alter Friedhof und Jüdischer Friedhof", name: "Gabi Palm" },
-  { area: "Shop im Landesmuseum", name: "Petra Hartmann" },
-  { area: "Shop Mathildenhöhe", name: "Ina Maria Kalden" },
-  { area: "Shop Vivarium", name: "Hervé Achilles" },
-  { area: "Kunsthalle", name: "Kornelia Kremer" },
-];
 
 const historie = [
   {
@@ -65,6 +53,7 @@ const subnav = [
 ];
 
 export default function UeberUnsPage() {
+  const { vorstand, koordination, kassenpruefung, todo } = getVerein();
   return (
     <>
       <PageHero eyebrow="Über uns" title="Seit 1994 für die Kultur in Darmstadt.">
@@ -99,7 +88,7 @@ export default function UeberUnsPage() {
       <Section id="vorstand" title="Vorstand" intro="Alle Vorstandsmitglieder arbeiten ehrenamtlich.">
         <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {vorstand.map((v) => (
-            <li key={v.role}>
+            <li key={`${v.role}-${v.name}`}>
               <Card className="h-full">
                 <p className="text-base font-bold tracking-wide text-brand-dark uppercase dark:text-brand-light">{v.role}</p>
                 {v.name ? (
@@ -108,7 +97,7 @@ export default function UeberUnsPage() {
                   <>
                     <p className="mt-2 font-display text-2xl font-bold text-brand-deep dark:text-paper">Zurzeit unbesetzt</p>
                     <p className="mt-2 text-lg">
-                      <a href="/aktiv-werden/#gesucht-vorsitz" className="link">
+                      <a href="/aktiv-werden/#wir-suchen" className="link">
                         Wir suchen Sie!
                       </a>
                     </p>
@@ -125,16 +114,20 @@ export default function UeberUnsPage() {
         </p>
         <dl className="mt-8 grid grid-cols-1 gap-x-10 gap-y-5 sm:grid-cols-2">
           {koordination.map((k) => (
-            <div key={k.area} data-reveal className="border-l-4 border-brand pl-4">
+            <div key={`${k.area}-${k.name}`} data-reveal className="border-l-4 border-brand pl-4">
               <dt className="text-lg text-ink-soft dark:text-paper/75">{k.area}</dt>
               <dd className="font-display text-xl font-bold text-brand-deep dark:text-paper">{k.name}</dd>
             </div>
           ))}
         </dl>
 
-        <h3 className="mt-16 text-2xl sm:text-3xl">Kassenprüfung</h3>
-        <p className="mt-3 text-lg">Erika Rehm und Günter Muth (gewählt bzw. bestätigt in der Mitgliederversammlung 2025)</p>
-        <Todo>Vorstand und Koordination nach der Mitgliederversammlung 2026 aktualisieren; Einverständnis zur Namensnennung einholen.</Todo>
+        {kassenpruefung && (
+          <>
+            <h3 className="mt-16 text-2xl sm:text-3xl">Kassenprüfung</h3>
+            <p className="mt-3 text-lg">{kassenpruefung}</p>
+          </>
+        )}
+        {todo && <Todo>{todo}</Todo>}
       </Section>
 
       <Section id="mitglieder" title="Mitglieder" className="bg-mist/50 dark:bg-night-raised/40">

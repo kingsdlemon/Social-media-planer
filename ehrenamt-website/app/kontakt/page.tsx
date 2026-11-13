@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { ButtonA, Card, Icon, PageHero, Section, Todo } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Kontakt",
-  description: "So erreichen Sie Ehrenamt für Darmstadt e.V.: Geschäftsstelle im John-F.-Kennedy-Haus, Kasinostraße 3, Darmstadt.",
-};
+  description:
+    "So erreichen Sie Ehrenamt für Darmstadt e.V.: Geschäftsstelle im John-F.-Kennedy-Haus, Kasinostraße 3, Darmstadt.",
+  path: "/kontakt/",
+});
 
 export default function KontaktPage() {
   return (

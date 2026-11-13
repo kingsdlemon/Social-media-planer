@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { ButtonA, ButtonLink, Card, Icon, PageHero, Section, Todo } from "@/components/ui";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Spenden",
-  description: "Unterstützen Sie Ehrenamt für Darmstadt e.V. mit einer Spende oder als Fördermitglied.",
-};
+  description:
+    "Unterstützen Sie Ehrenamt für Darmstadt e.V. mit einer Spende oder als Fördermitglied.",
+  path: "/spenden/",
+});
 
 export default function SpendenPage() {
   return (

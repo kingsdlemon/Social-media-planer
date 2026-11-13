@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { meldungen } from "@/content/aktuelles";
-import { gesuche } from "@/content/gesucht";
 import { CountUp } from "@/components/CountUp";
 import { EinsatzBento } from "@/components/EinsatzBento";
 import { Hero3D } from "@/components/hero/Hero3D";
 import { ButtonLink, Card, Container, Icon, Section, Todo } from "@/components/ui";
+import { getGesuche, getMeldungen } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = pageMetadata({ path: "/" });
 
 const zahlen = [
   { to: 1994, from: 1960, grouping: false, label: "gegründet – seit über 30 Jahren aktiv" },
@@ -30,7 +32,8 @@ const schritte = [
 ];
 
 export default function HomePage() {
-  const aktuell = meldungen.slice(0, 3);
+  const aktuell = getMeldungen().slice(0, 3);
+  const gesuche = getGesuche();
 
   return (
     <>

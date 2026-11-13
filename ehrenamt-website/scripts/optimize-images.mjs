@@ -98,6 +98,72 @@ async function makeLogo(input, output) {
   console.log(`logo: ${path.basename(input)} → ${path.basename(output)} (${size}×${size}, Blau gemessen ${hex(measured)} → ${hex(blue)}, Schwarz ${hex(black)}, ${kb((await stat(output)).size)})`);
 }
 
+/* ---------- 1b. Favicons aus dem Logo (nur Turm + „EfD“, die Ringschrift ist zu klein) ---------- */
+function ico(images) {
+  const head = Buffer.alloc(6);
+  head.writeUInt16LE(0, 0);
+  head.writeUInt16LE(1, 2);
+  head.writeUInt16LE(images.length, 4);
+  let offset = 6 + 16 * images.length;
+  const entries = images.map(({ size, buf }) => {
+    const e = Buffer.alloc(16);
+    e.writeUInt8(size >= 256 ? 0 : size, 0);
+    e.writeUInt8(size >= 256 ? 0 : size, 1);
+    e.writeUInt16LE(1, 4);
+    e.writeUInt16LE(32, 6);
+    e.writeUInt32LE(buf.length, 8);
+    e.writeUInt32LE(offset, 12);
+    offset += buf.length;
+    return e;
+  });
+  return Buffer.concat([head, ...entries, ...images.map((i) => i.buf)]);
+}
+
+async function makeIcons(logoPng, appDir) {
+  const { data, info } = await sharp(logoPng).raw().toBuffer({ resolveWithObject: true });
+  // Begrenzungsrahmen der blauen Pixel = Turm + Linie unter „EfD“
+  let [x0, y0, x1, y1] = [info.width, info.height, 0, 0];
+  for (let y = 0; y < info.height; y++)
+    for (let x = 0; x < info.width; x++) {
+      const i = (y * info.width + x) * 4;
+      if (data[i + 3] > 128 && data[i + 2] > 150 && data[i] < 120) {
+        x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y);
+      }
+    }
+  // Exakt auf Turm + „EfD“ zuschneiden (die Ringschrift liegt außerhalb), dann quadratisch auffüllen
+  const w = x1 - x0 + 1, h = y1 - y0 + 1, side = Math.max(w, h);
+  const pad = Math.round(side * 0.1);
+  // Reste der Ringschrift (dunkle Pixel in der oberen Hälfte) entfernen – „EfD“ steht weiter unten
+  const cut = await sharp(logoPng).extract({ left: x0, top: y0, width: w, height: h }).raw().toBuffer();
+  for (let y = 0; y < h * 0.45; y++)
+    for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4;
+      if (!(cut[i + 2] > 150 && cut[i] < 120)) cut[i + 3] = 0;
+    }
+  const mark = await sharp(cut, { raw: { width: w, height: h, channels: 4 } })
+    .extend({
+      top: pad + Math.floor((side - h) / 2),
+      bottom: pad + Math.ceil((side - h) / 2),
+      left: pad + Math.floor((side - w) / 2),
+      right: pad + Math.ceil((side - w) / 2),
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+    .png()
+    .toBuffer();
+  const tile = async (size, radius) => {
+    const bg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect width="${size}" height="${size}" rx="${radius}" fill="#ffffff"/></svg>`);
+    const inner = await sharp(mark).resize(Math.round(size * 0.86)).toBuffer();
+    return sharp(bg).composite([{ input: inner, gravity: "center" }]).png({ compressionLevel: 9 }).toBuffer();
+  };
+  await sharp(await tile(192, 42)).toFile(path.join(appDir, "icon.png"));
+  await sharp(await tile(180, 0)).flatten({ background: "#ffffff" }).toFile(path.join(appDir, "apple-icon.png"));
+  const sizes = [16, 32, 48];
+  const pngs = await Promise.all(sizes.map(async (size) => ({ size, buf: await tile(size, Math.round(size * 0.22)) })));
+  const { writeFile } = await import("node:fs/promises");
+  await writeFile(path.join(appDir, "favicon.ico"), ico(pngs));
+  console.log(`icons: app/icon.png (192), app/apple-icon.png (180), app/favicon.ico (${sizes.join("/")})`);
+}
+
 /* ---------- 2. WebP (+ optional Gradient-Map) ---------- */
 function gradientMap(stops) {
   const labStops = stops.map(([pos, name]) => [pos, rgbToOklab(hexToRgb(theme[name]))]).sort((a, b) => a[0] - b[0]);
@@ -134,6 +200,7 @@ const jobs = [
 ];
 
 await makeLogo(path.join(root, "assets", "logo-quelle.jpg"), path.join(imgDir, "logo.png"));
+await makeIcons(path.join(imgDir, "logo.png"), path.join(root, "app"));
 
 for (const job of jobs) {
   const src = path.join(imgDir, job.input);

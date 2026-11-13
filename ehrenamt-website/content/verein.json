@@ -1,0 +1,18 @@
+{
+  "vorstand": [
+    { "role": "1. Vorsitz", "name": "" },
+    { "role": "2. Vorsitzende", "name": "Beatrice Wesp" },
+    { "role": "Schatzmeister", "name": "Peter Kailing" },
+    { "role": "Schriftführerin", "name": "Marion Mojzis" },
+    { "role": "Mitgliederbetreuung", "name": "Beatrice Wesp" }
+  ],
+  "koordination": [
+    { "area": "Alter Friedhof und Jüdischer Friedhof", "name": "Gabi Palm" },
+    { "area": "Shop im Landesmuseum", "name": "Petra Hartmann" },
+    { "area": "Shop Mathildenhöhe", "name": "Ina Maria Kalden" },
+    { "area": "Shop Vivarium", "name": "Hervé Achilles" },
+    { "area": "Kunsthalle", "name": "Kornelia Kremer" }
+  ],
+  "kassenpruefung": "Erika Rehm und Günter Muth (gewählt bzw. bestätigt in der Mitgliederversammlung 2025)",
+  "todo": "Vorstand und Koordination nach der Mitgliederversammlung 2026 aktualisieren; Einverständnis zur Namensnennung einholen."
+}

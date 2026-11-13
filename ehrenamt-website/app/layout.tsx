@@ -5,19 +5,19 @@ import { CustomCursor } from "@/components/CustomCursor";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionEffects } from "@/components/MotionEffects";
+import { StructuredData } from "@/components/StructuredData";
 import { motionInitScript } from "@/lib/motion";
+import { defaultDescription, defaultTitle, ogImage, siteUrl } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { themeInitScript } from "@/lib/theme";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: {
-    default: `${site.name} – ${site.claim}`,
-    template: `%s | ${site.shortName}`,
-  },
-  description:
-    "Ehrenamt für Darmstadt e.V. vermittelt seit 1994 Ehrenamtliche an rund 40 Kultureinrichtungen in Darmstadt – von Museumsshops über Archive bis zur Denkmalpflege.",
-  openGraph: { type: "website", locale: "de_DE", siteName: site.name },
+  metadataBase: new URL(`${siteUrl}/`),
+  title: { default: defaultTitle, template: `%s | ${site.shortName}` },
+  description: defaultDescription,
+  applicationName: site.name,
+  openGraph: { type: "website", locale: "de_DE", siteName: site.name, images: [ogImage] },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
@@ -47,6 +47,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Footer />
         <MotionEffects />
         <CustomCursor />
+        <StructuredData />
       </body>
     </html>
   );
