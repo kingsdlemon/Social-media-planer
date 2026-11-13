@@ -63,7 +63,8 @@
   body {
     @apply bg-paper font-sans text-ink antialiased dark:bg-night dark:text-paper;
     line-height: 1.55;
-    letter-spacing: -0.011em;
+    letter-spacing: 0;
+    font-optical-sizing: auto;
     /* Lange deutsche Wörter (z. B. „Auftragsverarbeitungsvertrag“) notfalls umbrechen statt überlaufen */
     overflow-wrap: break-word;
   }
@@ -173,5 +174,52 @@
 
 /* Milchglas wie bei Apple */
 @utility glass {
-  @apply bg-white/72 backdrop-blur-xl backdrop-saturate-180 dark:bg-black/60;
+  /* Milchglas: Inhalt scrollt darunter durch */
+  @apply bg-white/70 backdrop-blur-[20px] backdrop-saturate-[180%] dark:bg-black/60;
+}
+
+/* Größenabhängiges Tracking (Apple): große Schrift enger, kleine Schrift minimal weiter */
+h1 { letter-spacing: -0.028em; line-height: 1.04; }
+h2 { letter-spacing: -0.022em; line-height: 1.08; }
+h3 { letter-spacing: -0.012em; line-height: 1.2; }
+.text-sm, small { letter-spacing: 0.01em; }
+
+/* Karussell: Links/Bilder nicht als Datei wegziehen; Karten reagieren beim Drücken sofort */
+.snap-row a, .snap-row img { -webkit-user-drag: none; }
+.snap-row > * > a { transition: scale 120ms ease-out, box-shadow 300ms ease-out; }
+.snap-row > * > a:active { scale: 0.98; }
+
+/* Weniger Transparenz gewünscht → solides Glas */
+@media (prefers-reduced-transparency: reduce) {
+  .glass { background: var(--color-paper) !important; backdrop-filter: none !important; }
+  :where(.dark) .glass { background: var(--color-night) !important; }
+}
+/* Mehr Kontrast gewünscht → klare Kanten */
+@media (prefers-contrast: more) {
+  .glass { background: var(--color-paper) !important; backdrop-filter: none !important; border-color: var(--color-ink) !important; }
+  .rounded-\[28px\] { outline: 1px solid var(--color-ink); }
+}
+/* Theme-Wechsel weich statt harter Helligkeitssprung */
+html.theme-fade, html.theme-fade * { transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease !important; }
+
+/* Mobiles Menü: „materialisiert“ aus der Leiste (Blur + Bewegung zusammen), schließt auf demselben Weg */
+.menu-sheet {
+  transition:
+    opacity 220ms ease-out,
+    translate 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 220ms ease-out,
+    display 320ms allow-discrete;
+}
+.menu-sheet[hidden] {
+  display: none;
+  opacity: 0;
+  translate: 0 -10px;
+  filter: blur(6px);
+}
+@starting-style {
+  .menu-sheet:not([hidden]) {
+    opacity: 0;
+    translate: 0 -10px;
+    filter: blur(6px);
+  }
 }

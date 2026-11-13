@@ -36,7 +36,7 @@ export function Header() {
 
   return (
     <>
-    <header className="glass sticky top-0 z-50 border-b border-black/5 dark:border-white/10">
+    <header className="glass sticky top-0 z-50 shadow-[0_1px_0_rgba(0,0,0,0.06)] dark:shadow-[0_1px_0_rgba(255,255,255,0.08)]">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 min-[360px]:px-5 sm:px-8">
         <Logo />
 
@@ -91,7 +91,7 @@ export function Header() {
         </div>
       </div>
 
-      <div id={menuId} hidden={!open} className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain border-t border-black/5 pb-24 sm:pb-0 xl:hidden dark:border-white/10">
+      <div id={menuId} hidden={!open} className="menu-sheet max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain border-t border-black/5 pb-24 sm:pb-0 xl:hidden dark:border-white/10">
         <nav aria-label="Hauptnavigation (mobil)" className="mx-auto max-w-6xl px-5 pt-3 pb-6 sm:px-8">
           <ul className="grid grid-cols-1 gap-1">
             {mainNav.map((item) => {

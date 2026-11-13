@@ -42,6 +42,12 @@ export function ThemeToggle({ className = "", compact = false }: { className?: s
     } catch {
       /* Speichern nicht möglich – Einstellung gilt nur für diese Seite */
     }
+    // Weicher Übergang hell↔dunkel (kein harter Helligkeitssprung), nicht bei „Bewegung reduzieren“
+    const root = document.documentElement;
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      root.classList.add("theme-fade");
+      window.setTimeout(() => root.classList.remove("theme-fade"), 300);
+    }
     apply(next);
     setTheme(next);
   };
