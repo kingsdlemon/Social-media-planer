@@ -82,6 +82,12 @@ export default function DatenschutzPage() {
             Datenschutzbestimmungen.
           </p>
 
+          <h3>Redaktionszugang</h3>
+          <Todo>
+            Redaktionszugang unter /admin/ (Decap CMS) ergänzen: Anmeldung der Redakteurinnen und Redakteure über GitHub und
+            Netlify, Programmcode wird von jsDelivr geladen. Betrifft nur Personen, die Inhalte pflegen.
+          </Todo>
+
           <h2>B. Informationen für Mitglieder (Art. 13 und 14 DSGVO)</h2>
 
           <h3>Zwecke der Verarbeitung</h3>

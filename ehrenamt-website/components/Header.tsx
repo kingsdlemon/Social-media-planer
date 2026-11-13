@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { mainNav } from "@/lib/site";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
@@ -16,12 +16,18 @@ export function Header() {
   const pathname = usePathname() ?? "/";
   const [open, setOpen] = useState(false);
   const menuId = useId();
+  const menuButton = useRef<HTMLButtonElement>(null);
 
   // Menü schließen, wenn die Seite wechselt oder Escape gedrückt wird
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    // Escape schließt das Menü und gibt den Fokus an den Menü-Button zurück
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      menuButton.current?.focus();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
@@ -31,7 +37,7 @@ export function Header() {
   return (
     <>
     <header className="sticky top-0 z-50 border-b border-mist bg-paper/95 backdrop-blur dark:border-night-raised dark:bg-night/95">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3 sm:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 min-[360px]:px-5 sm:px-8">
         <Logo />
 
         <nav aria-label="Hauptnavigation" className="hidden xl:block">
@@ -70,6 +76,7 @@ export function Header() {
             Aktiv werden
           </Link>
           <button
+            ref={menuButton}
             type="button"
             className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-brand-dark px-4 text-base font-bold text-brand-dark xl:hidden dark:border-brand-soft dark:text-brand-soft"
             aria-expanded={open}

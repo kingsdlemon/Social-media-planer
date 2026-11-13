@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import { REDUCED_MOTION_QUERY } from "@/lib/motion";
+import { onFirstInteraction, REDUCED_MOTION_QUERY } from "@/lib/motion";
 import { HeroStatic } from "./HeroStatic";
 
 // Three.js & Co. erst laden, wenn die Szene wirklich gebraucht wird (eigenes JS-Paket)
@@ -22,7 +22,8 @@ function supportsWebGL() {
 /**
  * Dekorativer 3D-Bereich im Hero.
  * - Bei „Bewegung reduzieren“ oder ohne WebGL: statisches Bild (HeroStatic)
- * - Sonst wird die Szene nachgeladen, sobald der Bereich sichtbar ist und der Browser Zeit hat
+ * - Sonst wird die Szene nachgeladen, sobald jemand mit der Seite interagiert (Maus, Scrollen, Touch),
+ *   der Bereich sichtbar ist und der Browser Zeit hat – bis dahin steht das statische Bild da
  * - Handys/Tablets bekommen eine vereinfachte Szene
  * - Außerhalb des Sichtbereichs wird nicht gerendert (spart Akku)
  */
@@ -33,6 +34,9 @@ export function Hero3D() {
   const [inView, setInView] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
   const [ready, setReady] = useState(false);
+  const [interacted, setInteracted] = useState(false);
+
+  useEffect(() => onFirstInteraction(() => setInteracted(true)), []);
 
   useEffect(() => {
     const reduce = window.matchMedia(REDUCED_MOTION_QUERY);
@@ -60,7 +64,7 @@ export function Hero3D() {
   }, []);
 
   useEffect(() => {
-    if (!allowed || !inView || shouldLoad) return;
+    if (!allowed || !inView || !interacted || shouldLoad) return;
     const start = () => setShouldLoad(true);
     if ("requestIdleCallback" in window) {
       const id = window.requestIdleCallback(start, { timeout: 1500 });
@@ -68,7 +72,7 @@ export function Hero3D() {
     }
     const id = setTimeout(start, 300);
     return () => clearTimeout(id);
-  }, [allowed, inView, shouldLoad]);
+  }, [allowed, inView, interacted, shouldLoad]);
 
   const show3D = allowed && shouldLoad && ready;
 

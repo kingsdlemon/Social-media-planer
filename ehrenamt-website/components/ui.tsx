@@ -99,7 +99,7 @@ export function Todo({ children }: { children: ReactNode }) {
   return (
     <span
       role="note"
-      className="my-2 block rounded-xl border-2 border-dashed border-brand bg-brand-light/25 px-4 py-3 text-base text-brand-dark dark:bg-brand/10 dark:text-brand-light"
+      className="my-2 block rounded-xl border-2 border-dashed border-brand bg-brand-light/25 px-4 py-3 text-base hyphens-auto text-brand-dark dark:bg-brand/10 dark:text-brand-light"
     >
       <strong className="mr-1 font-bold">TODO:</strong>
       {children}

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { loadGsap, REDUCED_MOTION_QUERY } from "@/lib/motion";
+import { loadGsap, onFirstInteraction, REDUCED_MOTION_QUERY } from "@/lib/motion";
 
 /**
  * Scroll-Animationen für die ganze Website (eingebunden im Root-Layout):
@@ -11,6 +11,9 @@ import { loadGsap, REDUCED_MOTION_QUERY } from "@/lib/motion";
  * - [data-parallax="0.1"]    → Parallax; Wert = Verschiebung relativ zur Elementhöhe.
  *                              Bezugsrahmen ist das nächste [data-parallax-root].
  * - [data-countup]           → zählt hoch (siehe components/CountUp.tsx)
+ *
+ * GSAP lädt erst bei der ersten Interaktion. Was beim Start schon sichtbar ist, wird nie versteckt –
+ * eingeblendet werden nur Elemente weiter unten (kein Aufblitzen, schnelles Largest Contentful Paint).
  *
  * Bei „Bewegung reduzieren“ passiert nichts – alle Inhalte stehen statisch da.
  * Wechselt die Einstellung zur Laufzeit, räumt gsap.matchMedia alles auf.
@@ -21,14 +24,15 @@ export function MotionEffects() {
   useEffect(() => {
     let cancelled = false;
     let revert: (() => void) | undefined;
+    if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
 
-    loadGsap().then(({ gsap, ScrollTrigger }) => {
+    const stopWaiting = onFirstInteraction(() => loadGsap().then(({ gsap, ScrollTrigger }) => {
       if (cancelled) return;
       const root = document.documentElement;
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        root.classList.add("motion-ok", "motion-ready");
+        root.classList.add("motion-ok");
         setupReveal(gsap, ScrollTrigger);
         setupParallax(gsap);
         const finishCountUps = setupCountUps(gsap);
@@ -37,16 +41,16 @@ export function MotionEffects() {
 
       mm.add(REDUCED_MOTION_QUERY, () => {
         root.classList.remove("motion-ok");
-        root.classList.add("motion-ready");
       });
 
       // Nach dem Laden von Schriften verschieben sich Höhen minimal → Positionen neu berechnen
       document.fonts?.ready.then(() => !cancelled && ScrollTrigger.refresh());
       revert = () => mm.revert();
-    });
+    }));
 
     return () => {
       cancelled = true;
+      stopWaiting();
       revert?.();
     };
   }, [pathname]);
@@ -58,10 +62,17 @@ type Gsap = Awaited<ReturnType<typeof loadGsap>>["gsap"];
 type ST = Awaited<ReturnType<typeof loadGsap>>["ScrollTrigger"];
 
 function setupReveal(gsap: Gsap, ScrollTrigger: ST) {
-  const elements = gsap.utils.toArray<HTMLElement>("[data-reveal]:not([data-revealed])");
+  // Bereits (teilweise) sichtbare Elemente bleiben, wie sie sind
+  const elements = gsap.utils.toArray<HTMLElement>("[data-reveal]:not([data-revealed])").filter((el) => {
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      el.setAttribute("data-revealed", "");
+      return false;
+    }
+    return true;
+  });
   if (!elements.length) return;
 
-  gsap.set(elements, { y: 28 });
+  gsap.set(elements, { opacity: 0, y: 28 });
 
   const reveal = (batch: Element[]) => {
     const pending = batch.filter((el) => !el.hasAttribute("data-revealed"));
@@ -124,6 +135,8 @@ function setupCountUps(gsap: Gsap) {
   });
 
   for (const { el, to, from, format } of items) {
+    // Schon deutlich sichtbare Zahlen nicht zurücksetzen (sonst springt der Wert sichtbar)
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.85) continue;
     const state = { value: from };
     el.textContent = format(from);
     gsap.to(state, {

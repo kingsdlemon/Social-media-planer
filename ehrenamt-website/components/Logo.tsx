@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <Link href="/" className={`group flex items-center gap-3 no-underline ${className}`} aria-label={`${site.name} – zur Startseite`}>
+    <Link href="/" className={`group flex items-center gap-2 no-underline min-[360px]:gap-3 ${className}`} aria-label={`${site.name} – zur Startseite`}>
       {/* alt leer: Der Link ist über aria-label benannt. Im Dark Mode weißer Kreis, damit die schwarze Schrift lesbar bleibt. */}
       <img
         src={site.logo.src}
@@ -12,7 +12,7 @@ export function Logo({ className = "" }: { className?: string }) {
         height={site.logo.height}
         className="size-12 shrink-0 rounded-full transition-transform duration-300 motion-safe:group-hover:-rotate-6 sm:size-14 dark:bg-white"
       />
-      <span className="font-display text-lg leading-tight font-bold text-brand-deep sm:text-xl dark:text-paper">
+      <span className="font-display text-base leading-tight font-bold text-brand-deep min-[360px]:text-lg sm:text-xl dark:text-paper">
         Ehrenamt
         <br />
         für Darmstadt

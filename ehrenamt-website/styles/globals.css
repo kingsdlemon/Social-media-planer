@@ -48,6 +48,12 @@
   html.dark {
     color-scheme: dark;
   }
+  /* Mobil: feste „Aktiv werden“-Leiste unten – fokussierte Elemente dürfen nicht darunter landen */
+  @media (max-width: 639px) {
+    html {
+      scroll-padding-bottom: 7rem;
+    }
+  }
   @media (prefers-reduced-motion: no-preference) {
     html {
       scroll-behavior: smooth;
@@ -57,6 +63,8 @@
   body {
     @apply bg-paper font-sans text-ink antialiased dark:bg-night dark:text-paper;
     line-height: 1.65;
+    /* Lange deutsche Wörter (z. B. „Auftragsverarbeitungsvertrag“) notfalls umbrechen statt überlaufen */
+    overflow-wrap: break-word;
   }
 
   h1,
@@ -124,14 +132,7 @@
 
 /* ---------- Bewegung ---------- */
 
-/*
- * Elemente mit [data-reveal] werden per GSAP eingeblendet. Damit sie vor dem Start nicht kurz
- * sichtbar aufblitzen, versteckt das Init-Skript sie über .motion-ok – aber nur, wenn
- * Animationen erlaubt sind. Lädt GSAP nicht, entfernt das Skript die Klasse nach 4 s wieder.
- */
-.motion-ok [data-reveal]:not([data-revealed]) {
-  opacity: 0;
-}
+/* Einblenden per GSAP: siehe components/MotionEffects.tsx (sichtbare Inhalte werden nie versteckt) */
 
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { loadGsap } from "@/lib/motion";
+import { loadGsap, onFirstInteraction } from "@/lib/motion";
 
 /**
  * Eigener Cursor – nur auf Geräten mit Maus/Trackpad und nur ohne „Bewegung reduzieren“.
@@ -35,7 +35,7 @@ export function CustomCursor() {
     let cleanup: (() => void) | undefined;
     const root = document.documentElement;
 
-    loadGsap().then(({ gsap }) => {
+    const stopWaiting = onFirstInteraction(() => loadGsap().then(({ gsap }) => {
       const ring = ringRef.current;
       const dot = dotRef.current;
       if (cancelled || !ring) return;
@@ -84,10 +84,11 @@ export function CustomCursor() {
         document.documentElement.removeEventListener("pointerleave", onLeave);
         root.classList.remove("has-custom-cursor");
       };
-    });
+    }));
 
     return () => {
       cancelled = true;
+      stopWaiting();
       cleanup?.();
     };
   }, [enabled]);

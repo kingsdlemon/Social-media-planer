@@ -87,10 +87,10 @@ export default function HomePage() {
 
       {/* Zahlen */}
       <section aria-label="Der Verein in Zahlen" className="bg-brand-dark text-white dark:bg-brand-deep">
-        <Container className="grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
+        <Container className="grid grid-cols-2 gap-x-4 gap-y-8 py-12 sm:gap-8 lg:grid-cols-4">
           {zahlen.map((z) => (
             <div key={z.label} data-reveal>
-              <p className="font-display text-5xl font-bold sm:text-6xl">
+              <p className="font-display text-3xl font-bold whitespace-nowrap min-[360px]:text-4xl sm:text-6xl">
                 <CountUp to={z.to} from={z.from} prefix={z.prefix} suffix={z.suffix} grouping={z.grouping} />
               </p>
               <p className="mt-2 text-lg text-brand-soft">{z.label}</p>
