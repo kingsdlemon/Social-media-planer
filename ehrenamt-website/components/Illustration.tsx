@@ -9,16 +9,17 @@ export function Illustration({ alt, caption }: { alt: string; caption?: string }
           data-parallax-root
           className="overflow-hidden rounded-3xl border border-mist bg-white dark:border-brand-deep"
         >
-          {/* Mit Animation leicht vergrößert, damit die Parallax-Verschiebung keine Kanten zeigt */}
+          {/* Mit Animation oben/unten je ~3 % Reserve (negative Ränder, Breite bleibt vollständig),
+              damit die Parallax-Verschiebung keine Kanten zeigt */}
           <img
             src="/images/ehrenamt-illustration.webp"
             alt={alt}
             width={1200}
-            height={655}
+            height={670}
             loading="lazy"
             decoding="async"
-            data-parallax="0.05"
-            className="h-auto w-full in-[.motion-ok]:scale-[1.12] dark:brightness-90"
+            data-parallax="0.025"
+            className="h-auto w-full in-[.motion-ok]:-my-[1.7%] dark:brightness-90"
           />
         </div>
         {caption && <figcaption className="mt-3 text-base text-ink-soft dark:text-paper/70">{caption}</figcaption>}

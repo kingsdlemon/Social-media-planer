@@ -27,7 +27,7 @@ export default function AktivWerdenPage() {
         </p>
       </PageHero>
 
-      <Illustration alt="Illustration: So vielfältig kann Ihr Ehrenamt sein – Ehrenamtliche verkaufen Eintrittskarten, weisen Plätze im Theater an, erklären einer Familie ein Museumsstück, beraten am Infotresen, betreuen die Garderobe und helfen bei Konzerten." />
+      <Illustration alt="Illustration: So vielfältig kann Ihr Ehrenamt sein – Gäste im Theater begrüßen, bei Konzerten den Weg weisen, am Infotresen beraten, Eintrittskarten verkaufen oder Skulpturen in einer Ausstellung erklären." />
 
       <Section id="so-gehts" title="So einfach geht’s">
         <ol className="grid grid-cols-1 gap-6 lg:grid-cols-3">

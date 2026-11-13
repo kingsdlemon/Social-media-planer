@@ -75,7 +75,7 @@ export default function UeberUnsPage() {
       </PageHero>
 
       <Illustration
-        alt="Illustration: Ehrenamtliche in orangefarbenen Shirts mit Namensschildern helfen in verschiedenen Kultureinrichtungen – an der Kasse, beim Platzanweisen im Theater, im Museum bei einer Familie mit Kindern, am Infotresen, an der Garderobe und bei einem Konzert."
+        alt="Illustration: Ehrenamtliche mit Namensschildern im Einsatz in Darmstädter Kultureinrichtungen – sie begrüßen eine Familie vor der Theaterbühne, weisen bei einem Orchesterkonzert den Weg, beraten ein älteres Paar am Infotresen, verkaufen Eintrittskarten und erklären Skulpturen in einer Ausstellung."
         caption="Über 200 Ehrenamtliche unterstützen rund 40 Kultureinrichtungen in Darmstadt."
       />
 
