@@ -28,6 +28,25 @@ Neue Meldungen oder Gesuche werden in den Dateien unter `content/` ergänzt – 
 
 Klassenbasiert (`.dark` auf `<html>`). Standard ist die Systemeinstellung; eine Wahl über den Umschalter („Automatisch → Hell → Dunkel“) wird in `localStorage` unter `theme` gespeichert. Ein kleines Inline-Skript im `<head>` setzt die Klasse vor dem ersten Rendern.
 
+## Farben & Logo
+
+Die Palette ist aus dem Vereinslogo abgeleitet (Logo-Blau `#0AB3EF` + Schwarz) und steht als `@theme` in `styles/globals.css`:
+
+| Token | Hex | Einsatz |
+| --- | --- | --- |
+| `brand` | `#0AB3EF` | Logo-Blau: Buttons (mit `brand-deep`-Text), Flächen, Deko – **nie als Text auf hellem Grund** |
+| `brand-light` | `#9FDAFA` | Hover, Akzente im Dark Mode |
+| `brand-soft` | `#E8F6FE` | helle Flächen, aktive Navigation |
+| `brand-dark` | `#046F95` | Links, Eyebrows, sekundäre Buttons (weißer Text) |
+| `brand-deep` | `#012E41` | Überschriften, Footer, Text auf Logo-Blau |
+| `paper` / `mist` | `#F8FBFC` / `#DDE4E8` | Seitenhintergrund / Linien, gedämpfte Flächen |
+| `ink` / `ink-soft` | `#1C2327` / `#4D585F` | Fließtext / Nebentext |
+| `night` / `night-raised` | `#05161F` / `#0D232E` | Dark Mode: Hintergrund / Karten |
+
+Alle verwendeten Text-Kombinationen erfüllen WCAG AA (geprüft mit axe-core und einer Pixelmessung aller Texte, hell/dunkel, mobil/Desktop).
+
+`npm run images` erzeugt `public/images/logo.png` (freigestellt) aus `assets/logo-quelle.jpg` und färbt den Hero-Verlauf in die Markenfarben um (Original: `public/images/hero-bg.jpg`).
+
 ## Animationen & 3D
 
 | Was | Wo |

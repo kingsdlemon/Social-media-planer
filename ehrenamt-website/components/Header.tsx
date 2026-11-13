@@ -30,7 +30,7 @@ export function Header() {
 
   return (
     <>
-    <header className="sticky top-0 z-50 border-b border-cream-dark bg-cream/95 backdrop-blur dark:border-night-raised dark:bg-night/95">
+    <header className="sticky top-0 z-50 border-b border-mist bg-paper/95 backdrop-blur dark:border-night-raised dark:bg-night/95">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3 sm:px-8">
         <Logo />
 
@@ -45,8 +45,8 @@ export function Header() {
                     aria-current={active ? "page" : undefined}
                     className={`rounded-full px-3 py-2 text-lg font-bold whitespace-nowrap no-underline transition-colors ${
                       active
-                        ? "bg-teal-soft text-teal-dark dark:bg-teal-dark dark:text-cream"
-                        : "text-ink hover:bg-cream-dark dark:text-cream dark:hover:bg-night-raised"
+                        ? "bg-brand-soft text-brand-deep dark:bg-brand-deep dark:text-paper"
+                        : "text-ink hover:bg-mist dark:text-paper dark:hover:bg-night-raised"
                     }`}
                   >
                     {item.label}
@@ -65,13 +65,13 @@ export function Header() {
           <Link
             href="/aktiv-werden/"
             aria-current={isActive(pathname, "/aktiv-werden/") ? "page" : undefined}
-            className="hidden min-h-12 items-center rounded-full bg-terracotta px-6 text-lg font-bold whitespace-nowrap text-white no-underline shadow-sm transition-[background-color,color,box-shadow,translate] duration-200 hover:bg-terracotta-dark hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:inline-flex dark:hover:bg-terracotta-light dark:hover:text-teal-dark"
+            className="hidden min-h-12 items-center rounded-full bg-brand px-6 text-lg font-bold whitespace-nowrap text-brand-deep no-underline shadow-sm transition-[background-color,color,box-shadow,translate] duration-200 hover:bg-brand-light hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:inline-flex"
           >
             Aktiv werden
           </Link>
           <button
             type="button"
-            className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-teal px-4 text-base font-bold text-teal xl:hidden dark:border-teal-soft dark:text-teal-soft"
+            className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-brand-dark px-4 text-base font-bold text-brand-dark xl:hidden dark:border-brand-soft dark:text-brand-soft"
             aria-expanded={open}
             aria-controls={menuId}
             onClick={() => setOpen((o) => !o)}
@@ -84,7 +84,7 @@ export function Header() {
         </div>
       </div>
 
-      <div id={menuId} hidden={!open} className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain border-t border-cream-dark pb-24 sm:pb-0 xl:hidden dark:border-night-raised">
+      <div id={menuId} hidden={!open} className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain border-t border-mist pb-24 sm:pb-0 xl:hidden dark:border-night-raised">
         <nav aria-label="Hauptnavigation (mobil)" className="mx-auto max-w-6xl px-5 pt-3 pb-6 sm:px-8">
           <ul className="grid grid-cols-1 gap-1">
             {mainNav.map((item) => {
@@ -96,8 +96,8 @@ export function Header() {
                     aria-current={active ? "page" : undefined}
                     className={`flex min-h-14 items-center rounded-2xl px-4 font-display text-2xl font-bold no-underline ${
                       active
-                        ? "bg-teal-soft text-teal-dark dark:bg-teal-dark dark:text-cream"
-                        : "text-teal-dark hover:bg-cream-dark dark:text-cream dark:hover:bg-night-raised"
+                        ? "bg-brand-soft text-brand-deep dark:bg-brand-deep dark:text-paper"
+                        : "text-brand-deep hover:bg-mist dark:text-paper dark:hover:bg-night-raised"
                     }`}
                   >
                     {item.label}
@@ -106,18 +106,18 @@ export function Header() {
               );
             })}
           </ul>
-          <div className="mt-4 flex items-center justify-between gap-4 border-t border-cream-dark pt-4 dark:border-night-raised">
+          <div className="mt-4 flex items-center justify-between gap-4 border-t border-mist pt-4 dark:border-night-raised">
             <span className="text-base font-bold">Darstellung</span>
             <ThemeToggle />
           </div>
         </nav>
       </div>
     </header>
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-cream-dark bg-cream/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur sm:hidden dark:border-night-raised dark:bg-night/95">
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-mist bg-paper/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur sm:hidden dark:border-night-raised dark:bg-night/95">
         <Link
           href="/aktiv-werden/"
           aria-current={isActive(pathname, "/aktiv-werden/") ? "page" : undefined}
-          className="flex min-h-14 items-center justify-center rounded-full bg-terracotta text-xl font-bold text-white no-underline shadow-md hover:bg-terracotta-dark"
+          className="flex min-h-14 items-center justify-center rounded-full bg-brand text-xl font-bold text-brand-deep no-underline shadow-md hover:bg-brand-light"
         >
           Aktiv werden
         </Link>

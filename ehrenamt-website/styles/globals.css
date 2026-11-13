@@ -5,24 +5,33 @@
 /* Dark Mode per Klasse auf <html> (gesetzt durch das Theme-Skript im Layout) */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* `static`: alle Variablen immer ausgeben – die 3D-Szene liest die Markenfarben zur Laufzeit */
+/*
+ * Farbpalette – abgeleitet aus dem Vereinslogo (Hochzeitsturm-Blau #0AB3EF + Schwarz).
+ * Hell/dunkel-Varianten im selben Farbton (OKLCH, Farbwinkel 232°), neutrale Töne mit einem Hauch Logo-Blau.
+ * `static`: alle Variablen immer ausgeben – 3D-Szene und Bildskript lesen die Werte.
+ *
+ * Kontrast-Regeln (WCAG AA, geprüft):
+ * - brand (Logo-Blau) NIE als Textfarbe auf hellem Grund (2,3:1) – nur Flächen/Deko,
+ *   Text darauf in brand-deep (5,9:1). Im Dark Mode ist brand als Text ok (7,6:1).
+ * - Text/Links auf hellem Grund: brand-dark (≥ 4,9:1), Überschriften brand-deep (13,8:1).
+ */
 @theme static {
-  /* Markenfarben */
-  --color-terracotta: #c26b48;
-  --color-terracotta-dark: #a55333;
-  --color-terracotta-light: #e8b59e;
-  --color-cream: #f6f1ea;
-  --color-cream-dark: #eae0d2;
-  --color-teal: #17565c;
-  --color-teal-dark: #0f3d42;
-  --color-teal-light: #4c878d;
-  --color-teal-soft: #dce9ea;
+  /* Markenfarbe + Varianten */
+  --color-brand: #0ab3ef; /* Logo-Blau */
+  --color-brand-light: #9fdafa;
+  --color-brand-soft: #e8f6fe;
+  --color-brand-dark: #046f95;
+  --color-brand-deep: #012e41;
 
-  /* Neutrale Töne für Text und Dark Mode */
-  --color-ink: #1f2a2c;
-  --color-ink-soft: #4a5557;
-  --color-night: #0b1f22;
-  --color-night-raised: #12302f;
+  /* Neutrale Hintergrund- und Textfarben */
+  --color-paper: #f8fbfc; /* Seitenhintergrund */
+  --color-mist: #dde4e8; /* Linien, gedämpfte Flächen */
+  --color-ink: #1c2327; /* Fließtext (aus dem Logo-Schwarz) */
+  --color-ink-soft: #4d585f; /* Nebentext */
+
+  /* Dark Mode */
+  --color-night: #05161f; /* Seitenhintergrund */
+  --color-night-raised: #0d232e; /* Karten, Flächen */
 
   --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
   --font-sans: "Atkinson Hyperlegible Next Variable", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
@@ -46,7 +55,7 @@
   }
 
   body {
-    @apply bg-cream font-sans text-ink antialiased dark:bg-night dark:text-cream;
+    @apply bg-paper font-sans text-ink antialiased dark:bg-night dark:text-paper;
     line-height: 1.65;
   }
 
@@ -54,7 +63,7 @@
   h2,
   h3,
   h4 {
-    @apply font-display font-bold tracking-tight text-teal-dark dark:text-cream;
+    @apply font-display font-bold tracking-tight text-brand-deep dark:text-paper;
     line-height: 1.12;
     text-wrap: balance;
     hyphens: auto;
@@ -74,17 +83,17 @@
   }
 
   :focus-visible {
-    @apply rounded-sm outline-3 outline-offset-3 outline-terracotta;
+    @apply rounded-sm outline-3 outline-offset-3 outline-brand-dark dark:outline-brand-light;
   }
 
   ::selection {
-    @apply bg-terracotta-light text-teal-dark;
+    @apply bg-brand-light text-brand-deep;
   }
 }
 
 /* Fließtext-Links */
 @utility link {
-  @apply font-semibold text-teal underline decoration-terracotta decoration-2 hover:text-terracotta-dark dark:text-teal-soft dark:hover:text-terracotta-light;
+  @apply font-semibold text-brand-dark underline decoration-brand decoration-2 hover:text-brand-deep dark:text-brand-soft dark:hover:text-brand-light;
 }
 
 @layer components {
@@ -103,10 +112,10 @@
     @apply mt-10 text-2xl;
   }
   .prose-efd ul {
-    @apply list-disc space-y-2 pl-6 marker:text-terracotta;
+    @apply list-disc space-y-2 pl-6 marker:text-brand;
   }
   .prose-efd ol {
-    @apply list-decimal space-y-2 pl-6 marker:font-bold marker:text-terracotta;
+    @apply list-decimal space-y-2 pl-6 marker:font-bold marker:text-brand-dark dark:marker:text-brand;
   }
   .prose-efd a {
     @apply link;

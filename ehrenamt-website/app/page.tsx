@@ -48,20 +48,21 @@ export default function HomePage() {
           data-parallax="0.1"
           className="absolute inset-x-0 -top-[15%] -z-20 h-[130%] w-full object-cover"
         />
-        {/* Aufhellung links für gut lesbaren Text */}
+        {/* Aufhellung für lesbaren Text: mobil/Tablet gleichmäßig (Text über die ganze Breite),
+            ab Desktop nur links unter der Textspalte, rechts bleibt der Verlauf sichtbar */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-gradient-to-r from-cream via-cream/85 to-cream/10 dark:from-night dark:via-night/85 dark:to-night/30"
+          className="absolute inset-0 -z-10 bg-paper/90 lg:bg-transparent lg:bg-linear-to-r lg:from-paper lg:from-35% lg:via-paper/90 lg:via-55% lg:to-paper/10 dark:bg-night/90 dark:lg:bg-transparent dark:lg:from-night dark:lg:via-night/90 dark:lg:to-night/30"
         />
         <Container className="relative py-16 sm:py-24 lg:py-28">
           <div data-parallax="0.12" className="relative z-10 lg:max-w-[58%]">
-          <p className="text-base font-bold tracking-[0.14em] text-terracotta-dark uppercase dark:text-terracotta-light">
+          <p className="text-base font-bold tracking-[0.14em] text-brand-dark uppercase dark:text-brand-light">
             {site.name} · seit {site.founded}
           </p>
           <h1 className="mt-5 text-5xl leading-[1.02] sm:text-7xl xl:text-8xl">
-            Wir helfen, wenn es um <span className="text-terracotta">Kultur</span> geht.
+            Wir helfen, wenn es um <span className="text-brand-dark dark:text-brand">Kultur</span> geht.
           </h1>
-          <p className="mt-8 max-w-2xl text-xl text-ink-soft sm:text-2xl dark:text-cream/85">
+          <p className="mt-8 max-w-2xl text-xl text-ink-soft sm:text-2xl dark:text-paper/85">
             Wir bringen Menschen, die ihre Zeit schenken möchten, mit Darmstädter Museen, Archiven, Parks und Festivals
             zusammen – dort, wo Kultur ohne Ehrenamt nicht möglich wäre.
           </p>
@@ -82,14 +83,14 @@ export default function HomePage() {
       </section>
 
       {/* Zahlen */}
-      <section aria-label="Der Verein in Zahlen" className="bg-teal text-white dark:bg-teal-dark">
+      <section aria-label="Der Verein in Zahlen" className="bg-brand-dark text-white dark:bg-brand-deep">
         <Container className="grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
           {zahlen.map((z) => (
             <div key={z.label} data-reveal>
               <p className="font-display text-5xl font-bold sm:text-6xl">
                 <CountUp to={z.to} from={z.from} prefix={z.prefix} suffix={z.suffix} grouping={z.grouping} />
               </p>
-              <p className="mt-2 text-lg text-teal-soft">{z.label}</p>
+              <p className="mt-2 text-lg text-brand-soft">{z.label}</p>
             </div>
           ))}
         </Container>
@@ -114,19 +115,19 @@ export default function HomePage() {
               Einrichtungen. Unser Ziel: Bedarf und Angebot sollen immer gut zueinander passen.
             </p>
           </div>
-          <Card className="self-start bg-teal-soft/60 dark:bg-night-raised">
-            <p className="font-display text-2xl font-bold text-teal-dark dark:text-cream">Gut zu wissen</p>
+          <Card className="self-start bg-brand-soft/60 dark:bg-night-raised">
+            <p className="font-display text-2xl font-bold text-brand-deep dark:text-paper">Gut zu wissen</p>
             <ul className="mt-4 space-y-3 text-lg">
               <li className="flex gap-3">
-                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-terracotta" />
+                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-brand" />
                 Mitgliedsbeiträge erheben wir nicht.
               </li>
               <li className="flex gap-3">
-                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-terracotta" />
+                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-brand" />
                 Auch gelegentliche, kurzfristige Einsätze sind möglich.
               </li>
               <li className="flex gap-3">
-                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-terracotta" />
+                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-brand" />
                 <span>
                   Wir sind Mitglied im{" "}
                   <a href={site.umbrella.url} className="link" rel="noopener">
@@ -143,14 +144,14 @@ export default function HomePage() {
       {/* So geht's */}
       <Section
         title="In drei Schritten zum Ehrenamt"
-        className="bg-cream-dark/50 dark:bg-night-raised/40"
+        className="bg-mist/50 dark:bg-night-raised/40"
         intro="Sie müssen nichts mitbringen außer Neugier und ein wenig Zeit."
       >
         <ol className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {schritte.map((s, i) => (
             <li key={s.title}>
               <Card className="h-full">
-                <span className="grid size-14 place-items-center rounded-full bg-terracotta font-display text-2xl font-bold text-white">
+                <span className="grid size-14 place-items-center rounded-full bg-brand font-display text-2xl font-bold text-brand-deep">
                   {i + 1}
                 </span>
                 <h3 className="mt-5 text-2xl">{s.title}</h3>
@@ -172,12 +173,12 @@ export default function HomePage() {
       </Section>
 
       {/* Wir suchen */}
-      <Section title="Aktuell gesucht" className="bg-teal-soft/60 dark:bg-teal-dark/40">
+      <Section title="Aktuell gesucht" className="bg-brand-soft/60 dark:bg-brand-deep/40">
         <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {gesuche.slice(0, 3).map((g) => (
             <li key={g.id}>
               <Card className="h-full">
-                <p className="text-base font-bold text-terracotta-dark dark:text-terracotta-light">{g.place}</p>
+                <p className="text-base font-bold text-brand-dark dark:text-brand-light">{g.place}</p>
                 <h3 className="mt-2 text-2xl">{g.title}</h3>
               </Card>
             </li>
@@ -196,7 +197,7 @@ export default function HomePage() {
           {aktuell.map((m) => (
             <li key={m.id}>
               <Card className="h-full">
-                <p className="text-base font-bold text-terracotta-dark dark:text-terracotta-light">{m.dateLabel}</p>
+                <p className="text-base font-bold text-brand-dark dark:text-brand-light">{m.dateLabel}</p>
                 <h3 className="mt-2 text-2xl">{m.title}</h3>
                 <p className="mt-3 line-clamp-3 text-lg">{m.text[0]}</p>
               </Card>
@@ -211,11 +212,11 @@ export default function HomePage() {
       </Section>
 
       {/* Spenden */}
-      <section className="bg-terracotta text-white">
+      <section className="bg-brand text-brand-deep">
         <Container className="grid grid-cols-1 gap-8 py-16 sm:py-20 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-center">
           <div data-reveal>
-            <h2 className="text-4xl text-white sm:text-5xl">Kultur braucht Unterstützung.</h2>
-            <p className="mt-5 max-w-2xl text-xl text-white/90">
+            <h2 className="text-4xl text-brand-deep sm:text-5xl dark:text-brand-deep">Kultur braucht Unterstützung.</h2>
+            <p className="mt-5 max-w-2xl text-xl text-brand-deep">
               Wir finanzieren uns ausschließlich über Zuschüsse, Förderbeiträge und Spenden. Jeder Beitrag hilft, unsere
               Geschäftsstelle und die Vermittlung am Laufen zu halten.
             </p>

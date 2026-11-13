@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F6F1EA" },
-    { media: "(prefers-color-scheme: dark)", color: "#0B1F22" },
+    { media: "(prefers-color-scheme: light)", color: "#F8FBFC" },
+    { media: "(prefers-color-scheme: dark)", color: "#05161F" },
   ],
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="flex min-h-dvh flex-col pb-24 sm:pb-0">
         <a
           href="#inhalt"
-          className="sr-only z-[60] rounded-full bg-teal px-5 py-3 text-lg font-bold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          className="sr-only z-[60] rounded-full bg-brand-dark px-5 py-3 text-lg font-bold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
         >
           Zum Inhalt springen
         </a>

@@ -31,9 +31,9 @@ export default function HeroScene({ simplified, active, onReady }: Props) {
       onCreated={() => onReady?.()}
     >
       <ambientLight intensity={0.55} />
-      <hemisphereLight args={[colors.cream, colors["teal-dark"], 0.9]} />
-      <directionalLight position={[4, 5, 6]} intensity={2.2} color={colors.cream} />
-      <directionalLight position={[-6, -2, 3]} intensity={0.8} color={colors["terracotta-light"]} />
+      <hemisphereLight args={[colors.paper, colors["brand-deep"], 0.9]} />
+      <directionalLight position={[4, 5, 6]} intensity={2.2} color={colors.paper} />
+      <directionalLight position={[-6, -2, 3]} intensity={0.8} color={colors["brand-light"]} />
       <Objects colors={colors} simplified={simplified} />
     </Canvas>
   );
@@ -102,18 +102,18 @@ function Objects({ colors, simplified }: { colors: BrandColors; simplified: bool
   return (
     <group ref={group}>
       <Floating at={layout.mask} speed={1.2} phase={0} tilt={[0.15, 0.25, -0.12]}>
-        <Mask color={colors.terracotta} simplified={simplified} />
+        <Mask color={colors.brand} simplified={simplified} />
       </Floating>
       <Floating at={layout.notes} speed={1.6} phase={1.3}>
-        <Notes color={colors["terracotta-light"]} seg={seg} />
+        <Notes color={colors["brand-light"]} seg={seg} />
       </Floating>
       <Floating at={layout.book} speed={1.1} phase={2.4}>
-        <Book cover={colors["teal-light"]} pages={colors.cream} />
+        <Book cover={colors["brand-dark"]} pages={colors.paper} />
       </Floating>
       {!simplified && (
         <>
           <Floating at={layout.brush} speed={1.4} phase={3.1}>
-            <Brush handle={colors.cream} ferrule={colors["cream-dark"]} tip={colors["terracotta-dark"]} seg={seg} />
+            <Brush handle={colors.paper} ferrule={colors.mist} tip={colors["brand-deep"]} seg={seg} />
           </Floating>
           <Accents colors={colors} viewportWidth={viewport.width} viewportHeight={viewport.height} />
         </>
@@ -296,19 +296,19 @@ function Accents({ colors, viewportWidth, viewportHeight }: { colors: BrandColor
       <Float speed={2} floatIntensity={1.2} rotationIntensity={1}>
         <mesh position={[w * 0.05, h * 0.05, -1.5]} rotation={[1.1, 0.3, 0]}>
           <torusGeometry args={[0.32, 0.07, 16, 48]} />
-          <Material color={colors["terracotta-light"]} roughness={0.35} />
+          <Material color={colors["brand-light"]} roughness={0.35} />
         </mesh>
       </Float>
       <Float speed={1.7} floatIntensity={1.4}>
         <mesh position={[-w * 0.7, -h * 0.75, -1]}>
           <sphereGeometry args={[0.16, 24, 24]} />
-          <Material color={colors["teal-soft"]} roughness={0.3} />
+          <Material color={colors["brand-soft"]} roughness={0.3} />
         </mesh>
       </Float>
       <Float speed={2.3} floatIntensity={1.6}>
         <mesh position={[w * 0.75, h * 0.85, -2]}>
           <sphereGeometry args={[0.12, 24, 24]} />
-          <Material color={colors.terracotta} roughness={0.3} />
+          <Material color={colors.brand} roughness={0.3} />
         </mesh>
       </Float>
     </>

@@ -33,7 +33,7 @@ export default function AktivWerdenPage() {
         <ol className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <li>
             <Card className="h-full">
-              <span className="grid size-14 place-items-center rounded-full bg-terracotta font-display text-2xl font-bold text-white">1</span>
+              <span className="grid size-14 place-items-center rounded-full bg-brand font-display text-2xl font-bold text-brand-deep">1</span>
               <h3 className="mt-5 text-2xl">Fragebogen ausfüllen</h3>
               <p className="mt-3 text-lg">
                 Füllen Sie den Fragebogen am Computer aus, speichern Sie ihn und schicken Sie ihn per E-Mail an{" "}
@@ -49,7 +49,7 @@ export default function AktivWerdenPage() {
           </li>
           <li>
             <Card className="h-full">
-              <span className="grid size-14 place-items-center rounded-full bg-terracotta font-display text-2xl font-bold text-white">2</span>
+              <span className="grid size-14 place-items-center rounded-full bg-brand font-display text-2xl font-bold text-brand-deep">2</span>
               <h3 className="mt-5 text-2xl">Kennenlerngespräch</h3>
               <p className="mt-3 text-lg">
                 Anhand Ihrer Antworten suchen wir passende Einsatzmöglichkeiten. Danach laden wir Sie zu einem persönlichen
@@ -59,7 +59,7 @@ export default function AktivWerdenPage() {
           </li>
           <li>
             <Card className="h-full">
-              <span className="grid size-14 place-items-center rounded-full bg-terracotta font-display text-2xl font-bold text-white">3</span>
+              <span className="grid size-14 place-items-center rounded-full bg-brand font-display text-2xl font-bold text-brand-deep">3</span>
               <h3 className="mt-5 text-2xl">Mitglied werden</h3>
               <p className="mt-3 text-lg">
                 Drucken Sie die Beitrittserklärung aus, unterschreiben Sie sie und schicken Sie sie per Post – oder
@@ -79,7 +79,7 @@ export default function AktivWerdenPage() {
         </address>
       </Section>
 
-      <Section title="Lieber spontan helfen?" className="bg-cream-dark/50 dark:bg-night-raised/40">
+      <Section title="Lieber spontan helfen?" className="bg-mist/50 dark:bg-night-raised/40">
         <div className="prose-efd">
           <p>
             Auch wenn Sie sich nicht dauerhaft binden möchten, können Sie dabei sein: Für kurzfristige Einsätze – etwa bei
@@ -106,7 +106,7 @@ export default function AktivWerdenPage() {
           {gesuche.map((g) => (
             <li key={g.id} id={`gesucht-${g.id}`}>
               <Card className="h-full">
-                <p className="text-base font-bold text-terracotta-dark dark:text-terracotta-light">{g.place}</p>
+                <p className="text-base font-bold text-brand-dark dark:text-brand-light">{g.place}</p>
                 <h3 className="mt-2 text-2xl sm:text-3xl">{g.title}</h3>
                 <div className="mt-4 space-y-4 text-lg">
                   {g.text.map((t) => (
@@ -117,7 +117,7 @@ export default function AktivWerdenPage() {
                   <ul className="mt-5 space-y-2 text-lg">
                     {g.facts.map((f) => (
                       <li key={f} className="flex gap-3">
-                        <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-terracotta" />
+                        <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-brand" />
                         {f}
                       </li>
                     ))}
@@ -132,7 +132,7 @@ export default function AktivWerdenPage() {
         </ul>
       </Section>
 
-      <Section title="Was wir Ihnen bieten" className="bg-teal-soft/60 dark:bg-teal-dark/40">
+      <Section title="Was wir Ihnen bieten" className="bg-brand-soft/60 dark:bg-brand-deep/40">
         <div className="prose-efd">
           <p>Unsere Mitglieder sind das Wertvollste, was der Verein hat. Deshalb kümmern wir uns gut um Sie:</p>
           <ul>

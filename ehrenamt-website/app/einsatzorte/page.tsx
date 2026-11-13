@@ -27,28 +27,28 @@ export default function EinsatzortePage() {
       </Container>
 
       {kategorien.map((k, i) => (
-        <section key={k.id} id={k.id} className={`py-14 sm:py-16 ${i % 2 === 1 ? "bg-cream-dark/50 dark:bg-night-raised/40" : ""}`}>
+        <section key={k.id} id={k.id} className={`py-14 sm:py-16 ${i % 2 === 1 ? "bg-mist/50 dark:bg-night-raised/40" : ""}`}>
           <Container>
             <div data-reveal className="flex items-center gap-4">
-              <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-teal-soft text-teal sm:size-16 dark:bg-teal-dark dark:text-teal-soft">
+              <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-brand-soft text-brand-dark sm:size-16 dark:bg-brand-deep dark:text-brand-soft">
                 <CultureIcon name={k.icon} size={34} />
               </span>
               <h2 className="text-3xl sm:text-5xl">{k.title}</h2>
             </div>
-            <p className="mt-3 text-xl text-ink-soft dark:text-cream/80">{k.intro}</p>
+            <p className="mt-3 text-xl text-ink-soft dark:text-paper/80">{k.intro}</p>
             <ul className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
               {k.orte.map((o) => (
                 <li key={o.id} id={o.id}>
                   <Card className="h-full">
                     {o.wanted && (
-                      <p className="mb-3 inline-flex rounded-full bg-terracotta px-3 py-1 text-base font-bold text-white">
+                      <p className="mb-3 inline-flex rounded-full bg-brand px-3 py-1 text-base font-bold text-brand-deep">
                         Verstärkung gesucht
                       </p>
                     )}
                     <h3 className="text-2xl">{o.name}</h3>
                     <p className="mt-3 text-lg">{o.about}</p>
                     <p className="mt-4 text-lg">
-                      <strong className="text-teal dark:text-teal-soft">Das machen wir dort: </strong>
+                      <strong className="text-brand-dark dark:text-brand-soft">Das machen wir dort: </strong>
                       {o.tasks}
                     </p>
                     {o.note && <Todo>{o.note.replace(/^TODO:\s*/, "")}</Todo>}

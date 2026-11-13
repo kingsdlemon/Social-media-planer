@@ -86,7 +86,7 @@ export default function UeberUnsPage() {
               <li key={s.href}>
                 <a
                   href={s.href}
-                  className="inline-flex min-h-12 items-center rounded-full border-2 border-teal px-5 text-lg font-bold text-teal no-underline hover:bg-teal hover:text-white dark:border-teal-soft dark:text-teal-soft dark:hover:bg-teal-soft dark:hover:text-teal-dark"
+                  className="inline-flex min-h-12 items-center rounded-full border-2 border-brand-dark px-5 text-lg font-bold text-brand-dark no-underline hover:bg-brand-dark hover:text-white dark:border-brand-soft dark:text-brand-soft dark:hover:bg-brand-soft dark:hover:text-brand-deep"
                 >
                   {s.label}
                 </a>
@@ -101,12 +101,12 @@ export default function UeberUnsPage() {
           {vorstand.map((v) => (
             <li key={v.role}>
               <Card className="h-full">
-                <p className="text-base font-bold tracking-wide text-terracotta-dark uppercase dark:text-terracotta-light">{v.role}</p>
+                <p className="text-base font-bold tracking-wide text-brand-dark uppercase dark:text-brand-light">{v.role}</p>
                 {v.name ? (
-                  <p className="mt-2 font-display text-2xl font-bold text-teal-dark dark:text-cream">{v.name}</p>
+                  <p className="mt-2 font-display text-2xl font-bold text-brand-deep dark:text-paper">{v.name}</p>
                 ) : (
                   <>
-                    <p className="mt-2 font-display text-2xl font-bold text-teal-dark dark:text-cream">Zurzeit unbesetzt</p>
+                    <p className="mt-2 font-display text-2xl font-bold text-brand-deep dark:text-paper">Zurzeit unbesetzt</p>
                     <p className="mt-2 text-lg">
                       <a href="/aktiv-werden/#gesucht-vorsitz" className="link">
                         Wir suchen Sie!
@@ -125,9 +125,9 @@ export default function UeberUnsPage() {
         </p>
         <dl className="mt-8 grid grid-cols-1 gap-x-10 gap-y-5 sm:grid-cols-2">
           {koordination.map((k) => (
-            <div key={k.area} data-reveal className="border-l-4 border-terracotta pl-4">
-              <dt className="text-lg text-ink-soft dark:text-cream/75">{k.area}</dt>
-              <dd className="font-display text-xl font-bold text-teal-dark dark:text-cream">{k.name}</dd>
+            <div key={k.area} data-reveal className="border-l-4 border-brand pl-4">
+              <dt className="text-lg text-ink-soft dark:text-paper/75">{k.area}</dt>
+              <dd className="font-display text-xl font-bold text-brand-deep dark:text-paper">{k.name}</dd>
             </div>
           ))}
         </dl>
@@ -137,7 +137,7 @@ export default function UeberUnsPage() {
         <Todo>Vorstand und Koordination nach der Mitgliederversammlung 2026 aktualisieren; Einverständnis zur Namensnennung einholen.</Todo>
       </Section>
 
-      <Section id="mitglieder" title="Mitglieder" className="bg-cream-dark/50 dark:bg-night-raised/40">
+      <Section id="mitglieder" title="Mitglieder" className="bg-mist/50 dark:bg-night-raised/40">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <div className="prose-efd">
             <p>
@@ -154,7 +154,7 @@ export default function UeberUnsPage() {
             </ul>
           </div>
           <Card className="self-start">
-            <p className="font-display text-2xl font-bold text-teal-dark dark:text-cream">Mitglied werden</p>
+            <p className="font-display text-2xl font-bold text-brand-deep dark:text-paper">Mitglied werden</p>
             <p className="mt-3 text-lg">Als aktives Mitglied oder als Fördermitglied – Mitgliedsbeiträge erheben wir nicht.</p>
             <div className="mt-6 flex flex-col gap-3">
               <ButtonLink href="/aktiv-werden/">
@@ -186,8 +186,8 @@ export default function UeberUnsPage() {
             </p>
             <Todo>Liste der aktuellen Förderer und Zuschussgeber (mit Einverständnis, ggf. mit Logos) ergänzen.</Todo>
           </div>
-          <Card className="self-start bg-terracotta-light/30 dark:bg-night-raised">
-            <p className="font-display text-2xl font-bold text-teal-dark dark:text-cream">Spendenkonto</p>
+          <Card className="self-start bg-brand-light/30 dark:bg-night-raised">
+            <p className="font-display text-2xl font-bold text-brand-deep dark:text-paper">Spendenkonto</p>
             <dl className="mt-4 space-y-2 text-lg">
               <div>
                 <dt className="inline font-bold">Bank: </dt>
@@ -205,12 +205,12 @@ export default function UeberUnsPage() {
         </div>
       </Section>
 
-      <Section id="historie" title="Historie" className="bg-teal-soft/60 dark:bg-teal-dark/40">
-        <ol className="relative max-w-4xl border-l-4 border-terracotta pl-8">
+      <Section id="historie" title="Historie" className="bg-brand-soft/60 dark:bg-brand-deep/40">
+        <ol className="relative max-w-4xl border-l-4 border-brand pl-8">
           {historie.map((h) => (
             <li key={h.title} data-reveal className="relative pb-12 last:pb-0">
-              <span aria-hidden="true" className="absolute top-1.5 -left-[2.65rem] size-5 rounded-full border-4 border-terracotta bg-cream dark:bg-night" />
-              <p className="font-display text-xl font-bold text-terracotta-dark dark:text-terracotta-light">{h.year}</p>
+              <span aria-hidden="true" className="absolute top-1.5 -left-[2.65rem] size-5 rounded-full border-4 border-brand bg-paper dark:bg-night" />
+              <p className="font-display text-xl font-bold text-brand-dark dark:text-brand-light">{h.year}</p>
               <h3 className="mt-1 text-2xl sm:text-3xl">{h.title}</h3>
               <p className="mt-3 text-lg">{h.text}</p>
             </li>

@@ -9,6 +9,8 @@ export const site = {
   shortName: "Ehrenamt für Darmstadt",
   abbreviation: "EfD",
   claim: "Wir helfen, wenn es um Kultur geht.",
+  /** Vereinslogo (transparent, erzeugt von scripts/optimize-images.mjs aus assets/logo-quelle.jpg) */
+  logo: { src: "/images/logo.png", width: 237, height: 237 },
   founded: 1994,
   // TODO: Endgültige Domain der neuen Website festlegen (bisher ehrenamt-darmstadt.org)
   url: "https://www.ehrenamt-darmstadt.org",

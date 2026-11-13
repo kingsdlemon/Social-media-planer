@@ -20,7 +20,7 @@ export default function AktuellesPage() {
             <li key={m.id} id={m.id}>
               <Card>
                 <article>
-                  <p className="text-base font-bold text-terracotta-dark dark:text-terracotta-light">
+                  <p className="text-base font-bold text-brand-dark dark:text-brand-light">
                     {m.date ? <time dateTime={m.date}>{m.dateLabel}</time> : m.dateLabel}
                   </p>
                   <h2 className="mt-2 text-2xl sm:text-3xl">{m.title}</h2>
@@ -49,11 +49,11 @@ export default function AktuellesPage() {
         </ol>
       </Container>
 
-      <Section id="archiv" title="Archiv" className="bg-cream-dark/50 dark:bg-night-raised/40" intro="Jahresberichte und frühere Ausgaben unserer Vereinszeitschrift.">
+      <Section id="archiv" title="Archiv" className="bg-mist/50 dark:bg-night-raised/40" intro="Jahresberichte und frühere Ausgaben unserer Vereinszeitschrift.">
         <ul className="max-w-3xl space-y-2 text-lg">
           {archivDokumente.map((d) => (
             <li key={d} className="flex gap-3">
-              <span aria-hidden="true" className="mt-2.5 size-2.5 shrink-0 rounded-full bg-terracotta" />
+              <span aria-hidden="true" className="mt-2.5 size-2.5 shrink-0 rounded-full bg-brand" />
               {d}
             </li>
           ))}

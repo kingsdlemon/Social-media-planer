@@ -53,7 +53,7 @@ export function ThemeToggle({ className = "", compact = false }: { className?: s
     <button
       type="button"
       onClick={cycle}
-      className={`inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-teal/30 ${compact ? "w-12 justify-center" : "px-4"} text-base font-bold text-teal hover:border-teal dark:border-teal-soft/30 dark:text-teal-soft dark:hover:border-teal-soft ${className}`}
+      className={`inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-brand-dark/30 ${compact ? "w-12 justify-center" : "px-4"} text-base font-bold text-brand-dark hover:border-brand-dark dark:border-brand-soft/30 dark:text-brand-soft dark:hover:border-brand-soft ${className}`}
       aria-label={`Darstellung: ${labels[current]}. Wechseln zu ${labels[next]}.`}
       title={`Darstellung: ${labels[current]}`}
     >

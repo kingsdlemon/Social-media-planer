@@ -17,7 +17,7 @@ export default function KontaktPage() {
       <Section>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <Card className="flex flex-col">
-            <Icon name="mail" className="size-10 text-terracotta" />
+            <Icon name="mail" className="size-10 text-brand-dark dark:text-brand" />
             <h2 className="mt-4 text-2xl">E-Mail</h2>
             <p className="mt-2 text-lg">Am schnellsten erreichen Sie uns per E-Mail.</p>
             <div className="mt-auto pt-5">
@@ -27,7 +27,7 @@ export default function KontaktPage() {
             </div>
           </Card>
           <Card className="flex flex-col">
-            <Icon name="phone" className="size-10 text-terracotta" />
+            <Icon name="phone" className="size-10 text-brand-dark dark:text-brand" />
             <h2 className="mt-4 text-2xl">Telefon</h2>
             <p className="mt-2 text-lg">Das Büro ist nicht immer besetzt – bei Bedarf rufen wir gern zurück.</p>
             <div className="mt-auto pt-5">
@@ -37,7 +37,7 @@ export default function KontaktPage() {
             </div>
           </Card>
           <Card className="flex flex-col">
-            <Icon name="pin" className="size-10 text-terracotta" />
+            <Icon name="pin" className="size-10 text-brand-dark dark:text-brand" />
             <h2 className="mt-4 text-2xl">Geschäftsstelle</h2>
             <address className="mt-2 mb-5 text-lg not-italic">
               {site.name}
@@ -55,7 +55,7 @@ export default function KontaktPage() {
         </div>
       </Section>
 
-      <Section title="Besuch & Sprechzeiten" className="bg-cream-dark/50 dark:bg-night-raised/40">
+      <Section title="Besuch & Sprechzeiten" className="bg-mist/50 dark:bg-night-raised/40">
         <div className="prose-efd">
           <p>
             Unsere Geschäftsstelle befindet sich im John-F.-Kennedy-Haus (Literaturhaus) in der Kasinostraße. Die Stadt

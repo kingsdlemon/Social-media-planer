@@ -3,15 +3,15 @@
  * die Werte hier sind nur Rückfall, falls die CSS-Variablen (noch) nicht verfügbar sind.
  */
 export const brandFallback = {
-  terracotta: "#C26B48",
-  "terracotta-dark": "#A55333",
-  "terracotta-light": "#E8B59E",
-  cream: "#F6F1EA",
-  "cream-dark": "#EAE0D2",
-  teal: "#17565C",
-  "teal-dark": "#0F3D42",
-  "teal-light": "#4C878D",
-  "teal-soft": "#DCE9EA",
+  brand: "#0AB3EF",
+  "brand-light": "#9FDAFA",
+  "brand-soft": "#E8F6FE",
+  "brand-dark": "#046F95",
+  "brand-deep": "#012E41",
+  paper: "#F8FBFC",
+  mist: "#DDE4E8",
+  ink: "#1C2327",
+  night: "#05161F",
 } as const;
 
 export type BrandColorName = keyof typeof brandFallback;

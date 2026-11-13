@@ -9,18 +9,18 @@ type Variant = "primary" | "secondary" | "ghost" | "inverse";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-terracotta text-white hover:bg-terracotta-dark shadow-sm shadow-terracotta-dark/20 dark:bg-terracotta dark:hover:bg-terracotta-light dark:hover:text-teal-dark",
+    "bg-brand text-brand-deep hover:bg-brand-light shadow-sm shadow-brand-deep/20",
   secondary:
-    "bg-teal text-white hover:bg-teal-dark dark:bg-teal-soft dark:text-teal-dark dark:hover:bg-white",
-  inverse: "bg-white text-terracotta-dark hover:bg-cream-dark",
+    "bg-brand-dark text-white hover:bg-brand-deep dark:bg-brand-soft dark:text-brand-deep dark:hover:bg-white",
+  inverse: "bg-white text-brand-deep hover:bg-brand-soft",
   ghost:
-    "border-2 border-teal text-teal hover:bg-teal hover:text-white dark:border-teal-soft dark:text-teal-soft dark:hover:bg-teal-soft dark:hover:text-teal-dark",
+    "border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white dark:border-brand-soft dark:text-brand-soft dark:hover:bg-brand-soft dark:hover:text-brand-deep",
 };
 
 const base =
   "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-lg font-bold no-underline " +
   "transition-[color,background-color,border-color,box-shadow,translate,scale] duration-200 ease-out " +
-  "hover:shadow-lg hover:shadow-teal-dark/15 motion-safe:hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] " +
+  "hover:shadow-lg hover:shadow-brand-deep/15 motion-safe:hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] " +
   "[&_.icon-arrow]:transition-transform [&_.icon-arrow]:duration-200 motion-safe:hover:[&_.icon-arrow]:translate-x-1";
 
 export function ButtonLink({
@@ -38,15 +38,15 @@ export function ButtonA({ variant = "primary", className = "", ...props }: Compo
 
 export function PageHero({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: ReactNode }) {
   return (
-    <section className="border-b border-cream-dark bg-cream-dark/40 dark:border-night-raised dark:bg-night-raised/40">
+    <section className="border-b border-mist bg-mist/40 dark:border-night-raised dark:bg-night-raised/40">
       <Container className="py-14 sm:py-20">
         {eyebrow && (
-          <p className="mb-4 text-base font-bold uppercase tracking-[0.14em] text-terracotta-dark dark:text-terracotta-light">
+          <p className="mb-4 text-base font-bold uppercase tracking-[0.14em] text-brand-dark dark:text-brand-light">
             {eyebrow}
           </p>
         )}
         <h1 className="max-w-4xl text-4xl sm:text-6xl">{title}</h1>
-        {children && <div className="mt-6 max-w-3xl text-xl text-ink-soft sm:text-2xl dark:text-cream/80">{children}</div>}
+        {children && <div className="mt-6 max-w-3xl text-xl text-ink-soft sm:text-2xl dark:text-paper/80">{children}</div>}
       </Container>
     </section>
   );
@@ -71,7 +71,7 @@ export function Section({
         {(title || intro) && (
           <div data-reveal>
             {title && <h2 className="text-3xl sm:text-5xl">{title}</h2>}
-            {intro && <div className="mt-4 max-w-3xl text-xl text-ink-soft dark:text-cream/80">{intro}</div>}
+            {intro && <div className="mt-4 max-w-3xl text-xl text-ink-soft dark:text-paper/80">{intro}</div>}
           </div>
         )}
         <div className={title || intro ? "mt-10" : ""}>{children}</div>
@@ -84,7 +84,7 @@ export function Card({ className = "", reveal = true, children }: { className?: 
   return (
     <div
       data-reveal={reveal ? "" : undefined}
-      className={`rounded-3xl border border-cream-dark bg-white p-6 transition-[border-color,box-shadow] duration-300 hover:border-terracotta-light hover:shadow-xl hover:shadow-teal-dark/10 sm:p-8 dark:border-teal-dark dark:bg-night-raised dark:hover:border-teal-light dark:hover:shadow-black/30 ${className}`}
+      className={`rounded-3xl border border-mist bg-white p-6 transition-[border-color,box-shadow] duration-300 hover:border-brand-light hover:shadow-xl hover:shadow-brand-deep/10 sm:p-8 dark:border-brand-deep dark:bg-night-raised dark:hover:border-brand dark:hover:shadow-black/30 ${className}`}
     >
       {children}
     </div>
@@ -99,7 +99,7 @@ export function Todo({ children }: { children: ReactNode }) {
   return (
     <span
       role="note"
-      className="my-2 block rounded-xl border-2 border-dashed border-terracotta bg-terracotta-light/25 px-4 py-3 text-base text-terracotta-dark dark:bg-terracotta/10 dark:text-terracotta-light"
+      className="my-2 block rounded-xl border-2 border-dashed border-brand bg-brand-light/25 px-4 py-3 text-base text-brand-dark dark:bg-brand/10 dark:text-brand-light"
     >
       <strong className="mr-1 font-bold">TODO:</strong>
       {children}
@@ -111,9 +111,9 @@ export function DraftNotice({ children }: { children?: ReactNode }) {
   return (
     <div
       role="note"
-      className="mb-10 rounded-2xl border-2 border-terracotta bg-terracotta-light/30 p-5 text-lg dark:bg-terracotta/15"
+      className="mb-10 rounded-2xl border-2 border-brand bg-brand-light/30 p-5 text-lg dark:bg-brand/15"
     >
-      <p className="font-display text-xl font-bold text-terracotta-dark dark:text-terracotta-light">Entwurf</p>
+      <p className="font-display text-xl font-bold text-brand-dark dark:text-brand-light">Entwurf</p>
       <p className="mt-1">
         {children ??
           "Dieser Text ist ein Entwurf und wurde noch nicht rechtlich geprüft. Bitte vor der Veröffentlichung vom Vorstand freigeben und ggf. juristisch prüfen lassen."}

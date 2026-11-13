@@ -20,29 +20,29 @@ export default function SpendenPage() {
 
       <Section>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <Card className="border-2 border-terracotta dark:border-terracotta">
+          <Card className="border-2 border-brand dark:border-brand">
             <h2 className="text-3xl sm:text-4xl">Spendenkonto</h2>
             <dl className="mt-6 grid grid-cols-1 gap-5 text-xl">
               <div>
-                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-cream/70">Empfänger</dt>
+                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-paper/70">Empfänger</dt>
                 <dd className="mt-1 font-bold">{site.bank.holder}</dd>
               </div>
               <div>
-                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-cream/70">IBAN</dt>
-                <dd className="mt-1 font-mono text-2xl font-bold tracking-wider break-words text-teal-dark sm:text-3xl dark:text-cream">
+                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-paper/70">IBAN</dt>
+                <dd className="mt-1 font-mono text-2xl font-bold tracking-wider break-words text-brand-deep sm:text-3xl dark:text-paper">
                   {site.bank.iban}
                 </dd>
               </div>
               <div>
-                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-cream/70">Bank</dt>
+                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-paper/70">Bank</dt>
                 <dd className="mt-1">{site.bank.name}</dd>
               </div>
               <div>
-                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-cream/70">BIC</dt>
+                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-paper/70">BIC</dt>
                 <dd className="mt-1">{site.bank.bic ?? <Todo>BIC vom Schatzmeister bestätigen lassen.</Todo>}</dd>
               </div>
               <div>
-                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-cream/70">Verwendungszweck</dt>
+                <dt className="text-base font-bold tracking-wide text-ink-soft uppercase dark:text-paper/70">Verwendungszweck</dt>
                 <dd className="mt-1">„Spende“ – für eine Zuwendungsbestätigung bitte mit Ihrer Anschrift</dd>
               </div>
             </dl>
@@ -76,7 +76,7 @@ export default function SpendenPage() {
         </div>
       </Section>
 
-      <Section title="Was Ihre Spende bewirkt" className="bg-cream-dark/50 dark:bg-night-raised/40">
+      <Section title="Was Ihre Spende bewirkt" className="bg-mist/50 dark:bg-night-raised/40">
         <div className="prose-efd">
           <p>
             Spenden und Zuschüsse haben den Verein seit seiner Gründung getragen. Sie ermöglichen unsere Geschäftsstelle im

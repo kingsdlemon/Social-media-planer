@@ -99,13 +99,13 @@ export function CustomCursor() {
       <div
         ref={ringRef}
         data-visible="false"
-        className="absolute top-0 left-0 -mt-5 -ml-5 size-10 rounded-full border-2 border-terracotta opacity-0 transition-[opacity,scale,background-color,border-color] duration-300 ease-out data-[hover=true]:scale-150 data-[hover=true]:border-terracotta-dark data-[hover=true]:bg-terracotta/15 data-[pressed=true]:scale-90 data-[visible=true]:opacity-100 dark:border-terracotta-light dark:data-[hover=true]:border-terracotta-light dark:data-[hover=true]:bg-terracotta-light/15"
+        className="absolute top-0 left-0 -mt-5 -ml-5 size-10 rounded-full border-2 border-brand-dark opacity-0 transition-[opacity,scale,background-color,border-color] duration-300 ease-out data-[hover=true]:scale-150 data-[hover=true]:border-brand-deep data-[hover=true]:bg-brand/20 data-[pressed=true]:scale-90 data-[visible=true]:opacity-100 dark:border-brand-light dark:data-[hover=true]:border-brand-light dark:data-[hover=true]:bg-brand-light/15"
       />
       {HIDE_NATIVE_CURSOR && (
         <div
           ref={dotRef}
           data-visible="false"
-          className="absolute top-0 left-0 -mt-1.5 -ml-1.5 size-3 rounded-full bg-terracotta-dark opacity-0 data-[visible=true]:opacity-100 dark:bg-terracotta-light"
+          className="absolute top-0 left-0 -mt-1.5 -ml-1.5 size-3 rounded-full bg-brand-deep opacity-0 data-[visible=true]:opacity-100 dark:bg-brand-light"
         />
       )}
     </div>
