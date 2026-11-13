@@ -20,7 +20,7 @@ export default function KontaktPage() {
       <Section>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <Card className="flex flex-col">
-            <Icon name="mail" className="size-10 text-brand-dark dark:text-brand" />
+            <Icon name="mail" className="size-10 text-ink dark:text-white" />
             <h2 className="mt-4 text-2xl">E-Mail</h2>
             <p className="mt-2 text-lg">Am schnellsten erreichen Sie uns per E-Mail.</p>
             <div className="mt-auto pt-5">
@@ -30,7 +30,7 @@ export default function KontaktPage() {
             </div>
           </Card>
           <Card className="flex flex-col">
-            <Icon name="phone" className="size-10 text-brand-dark dark:text-brand" />
+            <Icon name="phone" className="size-10 text-ink dark:text-white" />
             <h2 className="mt-4 text-2xl">Telefon</h2>
             <p className="mt-2 text-lg">Das Büro ist nicht immer besetzt – bei Bedarf rufen wir gern zurück.</p>
             <div className="mt-auto pt-5">
@@ -40,7 +40,7 @@ export default function KontaktPage() {
             </div>
           </Card>
           <Card className="flex flex-col">
-            <Icon name="pin" className="size-10 text-brand-dark dark:text-brand" />
+            <Icon name="pin" className="size-10 text-ink dark:text-white" />
             <h2 className="mt-4 text-2xl">Geschäftsstelle</h2>
             <address className="mt-2 mb-5 text-lg not-italic">
               {site.name}

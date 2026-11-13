@@ -32,7 +32,7 @@ export default function AktivWerdenPage() {
 
       <section id="anmelden" className="scroll-mt-24 px-4 sm:px-8">
         <div className="mx-auto max-w-3xl rounded-[36px] bg-mist p-6 sm:p-12 dark:bg-night-raised">
-          <p className="text-lg font-semibold text-brand-dark dark:text-[#2997ff]">In 2 Minuten online</p>
+          <p className="text-lg font-semibold text-ink-soft dark:text-white/60">In 2 Minuten online</p>
           <h2 className="mt-2 mb-8 text-4xl sm:text-5xl">Jetzt unverbindlich melden.</h2>
           <AktivWerdenForm />
         </div>
@@ -45,7 +45,7 @@ export default function AktivWerdenPage() {
         <ol className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <li>
             <Card className="h-full">
-              <span className="grid size-12 place-items-center rounded-full bg-brand font-display text-xl font-semibold text-white">1</span>
+              <span className="grid size-12 place-items-center rounded-full bg-ink font-display text-xl font-semibold text-white dark:bg-white dark:text-ink">1</span>
               <h3 className="mt-5 text-2xl">Fragebogen ausfüllen</h3>
               <p className="mt-3 text-lg">
                 Füllen Sie den Fragebogen am Computer aus, speichern Sie ihn und schicken Sie ihn per E-Mail an{" "}
@@ -61,7 +61,7 @@ export default function AktivWerdenPage() {
           </li>
           <li>
             <Card className="h-full">
-              <span className="grid size-12 place-items-center rounded-full bg-brand font-display text-xl font-semibold text-white">2</span>
+              <span className="grid size-12 place-items-center rounded-full bg-ink font-display text-xl font-semibold text-white dark:bg-white dark:text-ink">2</span>
               <h3 className="mt-5 text-2xl">Kennenlerngespräch</h3>
               <p className="mt-3 text-lg">
                 Anhand Ihrer Antworten suchen wir passende Einsatzmöglichkeiten. Danach laden wir Sie zu einem persönlichen
@@ -71,7 +71,7 @@ export default function AktivWerdenPage() {
           </li>
           <li>
             <Card className="h-full">
-              <span className="grid size-12 place-items-center rounded-full bg-brand font-display text-xl font-semibold text-white">3</span>
+              <span className="grid size-12 place-items-center rounded-full bg-ink font-display text-xl font-semibold text-white dark:bg-white dark:text-ink">3</span>
               <h3 className="mt-5 text-2xl">Mitglied werden</h3>
               <p className="mt-3 text-lg">
                 Drucken Sie die Beitrittserklärung aus, unterschreiben Sie sie und schicken Sie sie per Post – oder
@@ -129,7 +129,7 @@ export default function AktivWerdenPage() {
                   <ul className="mt-5 space-y-2 text-lg">
                     {g.facts.map((f) => (
                       <li key={f} className="flex gap-3">
-                        <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-brand" />
+                        <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-ink-soft dark:bg-white/50" />
                         {f}
                       </li>
                     ))}

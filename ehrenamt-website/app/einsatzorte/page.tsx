@@ -46,7 +46,7 @@ export default function EinsatzortePage() {
         <section key={k.id} id={k.id} className="scroll-mt-28 py-12 sm:py-24">
           <Container>
             <div data-reveal className="flex items-center gap-4">
-              <CultureIcon name={k.icon} size={40} className="shrink-0 text-brand dark:text-[#2997ff]" />
+              <CultureIcon name={k.icon} size={40} className="shrink-0 text-ink dark:text-white" />
               <h2 className="text-3xl sm:text-5xl">{k.title}</h2>
             </div>
             <p className="mt-3 text-xl text-ink-soft dark:text-white/70">{k.intro}</p>
@@ -55,7 +55,7 @@ export default function EinsatzortePage() {
                 <li key={o.id} id={o.id} className="scroll-mt-28">
                   <Card className="h-full">
                     {o.wanted && (
-                      <p className="mb-3 inline-flex rounded-full bg-brand px-3 py-1 text-sm font-medium text-white">
+                      <p className="mb-3 inline-flex rounded-full bg-mist px-3 py-1 text-sm font-medium text-ink dark:bg-night-raised dark:text-white">
                         Verstärkung gesucht
                       </p>
                     )}

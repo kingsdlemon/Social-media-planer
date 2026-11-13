@@ -68,7 +68,7 @@ export function Chip({ type = "checkbox", name, value, checked, onChange, childr
   return (
     <label
       className={`inline-flex min-h-11 cursor-pointer items-center rounded-full px-5 text-base transition-colors select-none has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand ${
-        checked ? "bg-brand text-white" : "bg-paper text-ink ring-1 ring-line hover:ring-ink/40 dark:bg-night dark:text-white dark:ring-white/20"
+        checked ? "bg-ink text-white dark:bg-white dark:text-ink" : "bg-paper text-ink ring-1 ring-line hover:ring-ink/40 dark:bg-night dark:text-white dark:ring-white/20"
       }`}
     >
       <input type={type} name={name} value={value} checked={checked} onChange={onChange} className="sr-only" />

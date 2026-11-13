@@ -45,7 +45,7 @@ export default function HomePage() {
       {/* Hero – zentriert, ruhig, große Typo */}
       <section className="overflow-hidden bg-paper dark:bg-night">
         <Container className="pt-16 text-center sm:pt-24">
-          <p className="text-lg font-semibold text-brand-dark dark:text-[#2997ff]">
+          <p className="text-lg font-semibold text-ink-soft dark:text-white/60">
             {site.name} · seit {site.founded}
           </p>
           <h1 className="mx-auto mt-4 max-w-5xl text-[2.9rem] leading-[1.04] sm:text-8xl">
@@ -102,7 +102,7 @@ export default function HomePage() {
                 href={`/einsatzorte/#${k.id}`}
                 className="group flex h-[26rem] flex-col rounded-[28px] bg-paper p-6 sm:p-8 no-underline transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] motion-safe:hover:scale-[1.015] dark:bg-night"
               >
-                <CultureIcon name={k.icon} size={44} className="text-brand dark:text-[#2997ff]" />
+                <CultureIcon name={k.icon} size={44} className="text-ink dark:text-white" />
                 <h3 className="mt-auto text-3xl">{k.title}</h3>
                 <p className="mt-3 text-lg text-ink-soft dark:text-white/70">{k.intro}</p>
                 <p className="mt-5 text-lg text-brand-dark dark:text-[#2997ff]">
@@ -126,7 +126,7 @@ export default function HomePage() {
           <ol className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             {schritte.map((s, i) => (
               <li key={s.title} data-reveal className="rounded-[28px] bg-mist p-6 sm:p-8 dark:bg-night-raised">
-                <span className="font-display text-5xl font-semibold text-brand dark:text-[#2997ff]">{i + 1}</span>
+                <span className="font-display text-5xl font-semibold text-ink-soft dark:text-white/50">{i + 1}</span>
                 <h3 className="mt-6 text-2xl">{s.title}</h3>
                 <p className="mt-2 text-lg text-ink-soft dark:text-white/70">{s.text}</p>
               </li>
@@ -141,13 +141,13 @@ export default function HomePage() {
       </section>
 
       {/* Gesucht – Swipe, dunkel */}
-      <section className="bg-black py-16 text-white sm:py-24">
+      <section className="bg-mist py-12 sm:py-24 dark:bg-night-raised/50">
         <Container className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div data-reveal>
-            <h2 className="text-4xl text-white sm:text-6xl dark:text-white">Aktuell gesucht.</h2>
-            <p className="mt-3 max-w-xl text-xl text-white/60">Diese Einrichtungen freuen sich gerade besonders über Hilfe.</p>
+            <h2 className="text-4xl sm:text-6xl">Aktuell gesucht.</h2>
+            <p className="mt-3 max-w-xl text-xl text-ink-soft dark:text-white/70">Diese Einrichtungen freuen sich gerade besonders über Hilfe.</p>
           </div>
-          <Link href="/aktiv-werden/#wir-suchen" className="shrink-0 text-lg text-[#2997ff] no-underline hover:underline">
+          <Link href="/aktiv-werden/#wir-suchen" className="shrink-0 text-lg text-brand-dark no-underline hover:underline dark:text-[#2997ff]">
             Alle {gesuche.length} Gesuche ›
           </Link>
         </Container>
@@ -156,11 +156,11 @@ export default function HomePage() {
             <Slide key={g.id}>
               <Link
                 href={`/aktiv-werden/#gesucht-${g.id}`}
-                className="flex h-[19rem] flex-col rounded-[28px] bg-[#1c1c1e] p-6 sm:p-8 text-white no-underline transition-[background-color] duration-300 hover:bg-[#2c2c2e]"
+                className="flex h-[19rem] flex-col rounded-[28px] bg-paper p-6 sm:p-8 no-underline transition-[box-shadow] duration-300 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] dark:bg-night"
               >
-                <p className="text-base text-white/50">{g.place}</p>
-                <h3 className="mt-auto text-2xl text-white dark:text-white">{g.title}</h3>
-                <p className="mt-4 text-lg text-[#2997ff]">Mehr erfahren ›</p>
+                <p className="text-base text-ink-soft dark:text-white/50">{g.place}</p>
+                <h3 className="mt-auto text-2xl">{g.title}</h3>
+                <p className="mt-4 text-lg text-brand-dark dark:text-[#2997ff]">Mehr erfahren ›</p>
               </Link>
             </Slide>
           ))}
@@ -190,7 +190,7 @@ export default function HomePage() {
       {/* Spenden */}
       <section className="px-4 pb-16 sm:px-8 sm:pb-24">
         <div data-reveal className="mx-auto max-w-6xl rounded-[36px] bg-mist px-6 py-16 text-center sm:py-24 dark:bg-night-raised">
-          <Icon name="heart" className="mx-auto size-12 text-brand dark:text-[#2997ff]" />
+          <Icon name="heart" className="mx-auto size-12 text-ink dark:text-white" />
           <h2 className="mx-auto mt-6 max-w-3xl text-4xl sm:text-6xl">Kultur braucht Unterstützung.</h2>
           <p className="mx-auto mt-5 max-w-2xl text-xl text-ink-soft dark:text-white/70">
             Wir finanzieren uns ausschließlich über Zuschüsse, Förderbeiträge und Spenden. Jeder Beitrag hält die

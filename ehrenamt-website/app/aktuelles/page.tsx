@@ -55,7 +55,7 @@ export default function AktuellesPage() {
         <ul className="max-w-3xl space-y-2 text-lg">
           {archivDokumente.map((d) => (
             <li key={d} className="flex gap-3">
-              <span aria-hidden="true" className="mt-2.5 size-2.5 shrink-0 rounded-full bg-brand" />
+              <span aria-hidden="true" className="mt-2.5 size-2.5 shrink-0 rounded-full bg-ink-soft dark:bg-white/50" />
               {d}
             </li>
           ))}

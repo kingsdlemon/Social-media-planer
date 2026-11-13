@@ -36,7 +36,7 @@ export function PageHero({ eyebrow, title, children }: { eyebrow?: string; title
   return (
     <section className="bg-paper dark:bg-night">
       <Container className="pt-16 pb-12 text-center sm:pt-24 sm:pb-16">
-        {eyebrow && <p className="mb-4 text-lg font-semibold text-brand-dark dark:text-[#2997ff]">{eyebrow}</p>}
+        {eyebrow && <p className="mb-4 text-lg font-semibold text-ink-soft dark:text-white/60">{eyebrow}</p>}
         <h1 className="mx-auto max-w-4xl text-[2.6rem] sm:text-7xl">{title}</h1>
         {children && <div className="mx-auto mt-6 max-w-2xl text-xl text-ink-soft sm:text-2xl dark:text-white/70">{children}</div>}
       </Container>

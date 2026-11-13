@@ -179,7 +179,7 @@ export default function UeberUnsPage() {
             </p>
             <Todo>Liste der aktuellen Förderer und Zuschussgeber (mit Einverständnis, ggf. mit Logos) ergänzen.</Todo>
           </div>
-          <Card className="self-start bg-brand-light/30 dark:bg-night-raised">
+          <Card className="self-start dark:bg-night-raised">
             <p className="font-display text-2xl font-semibold text-brand-deep dark:text-paper">Spendenkonto</p>
             <dl className="mt-4 space-y-2 text-lg">
               <div>

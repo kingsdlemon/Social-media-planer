@@ -71,7 +71,7 @@ export function AktivWerdenForm() {
       <ol className="mb-8 grid grid-cols-3 gap-2" aria-label="Fortschritt">
         {steps.map((s, i) => (
           <li key={s} aria-current={i === step ? "step" : undefined}>
-            <span className={`block h-1.5 rounded-full transition-colors duration-300 ${i <= step ? "bg-brand" : "bg-line dark:bg-white/15"}`} />
+            <span className={`block h-1.5 rounded-full transition-colors duration-300 ${i <= step ? "bg-ink dark:bg-white" : "bg-line dark:bg-white/15"}`} />
             <span className={`mt-2 block text-sm ${i === step ? "font-medium text-ink dark:text-white" : "text-ink-soft"}`}>
               {i + 1}. {s}
             </span>
