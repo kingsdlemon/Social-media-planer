@@ -18,7 +18,10 @@ const variants: Record<Variant, string> = {
 };
 
 const base =
-  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-lg font-bold no-underline transition-colors";
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-lg font-bold no-underline " +
+  "transition-[color,background-color,border-color,box-shadow,translate,scale] duration-200 ease-out " +
+  "hover:shadow-lg hover:shadow-teal-dark/15 motion-safe:hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] " +
+  "[&_.icon-arrow]:transition-transform [&_.icon-arrow]:duration-200 motion-safe:hover:[&_.icon-arrow]:translate-x-1";
 
 export function ButtonLink({
   variant = "primary",
@@ -65,18 +68,23 @@ export function Section({
   return (
     <section id={id} className={`py-14 sm:py-20 ${className}`}>
       <Container>
-        {title && <h2 className="text-3xl sm:text-5xl">{title}</h2>}
-        {intro && <div className="mt-4 max-w-3xl text-xl text-ink-soft dark:text-cream/80">{intro}</div>}
+        {(title || intro) && (
+          <div data-reveal>
+            {title && <h2 className="text-3xl sm:text-5xl">{title}</h2>}
+            {intro && <div className="mt-4 max-w-3xl text-xl text-ink-soft dark:text-cream/80">{intro}</div>}
+          </div>
+        )}
         <div className={title || intro ? "mt-10" : ""}>{children}</div>
       </Container>
     </section>
   );
 }
 
-export function Card({ className = "", children }: { className?: string; children: ReactNode }) {
+export function Card({ className = "", reveal = true, children }: { className?: string; reveal?: boolean; children: ReactNode }) {
   return (
     <div
-      className={`rounded-3xl border border-cream-dark bg-white p-6 sm:p-8 dark:border-teal-dark dark:bg-night-raised ${className}`}
+      data-reveal={reveal ? "" : undefined}
+      className={`rounded-3xl border border-cream-dark bg-white p-6 transition-[border-color,box-shadow] duration-300 hover:border-terracotta-light hover:shadow-xl hover:shadow-teal-dark/10 sm:p-8 dark:border-teal-dark dark:bg-night-raised dark:hover:border-teal-light dark:hover:shadow-black/30 ${className}`}
     >
       {children}
     </div>
@@ -145,7 +153,7 @@ export function Icon({ name, className = "size-6" }: { name: "arrow" | "mail" | 
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={`shrink-0 ${className}`}
+      className={`icon-${name} shrink-0 ${className}`}
     >
       {paths[name]}
     </svg>

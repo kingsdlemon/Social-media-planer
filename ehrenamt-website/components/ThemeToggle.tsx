@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { THEME_STORAGE_KEY as STORAGE_KEY } from "@/lib/theme";
 
 type Theme = "system" | "light" | "dark";
-const STORAGE_KEY = "theme";
 const order: Theme[] = ["system", "light", "dark"];
 const labels: Record<Theme, string> = { system: "Automatisch", light: "Hell", dark: "Dunkel" };
 
@@ -76,6 +76,3 @@ export function ThemeToggle({ className = "", compact = false }: { className?: s
     </button>
   );
 }
-
-/** Läuft vor dem ersten Rendern, damit beim Laden nichts aufblitzt. */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem("${STORAGE_KEY}");var d=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d)document.documentElement.classList.add("dark");}catch(e){}})();`;

@@ -5,7 +5,8 @@
 /* Dark Mode per Klasse auf <html> (gesetzt durch das Theme-Skript im Layout) */
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
+/* `static`: alle Variablen immer ausgeben – die 3D-Szene liest die Markenfarben zur Laufzeit */
+@theme static {
   /* Markenfarben */
   --color-terracotta: #c26b48;
   --color-terracotta-dark: #a55333;
@@ -110,4 +111,32 @@
   .prose-efd a {
     @apply link;
   }
+}
+
+/* ---------- Bewegung ---------- */
+
+/*
+ * Elemente mit [data-reveal] werden per GSAP eingeblendet. Damit sie vor dem Start nicht kurz
+ * sichtbar aufblitzen, versteckt das Init-Skript sie über .motion-ok – aber nur, wenn
+ * Animationen erlaubt sind. Lädt GSAP nicht, entfernt das Skript die Klasse nach 4 s wieder.
+ */
+.motion-ok [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optional: System-Mauszeiger ausblenden (siehe components/CustomCursor.tsx) */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none !important;
 }

@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { meldungen } from "@/content/aktuelles";
 import { gesuche } from "@/content/gesucht";
+import { CountUp } from "@/components/CountUp";
 import { EinsatzBento } from "@/components/EinsatzBento";
+import { Hero3D } from "@/components/hero/Hero3D";
 import { ButtonLink, Card, Container, Icon, Section, Todo } from "@/components/ui";
 import { site } from "@/lib/site";
 
 const zahlen = [
-  { value: "1994", label: "gegründet" },
-  { value: "200+", label: "aktive Mitglieder" },
-  { value: "≈ 40", label: "Kultureinrichtungen" },
-  { value: "30.000", label: "Stunden Ehrenamt im Jahr (bis zu)" },
+  { to: 1994, from: 1960, grouping: false, label: "gegründet – seit über 30 Jahren aktiv" },
+  { to: 200, suffix: "+", label: "aktive Ehrenamtliche" },
+  { to: 40, prefix: "≈ ", label: "Einsatzorte in Kultureinrichtungen" },
+  { to: 30000, label: "Stunden Ehrenamt im Jahr (bis zu)" },
 ];
 
 const schritte = [
@@ -33,7 +35,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative isolate overflow-hidden">
+      <section data-parallax-root className="relative isolate overflow-hidden">
         {/* Dekorativer Farbverlauf als Hintergrund – daher leerer Alt-Text */}
         <img
           src="/images/hero-bg.webp"
@@ -43,18 +45,20 @@ export default function HomePage() {
           height={768}
           fetchPriority="high"
           decoding="async"
-          className="absolute inset-0 -z-20 size-full object-cover"
+          data-parallax="0.1"
+          className="absolute inset-x-0 -top-[15%] -z-20 h-[130%] w-full object-cover"
         />
         {/* Aufhellung links für gut lesbaren Text */}
         <div
           aria-hidden="true"
           className="absolute inset-0 -z-10 bg-gradient-to-r from-cream via-cream/85 to-cream/10 dark:from-night dark:via-night/85 dark:to-night/30"
         />
-        <Container className="relative py-16 sm:py-28">
+        <Container className="relative py-16 sm:py-24 lg:py-28">
+          <div data-parallax="0.12" className="relative z-10 lg:max-w-[58%]">
           <p className="text-base font-bold tracking-[0.14em] text-terracotta-dark uppercase dark:text-terracotta-light">
             {site.name} · seit {site.founded}
           </p>
-          <h1 className="mt-5 max-w-5xl text-5xl leading-[1.02] sm:text-7xl lg:text-8xl">
+          <h1 className="mt-5 text-5xl leading-[1.02] sm:text-7xl xl:text-8xl">
             Wir helfen, wenn es um <span className="text-terracotta">Kultur</span> geht.
           </h1>
           <p className="mt-8 max-w-2xl text-xl text-ink-soft sm:text-2xl dark:text-cream/85">
@@ -69,6 +73,11 @@ export default function HomePage() {
               Einsatzorte entdecken
             </ButtonLink>
           </div>
+          </div>
+          {/* 3D-Szene: mobil unter dem Text, ab Desktop rechts daneben */}
+          <div className="mt-10 h-64 sm:h-80 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:h-auto lg:w-[44%]">
+            <Hero3D />
+          </div>
         </Container>
       </section>
 
@@ -76,8 +85,10 @@ export default function HomePage() {
       <section aria-label="Der Verein in Zahlen" className="bg-teal text-white dark:bg-teal-dark">
         <Container className="grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
           {zahlen.map((z) => (
-            <div key={z.label}>
-              <p className="font-display text-5xl font-bold sm:text-6xl">{z.value}</p>
+            <div key={z.label} data-reveal>
+              <p className="font-display text-5xl font-bold sm:text-6xl">
+                <CountUp to={z.to} from={z.from} prefix={z.prefix} suffix={z.suffix} grouping={z.grouping} />
+              </p>
               <p className="mt-2 text-lg text-teal-soft">{z.label}</p>
             </div>
           ))}
@@ -87,7 +98,7 @@ export default function HomePage() {
       {/* Vorstellung */}
       <Section title="Wir stellen uns vor">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <div className="prose-efd">
+          <div className="prose-efd" data-reveal>
             <p>
               Der Verein „Ehrenamt für Darmstadt e.V.“ wurde 1994 gegründet, um öffentliche und gemeinnützige
               Kultureinrichtungen in Darmstadt zu unterstützen – parteiübergreifend und spendenfinanziert. Auslöser war die
@@ -202,7 +213,7 @@ export default function HomePage() {
       {/* Spenden */}
       <section className="bg-terracotta text-white">
         <Container className="grid grid-cols-1 gap-8 py-16 sm:py-20 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-center">
-          <div>
+          <div data-reveal>
             <h2 className="text-4xl text-white sm:text-5xl">Kultur braucht Unterstützung.</h2>
             <p className="mt-5 max-w-2xl text-xl text-white/90">
               Wir finanzieren uns ausschließlich über Zuschüsse, Förderbeiträge und Spenden. Jeder Beitrag hilft, unsere

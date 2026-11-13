@@ -29,7 +29,7 @@ export default function EinsatzortePage() {
       {kategorien.map((k, i) => (
         <section key={k.id} id={k.id} className={`py-14 sm:py-16 ${i % 2 === 1 ? "bg-cream-dark/50 dark:bg-night-raised/40" : ""}`}>
           <Container>
-            <div className="flex items-center gap-4">
+            <div data-reveal className="flex items-center gap-4">
               <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-teal-soft text-teal sm:size-16 dark:bg-teal-dark dark:text-teal-soft">
                 <CultureIcon name={k.icon} size={34} />
               </span>

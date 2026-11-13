@@ -125,7 +125,7 @@ export default function UeberUnsPage() {
         </p>
         <dl className="mt-8 grid grid-cols-1 gap-x-10 gap-y-5 sm:grid-cols-2">
           {koordination.map((k) => (
-            <div key={k.area} className="border-l-4 border-terracotta pl-4">
+            <div key={k.area} data-reveal className="border-l-4 border-terracotta pl-4">
               <dt className="text-lg text-ink-soft dark:text-cream/75">{k.area}</dt>
               <dd className="font-display text-xl font-bold text-teal-dark dark:text-cream">{k.name}</dd>
             </div>
@@ -208,7 +208,7 @@ export default function UeberUnsPage() {
       <Section id="historie" title="Historie" className="bg-teal-soft/60 dark:bg-teal-dark/40">
         <ol className="relative max-w-4xl border-l-4 border-terracotta pl-8">
           {historie.map((h) => (
-            <li key={h.title} className="relative pb-12 last:pb-0">
+            <li key={h.title} data-reveal className="relative pb-12 last:pb-0">
               <span aria-hidden="true" className="absolute top-1.5 -left-[2.65rem] size-5 rounded-full border-4 border-terracotta bg-cream dark:bg-night" />
               <p className="font-display text-xl font-bold text-terracotta-dark dark:text-terracotta-light">{h.year}</p>
               <h3 className="mt-1 text-2xl sm:text-3xl">{h.title}</h3>

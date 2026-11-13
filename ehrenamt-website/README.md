@@ -28,6 +28,17 @@ Neue Meldungen oder Gesuche werden in den Dateien unter `content/` ergänzt – 
 
 Klassenbasiert (`.dark` auf `<html>`). Standard ist die Systemeinstellung; eine Wahl über den Umschalter („Automatisch → Hell → Dunkel“) wird in `localStorage` unter `theme` gespeichert. Ein kleines Inline-Skript im `<head>` setzt die Klasse vor dem ersten Rendern.
 
+## Animationen & 3D
+
+| Was | Wo |
+| --- | --- |
+| 3D-Hero (Three.js, @react-three/fiber + drei) | `components/hero/` – `Hero3D` lädt `HeroScene` erst nach, wenn der Hero sichtbar ist; mobil vereinfacht; `HeroStatic` ist das statische Ersatzbild |
+| Einblenden & Parallax (GSAP ScrollTrigger) | `components/MotionEffects.tsx` – per Attribut: `data-reveal`, `data-parallax="0.1"` (+ `data-parallax-root`) |
+| Animierte Zahlen | `components/CountUp.tsx` |
+| Eigener Cursor (nur Maus/Trackpad) | `components/CustomCursor.tsx` – System-Mauszeiger bleibt sichtbar (`HIDE_NATIVE_CURSOR`) |
+
+Bei „Bewegung reduzieren“ (`prefers-reduced-motion`) sind 3D, Scroll-Animationen, Zähler und Cursor aus; der Hero zeigt das statische Bild. Die 3D-Farben werden zur Laufzeit aus den CSS-Variablen von `styles/globals.css` gelesen (`@theme static`).
+
 ## Offene Punkte (TODO)
 
 Fehlende Informationen sind im Code mit `TODO` markiert und auf der Seite als gestrichelter Kasten sichtbar. Übersicht:

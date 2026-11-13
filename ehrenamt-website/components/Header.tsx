@@ -65,7 +65,7 @@ export function Header() {
           <Link
             href="/aktiv-werden/"
             aria-current={isActive(pathname, "/aktiv-werden/") ? "page" : undefined}
-            className="hidden min-h-12 items-center rounded-full bg-terracotta px-6 text-lg font-bold whitespace-nowrap text-white no-underline shadow-sm transition-colors hover:bg-terracotta-dark sm:inline-flex dark:hover:bg-terracotta-light dark:hover:text-teal-dark"
+            className="hidden min-h-12 items-center rounded-full bg-terracotta px-6 text-lg font-bold whitespace-nowrap text-white no-underline shadow-sm transition-[background-color,color,box-shadow,translate] duration-200 hover:bg-terracotta-dark hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:inline-flex dark:hover:bg-terracotta-light dark:hover:text-teal-dark"
           >
             Aktiv werden
           </Link>

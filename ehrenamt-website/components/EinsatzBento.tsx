@@ -18,12 +18,14 @@ const layout: Record<string, string> = {
 };
 
 const tileBase =
-  "group flex h-full flex-col rounded-3xl p-6 no-underline transition-colors sm:p-8 focus-visible:outline-offset-4";
+  "group flex h-full flex-col rounded-3xl p-6 no-underline sm:p-8 focus-visible:outline-offset-4 " +
+  "transition-[background-color,border-color,box-shadow,translate] duration-300 ease-out " +
+  "hover:shadow-2xl hover:shadow-teal-dark/15 motion-safe:hover:-translate-y-1.5 dark:hover:shadow-black/40";
 
 function IconBadge({ name, featured }: { name: CultureIconName; featured?: boolean }) {
   return (
     <span
-      className={`grid shrink-0 place-items-center rounded-2xl transition-transform group-hover:-rotate-6 ${
+      className={`grid shrink-0 place-items-center rounded-2xl transition-transform duration-300 motion-safe:group-hover:-rotate-6 motion-safe:group-hover:scale-110 ${
         featured
           ? "size-20 bg-white/10 text-terracotta-light"
           : "size-16 bg-teal-soft text-teal dark:bg-teal-dark dark:text-teal-soft"
@@ -43,7 +45,7 @@ export function EinsatzBento({ headingLevel = "h3", linkToSections = true }: { h
       {kategorien.map((k) => {
         const featured = k.id === "museen-shops";
         return (
-          <li key={k.id} className={layout[k.id] ?? ""}>
+          <li key={k.id} data-reveal className={layout[k.id] ?? ""}>
             <Link
               href={href(k.id)}
               className={`${tileBase} ${
@@ -78,12 +80,12 @@ export function EinsatzBento({ headingLevel = "h3", linkToSections = true }: { h
           </li>
         );
       })}
-      <li className="sm:col-span-2">
+      <li data-reveal className="sm:col-span-2">
         <Link
           href="/aktiv-werden/"
           className={`${tileBase} bg-terracotta text-white hover:bg-terracotta-dark sm:flex-row sm:items-center sm:gap-6`}
         >
-          <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-white/15 transition-transform group-hover:-rotate-6">
+          <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-white/15 transition-transform duration-300 motion-safe:group-hover:-rotate-6 motion-safe:group-hover:scale-110">
             <CultureIcon name="theater" size={34} />
           </span>
           <span className="mt-6 block sm:mt-0">

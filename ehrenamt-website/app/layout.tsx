@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "@/styles/globals.css";
+import { CustomCursor } from "@/components/CustomCursor";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { themeInitScript } from "@/components/ThemeToggle";
+import { MotionEffects } from "@/components/MotionEffects";
+import { motionInitScript } from "@/lib/motion";
 import { site } from "@/lib/site";
+import { themeInitScript } from "@/lib/theme";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -28,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="de" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript + motionInitScript }} />
       </head>
       <body className="flex min-h-dvh flex-col pb-24 sm:pb-0">
         <a
@@ -42,6 +45,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {children}
         </main>
         <Footer />
+        <MotionEffects />
+        <CustomCursor />
       </body>
     </html>
   );
