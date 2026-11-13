@@ -1,6 +1,5 @@
 @import "tailwindcss";
-@import "@fontsource-variable/fraunces/wght.css";
-@import "@fontsource-variable/atkinson-hyperlegible-next/wght.css";
+@import "@fontsource-variable/inter/index.css";
 
 /* Dark Mode per Klasse auf <html> (gesetzt durch das Theme-Skript im Layout) */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -16,31 +15,32 @@
  * - Text/Links auf hellem Grund: brand-dark (≥ 4,9:1), Überschriften brand-deep (13,8:1).
  */
 @theme static {
-  /* Markenfarbe + Varianten */
-  --color-brand: #0ab3ef; /* Logo-Blau */
-  --color-brand-light: #9fdafa;
-  --color-brand-soft: #e8f6fe;
-  --color-brand-dark: #046f95;
-  --color-brand-deep: #012e41;
+  /* Apple-inspiriert: viel Weiß, fast Schwarz für Text, ein Akzent-Blau.
+     Logo-Blau (#0AB3EF) bleibt Markenakzent; Buttons/Links in dunklerem Blau (WCAG AA). */
+  --color-logo: #0ab3ef;
+  --color-brand: #0071e3; /* Buttons, Akzente (weißer Text: 4,6:1) */
+  --color-brand-light: #cce4fb;
+  --color-brand-soft: #f5f5f7; /* Flächen (Apple-Grau) */
+  --color-brand-dark: #0066cc; /* Links */
+  --color-brand-deep: #1d1d1f; /* Überschriften */
 
-  /* Neutrale Hintergrund- und Textfarben */
-  --color-paper: #f8fbfc; /* Seitenhintergrund */
-  --color-mist: #dde4e8; /* Linien, gedämpfte Flächen */
-  --color-ink: #1c2327; /* Fließtext (aus dem Logo-Schwarz) */
-  --color-ink-soft: #4d585f; /* Nebentext */
+  --color-paper: #ffffff;
+  --color-mist: #f5f5f7;
+  --color-line: #d2d2d7;
+  --color-ink: #1d1d1f;
+  --color-ink-soft: #6e6e73;
 
-  /* Dark Mode */
-  --color-night: #05161f; /* Seitenhintergrund */
-  --color-night-raised: #0d232e; /* Karten, Flächen */
+  --color-night: #000000;
+  --color-night-raised: #1c1c1e;
 
-  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
-  --font-sans: "Atkinson Hyperlegible Next Variable", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter Variable", system-ui, "Segoe UI", Arial, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter Variable", system-ui, "Segoe UI", Arial, sans-serif;
 }
 
 @layer base {
   html {
     /* Basisschrift etwas größer, skaliert weiterhin mit der Browser-Einstellung */
-    font-size: 112.5%;
+    font-size: 106.25%;
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 7rem;
     color-scheme: light;
@@ -62,7 +62,8 @@
 
   body {
     @apply bg-paper font-sans text-ink antialiased dark:bg-night dark:text-paper;
-    line-height: 1.65;
+    line-height: 1.55;
+    letter-spacing: -0.011em;
     /* Lange deutsche Wörter (z. B. „Auftragsverarbeitungsvertrag“) notfalls umbrechen statt überlaufen */
     overflow-wrap: break-word;
   }
@@ -71,10 +72,10 @@
   h2,
   h3,
   h4 {
-    @apply font-display font-bold tracking-tight text-brand-deep dark:text-paper;
-    line-height: 1.12;
+    @apply font-display font-semibold tracking-[-0.022em] text-brand-deep dark:text-paper;
+    line-height: 1.08;
     text-wrap: balance;
-    hyphens: auto;
+    hyphens: manual;
     overflow-wrap: break-word;
   }
 
@@ -82,8 +83,12 @@
   li,
   dd {
     text-wrap: pretty;
-    hyphens: auto;
+    hyphens: manual;
     overflow-wrap: break-word;
+  }
+
+  @media (max-width: 479px) {
+    p, li, dd { hyphens: auto; }
   }
 
   a {
@@ -101,7 +106,7 @@
 
 /* Fließtext-Links */
 @utility link {
-  @apply font-semibold text-brand-dark underline decoration-brand decoration-2 hover:text-brand-deep dark:text-brand-soft dark:hover:text-brand-light;
+  @apply font-normal text-brand-dark no-underline hover:underline dark:text-[#2997ff];
 }
 
 @layer components {
@@ -120,10 +125,10 @@
     @apply mt-10 text-2xl;
   }
   .prose-efd ul {
-    @apply list-disc space-y-2 pl-6 marker:text-brand;
+    @apply list-disc space-y-2 pl-6 marker:text-ink-soft;
   }
   .prose-efd ol {
-    @apply list-decimal space-y-2 pl-6 marker:font-bold marker:text-brand-dark dark:marker:text-brand;
+    @apply list-decimal space-y-2 pl-6 marker:font-bold marker:text-brand-dark dark:marker:text-ink-soft;
   }
   .prose-efd a {
     @apply link;
@@ -149,4 +154,24 @@
 .has-custom-cursor,
 .has-custom-cursor * {
   cursor: none !important;
+}
+
+/* ---------- Swipe-Karussell (natives Scroll-Snap, Wischen am Handy) ---------- */
+.snap-row {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(1.25rem, calc((100vw - 72rem) / 2 + 2rem));
+  padding-inline: max(1.25rem, calc((100vw - 72rem) / 2 + 2rem));
+  padding-block: 0.5rem 1.5rem;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.snap-row::-webkit-scrollbar { display: none; }
+.snap-row > * { scroll-snap-align: start; flex: 0 0 auto; }
+
+/* Milchglas wie bei Apple */
+@utility glass {
+  @apply bg-white/72 backdrop-blur-xl backdrop-saturate-180 dark:bg-black/60;
 }

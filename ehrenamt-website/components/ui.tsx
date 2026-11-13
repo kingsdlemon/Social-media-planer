@@ -8,20 +8,16 @@ export function Container({ className = "", children }: { className?: string; ch
 type Variant = "primary" | "secondary" | "ghost" | "inverse";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-brand text-brand-deep hover:bg-brand-light shadow-sm shadow-brand-deep/20",
-  secondary:
-    "bg-brand-dark text-white hover:bg-brand-deep dark:bg-brand-soft dark:text-brand-deep dark:hover:bg-white",
-  inverse: "bg-white text-brand-deep hover:bg-brand-soft",
-  ghost:
-    "border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white dark:border-brand-soft dark:text-brand-soft dark:hover:bg-brand-soft dark:hover:text-brand-deep",
+  primary: "bg-brand text-white hover:bg-[#0077ed]",
+  secondary: "bg-ink text-white hover:bg-black dark:bg-white dark:text-ink dark:hover:bg-mist",
+  inverse: "bg-white text-ink hover:bg-mist",
+  ghost: "text-brand-dark ring-1 ring-brand-dark/40 hover:bg-brand-dark hover:text-white dark:text-[#2997ff] dark:ring-[#2997ff]/50 dark:hover:bg-[#2997ff] dark:hover:text-black",
 };
 
 const base =
-  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-lg font-bold no-underline " +
-  "transition-[color,background-color,border-color,box-shadow,translate,scale] duration-200 ease-out " +
-  "hover:shadow-lg hover:shadow-brand-deep/15 motion-safe:hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] " +
-  "[&_.icon-arrow]:transition-transform [&_.icon-arrow]:duration-200 motion-safe:hover:[&_.icon-arrow]:translate-x-1";
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-[1.05rem] font-medium no-underline " +
+  "transition-[color,background-color,box-shadow,scale] duration-200 ease-out active:scale-[0.97] " +
+  "[&_.icon-arrow]:transition-transform [&_.icon-arrow]:duration-200 motion-safe:hover:[&_.icon-arrow]:translate-x-0.5";
 
 export function ButtonLink({
   variant = "primary",
@@ -38,15 +34,11 @@ export function ButtonA({ variant = "primary", className = "", ...props }: Compo
 
 export function PageHero({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: ReactNode }) {
   return (
-    <section className="border-b border-mist bg-mist/40 dark:border-night-raised dark:bg-night-raised/40">
-      <Container className="py-14 sm:py-20">
-        {eyebrow && (
-          <p className="mb-4 text-base font-bold uppercase tracking-[0.14em] text-brand-dark dark:text-brand-light">
-            {eyebrow}
-          </p>
-        )}
-        <h1 className="max-w-4xl text-4xl sm:text-6xl">{title}</h1>
-        {children && <div className="mt-6 max-w-3xl text-xl text-ink-soft sm:text-2xl dark:text-paper/80">{children}</div>}
+    <section className="bg-paper dark:bg-night">
+      <Container className="pt-16 pb-12 text-center sm:pt-24 sm:pb-16">
+        {eyebrow && <p className="mb-3 text-lg font-semibold text-brand dark:text-[#2997ff]">{eyebrow}</p>}
+        <h1 className="mx-auto max-w-4xl text-[2.6rem] sm:text-7xl">{title}</h1>
+        {children && <div className="mx-auto mt-6 max-w-2xl text-xl text-ink-soft sm:text-2xl dark:text-white/70">{children}</div>}
       </Container>
     </section>
   );
@@ -66,15 +58,15 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className={`py-14 sm:py-20 ${className}`}>
+    <section id={id} className={`py-16 sm:py-24 ${className}`}>
       <Container>
         {(title || intro) && (
           <div data-reveal>
-            {title && <h2 className="text-3xl sm:text-5xl">{title}</h2>}
-            {intro && <div className="mt-4 max-w-3xl text-xl text-ink-soft dark:text-paper/80">{intro}</div>}
+            {title && <h2 className="text-4xl sm:text-6xl">{title}</h2>}
+            {intro && <div className="mt-4 max-w-2xl text-xl text-ink-soft dark:text-white/70">{intro}</div>}
           </div>
         )}
-        <div className={title || intro ? "mt-10" : ""}>{children}</div>
+        <div className={title || intro ? "mt-10 sm:mt-12" : ""}>{children}</div>
       </Container>
     </section>
   );
@@ -84,7 +76,7 @@ export function Card({ className = "", reveal = true, children }: { className?: 
   return (
     <div
       data-reveal={reveal ? "" : undefined}
-      className={`rounded-3xl border border-mist bg-white p-6 transition-[border-color,box-shadow] duration-300 hover:border-brand-light hover:shadow-xl hover:shadow-brand-deep/10 sm:p-8 dark:border-brand-deep dark:bg-night-raised dark:hover:border-brand dark:hover:shadow-black/30 ${className}`}
+      className={`rounded-[28px] bg-mist p-7 transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] sm:p-9 dark:bg-night-raised ${className}`}
     >
       {children}
     </div>
@@ -99,9 +91,9 @@ export function Todo({ children }: { children: ReactNode }) {
   return (
     <span
       role="note"
-      className="my-2 block rounded-xl border-2 border-dashed border-brand bg-brand-light/25 px-4 py-3 text-base hyphens-auto text-brand-dark dark:bg-brand/10 dark:text-brand-light"
+      className="my-2 block rounded-2xl border border-dashed border-line bg-mist px-4 py-3 text-base hyphens-auto text-ink-soft dark:border-white/20 dark:bg-night-raised dark:text-white/70"
     >
-      <strong className="mr-1 font-bold">TODO:</strong>
+      <strong className="mr-1 font-semibold">TODO:</strong>
       {children}
     </span>
   );
@@ -111,9 +103,9 @@ export function DraftNotice({ children }: { children?: ReactNode }) {
   return (
     <div
       role="note"
-      className="mb-10 rounded-2xl border-2 border-brand bg-brand-light/30 p-5 text-lg dark:bg-brand/15"
+      className="mb-10 rounded-[28px] bg-mist p-6 text-lg dark:bg-night-raised"
     >
-      <p className="font-display text-xl font-bold text-brand-dark dark:text-brand-light">Entwurf</p>
+      <p className="font-display text-xl font-semibold text-ink dark:text-white">Entwurf</p>
       <p className="mt-1">
         {children ??
           "Dieser Text ist ein Entwurf und wurde noch nicht rechtlich geprüft. Bitte vor der Veröffentlichung vom Vorstand freigeben und ggf. juristisch prüfen lassen."}
@@ -150,12 +142,22 @@ export function Icon({ name, className = "size-6" }: { name: "arrow" | "mail" | 
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="1.6"
       strokeLinecap="round"
       strokeLinejoin="round"
       className={`icon-${name} shrink-0 ${className}`}
     >
       {paths[name]}
     </svg>
+  );
+}
+
+/** Apple-Style Textlink: „Mehr erfahren ›“ */
+export function MoreLink({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
+  return (
+    <Link href={href} className={`group inline-flex items-center gap-1 text-lg text-brand-dark no-underline hover:underline dark:text-[#2997ff] ${className}`}>
+      {children}
+      <span aria-hidden="true" className="transition-transform duration-200 motion-safe:group-hover:translate-x-0.5">›</span>
+    </Link>
   );
 }

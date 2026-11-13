@@ -1,242 +1,209 @@
 import Link from "next/link";
+import { Carousel, Slide } from "@/components/Carousel";
 import { CountUp } from "@/components/CountUp";
-import { EinsatzBento } from "@/components/EinsatzBento";
-import { Hero3D } from "@/components/hero/Hero3D";
-import { ButtonLink, Card, Container, Icon, Section, Todo } from "@/components/ui";
-import { getGesuche, getMeldungen } from "@/lib/content";
+import { CultureIcon } from "@/components/CultureIcons";
+import { ButtonLink, Container, Icon, MoreLink, Todo } from "@/components/ui";
+import { getGesuche, getKategorien, getMeldungen } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({ path: "/" });
 
 const zahlen = [
-  { to: 1994, from: 1960, grouping: false, label: "gegründet – seit über 30 Jahren aktiv" },
+  { to: 1994, from: 1960, grouping: false, label: "gegründet" },
   { to: 200, suffix: "+", label: "aktive Ehrenamtliche" },
-  { to: 40, prefix: "≈ ", label: "Einsatzorte in Kultureinrichtungen" },
-  { to: 30000, label: "Stunden Ehrenamt im Jahr (bis zu)" },
+  { to: 40, prefix: "≈ ", label: "Einsatzorte" },
+  { to: 30000, label: "Stunden im Jahr" },
 ];
 
 const schritte = [
-  {
-    title: "Fragebogen ausfüllen",
-    text: "Erzählen Sie uns, was Sie interessiert und wie viel Zeit Sie haben – per E-Mail oder per Post.",
-  },
-  {
-    title: "Kennenlernen",
-    text: "Wir laden Sie zu einem persönlichen Gespräch ein und schauen gemeinsam, was zu Ihnen passt.",
-  },
-  {
-    title: "Loslegen",
-    text: "Wir vermitteln Sie an eine Kultureinrichtung und sind auch danach für Sie da.",
-  },
+  { title: "Fragebogen ausfüllen", text: "Erzählen Sie uns, was Sie interessiert und wie viel Zeit Sie haben." },
+  { title: "Kennenlernen", text: "Im persönlichen Gespräch finden wir gemeinsam heraus, was zu Ihnen passt." },
+  { title: "Loslegen", text: "Wir vermitteln Sie an eine Kultureinrichtung – und bleiben für Sie da." },
 ];
 
+/** Überschrift einer Karussell-Sektion: groß, links, mit Textlink rechts */
+function RowHeading({ title, intro, href, linkLabel }: { title: string; intro?: string; href?: string; linkLabel?: string }) {
+  return (
+    <Container className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" >
+      <div data-reveal>
+        <h2 className="text-4xl sm:text-6xl">{title}</h2>
+        {intro && <p className="mt-3 max-w-xl text-xl text-ink-soft dark:text-white/70">{intro}</p>}
+      </div>
+      {href && linkLabel && <MoreLink href={href} className="shrink-0">{linkLabel}</MoreLink>}
+    </Container>
+  );
+}
+
 export default function HomePage() {
-  const aktuell = getMeldungen().slice(0, 3);
+  const aktuell = getMeldungen().slice(0, 6);
   const gesuche = getGesuche();
+  const kategorien = getKategorien();
 
   return (
     <>
-      {/* Hero */}
-      <section data-parallax-root className="relative isolate overflow-hidden">
-        {/* Dekorativer Farbverlauf als Hintergrund – daher leerer Alt-Text */}
-        <img
-          src="/images/hero-bg.webp"
-          alt=""
-          aria-hidden="true"
-          width={1376}
-          height={768}
-          fetchPriority="high"
-          decoding="async"
-          data-parallax="0.1"
-          className="absolute inset-x-0 -top-[15%] -z-20 h-[130%] w-full object-cover"
-        />
-        {/* Aufhellung für lesbaren Text: mobil/Tablet gleichmäßig (Text über die ganze Breite),
-            ab Desktop nur links unter der Textspalte, rechts bleibt der Verlauf sichtbar */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-paper/90 lg:bg-transparent lg:bg-linear-to-r lg:from-paper lg:from-35% lg:via-paper/90 lg:via-55% lg:to-paper/10 dark:bg-night/90 dark:lg:bg-transparent dark:lg:from-night dark:lg:via-night/90 dark:lg:to-night/30"
-        />
-        <Container className="relative py-16 sm:py-24 lg:py-28">
-          <div data-parallax="0.12" className="relative z-10 lg:max-w-[58%]">
-          <p className="text-base font-bold tracking-[0.14em] text-brand-dark uppercase dark:text-brand-light">
+      {/* Hero – zentriert, ruhig, große Typo */}
+      <section className="overflow-hidden bg-paper dark:bg-night">
+        <Container className="pt-16 text-center sm:pt-24">
+          <p className="text-lg font-semibold text-brand dark:text-[#2997ff]">
             {site.name} · seit {site.founded}
           </p>
-          <h1 className="mt-5 text-5xl leading-[1.02] sm:text-7xl xl:text-8xl">
-            Wir helfen, wenn es um <span className="text-brand-dark dark:text-brand">Kultur</span> geht.
+          <h1 className="mx-auto mt-4 max-w-5xl text-[2.9rem] leading-[1.04] sm:text-8xl">
+            Wir helfen, wenn es um Kultur geht.
           </h1>
-          <p className="mt-8 max-w-2xl text-xl text-ink-soft sm:text-2xl dark:text-paper/85">
+          <p className="mx-auto mt-6 max-w-2xl text-xl text-ink-soft sm:text-2xl dark:text-white/70">
             Wir bringen Menschen, die ihre Zeit schenken möchten, mit Darmstädter Museen, Archiven, Parks und Festivals
-            zusammen – dort, wo Kultur ohne Ehrenamt nicht möglich wäre.
+            zusammen.
           </p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <ButtonLink href="/aktiv-werden/" className="text-xl">
-              Jetzt aktiv werden <Icon name="arrow" />
+          <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+            <ButtonLink href="/aktiv-werden/" className="w-full sm:w-auto">
+              Jetzt aktiv werden
             </ButtonLink>
-            <ButtonLink href="/einsatzorte/" variant="ghost" className="text-xl">
-              Einsatzorte entdecken
-            </ButtonLink>
+            <MoreLink href="/einsatzorte/">Einsatzorte entdecken</MoreLink>
           </div>
-          </div>
-          {/* 3D-Szene: mobil unter dem Text, ab Desktop rechts daneben */}
-          <div className="mt-10 h-64 sm:h-80 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:h-auto lg:w-[44%]">
-            <Hero3D />
+        </Container>
+        <Container className="mt-14 sm:mt-20">
+          <div data-parallax-root className="overflow-hidden rounded-[28px] sm:rounded-[36px]">
+            <img
+              src="/images/ehrenamt-illustration.webp"
+              alt="Illustration: Ehrenamtliche begrüßen Gäste im Theater, beraten im Museum, weisen bei Konzerten den Weg und verkaufen Eintrittskarten."
+              width={1200}
+              height={670}
+              fetchPriority="high"
+              decoding="async"
+              data-parallax="0.04"
+              className="h-auto w-full in-[.motion-ok]:scale-[1.06] dark:brightness-90"
+            />
           </div>
         </Container>
       </section>
 
       {/* Zahlen */}
-      <section aria-label="Der Verein in Zahlen" className="bg-brand-dark text-white dark:bg-brand-deep">
-        <Container className="grid grid-cols-2 gap-x-4 gap-y-8 py-12 sm:gap-8 lg:grid-cols-4">
+      <section aria-label="Der Verein in Zahlen" className="py-16 sm:py-24">
+        <Container className="grid grid-cols-2 gap-x-6 gap-y-10 text-center lg:grid-cols-4">
           {zahlen.map((z) => (
             <div key={z.label} data-reveal>
-              <p className="font-display text-3xl font-bold whitespace-nowrap min-[360px]:text-4xl sm:text-6xl">
+              <p className="font-display text-4xl font-semibold tracking-tight whitespace-nowrap sm:text-6xl">
                 <CountUp to={z.to} from={z.from} prefix={z.prefix} suffix={z.suffix} grouping={z.grouping} />
               </p>
-              <p className="mt-2 text-lg text-brand-soft">{z.label}</p>
+              <p className="mt-2 text-lg text-ink-soft dark:text-white/60">{z.label}</p>
             </div>
           ))}
         </Container>
       </section>
 
-      {/* Vorstellung */}
-      <Section title="Wir stellen uns vor">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <div className="prose-efd" data-reveal>
-            <p>
-              Der Verein „Ehrenamt für Darmstadt e.V.“ wurde 1994 gegründet, um öffentliche und gemeinnützige
-              Kultureinrichtungen in Darmstadt zu unterstützen – parteiübergreifend und spendenfinanziert. Auslöser war die
-              zunehmende Knappheit der Mittel im Kulturbereich.
-            </p>
-            <p>
-              Heute engagieren sich über 200 aktive Mitglieder in rund 40 Einrichtungen; viele weitere unterstützen uns
-              finanziell oder ideell. Sie arbeiten dort, wo Angebote ohne ihre Hilfe nicht möglich wären.
-            </p>
-            <p>
-              Unser ehrenamtlicher Vorstand und die Koordinatorinnen und Koordinatoren vermitteln die Einsätze und sind
-              Ansprechpartner bei Fragen, Wünschen oder Problemen – für die Ehrenamtlichen ebenso wie für die
-              Einrichtungen. Unser Ziel: Bedarf und Angebot sollen immer gut zueinander passen.
-            </p>
-          </div>
-          <Card className="self-start bg-brand-soft/60 dark:bg-night-raised">
-            <p className="font-display text-2xl font-bold text-brand-deep dark:text-paper">Gut zu wissen</p>
-            <ul className="mt-4 space-y-3 text-lg">
-              <li className="flex gap-3">
-                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-brand" />
-                Mitgliedsbeiträge erheben wir nicht.
-              </li>
-              <li className="flex gap-3">
-                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-brand" />
-                Auch gelegentliche, kurzfristige Einsätze sind möglich.
-              </li>
-              <li className="flex gap-3">
-                <span aria-hidden="true" className="mt-2 size-2.5 shrink-0 rounded-full bg-brand" />
-                <span>
-                  Wir sind Mitglied im{" "}
-                  <a href={site.umbrella.url} className="link" rel="noopener">
-                    Dachverband Kultur Darmstadt
-                  </a>
-                  .
-                </span>
-              </li>
-            </ul>
-          </Card>
-        </div>
-      </Section>
+      {/* Einsatzbereiche – Swipe */}
+      <section className="bg-mist py-16 sm:py-24 dark:bg-night-raised/50">
+        <RowHeading title="Wo Sie wirken können." intro="Wischen Sie durch unsere Einsatzbereiche." href="/einsatzorte/" linkLabel="Alle Einsatzorte" />
+        <Carousel label="Einsatzbereiche">
+          {kategorien.map((k) => (
+            <Slide key={k.id}>
+              <Link
+                href={`/einsatzorte/#${k.id}`}
+                className="group flex h-[26rem] flex-col rounded-[28px] bg-paper p-8 no-underline transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_10px_50px_rgba(0,0,0,0.10)] motion-safe:hover:scale-[1.015] dark:bg-night"
+              >
+                <CultureIcon name={k.icon} size={44} className="text-brand dark:text-[#2997ff]" />
+                <h3 className="mt-auto text-3xl">{k.title}</h3>
+                <p className="mt-3 text-lg text-ink-soft dark:text-white/70">{k.intro}</p>
+                <p className="mt-5 text-lg text-brand-dark dark:text-[#2997ff]">
+                  {k.orte.length} {k.orte.length === 1 ? "Einsatzort" : "Einsatzorte"} ›
+                </p>
+              </Link>
+            </Slide>
+          ))}
+        </Carousel>
+      </section>
 
       {/* So geht's */}
-      <Section
-        title="In drei Schritten zum Ehrenamt"
-        className="bg-mist/50 dark:bg-night-raised/40"
-        intro="Sie müssen nichts mitbringen außer Neugier und ein wenig Zeit."
-      >
-        <ol className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {schritte.map((s, i) => (
-            <li key={s.title}>
-              <Card className="h-full">
-                <span className="grid size-14 place-items-center rounded-full bg-brand font-display text-2xl font-bold text-brand-deep">
-                  {i + 1}
-                </span>
-                <h3 className="mt-5 text-2xl">{s.title}</h3>
-                <p className="mt-3 text-lg">{s.text}</p>
-              </Card>
-            </li>
-          ))}
-        </ol>
-        <div className="mt-10">
-          <ButtonLink href="/aktiv-werden/">
-            Alles zum Mitmachen <Icon name="arrow" />
-          </ButtonLink>
-        </div>
-      </Section>
-
-      {/* Einsatzorte */}
-      <Section title="Wo unsere Ehrenamtlichen wirken" intro="Eine Auswahl unserer Einsatzbereiche in Darmstadt.">
-        <EinsatzBento />
-      </Section>
-
-      {/* Wir suchen */}
-      <Section title="Aktuell gesucht" className="bg-brand-soft/60 dark:bg-brand-deep/40">
-        <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {gesuche.slice(0, 3).map((g) => (
-            <li key={g.id}>
-              <Card className="h-full">
-                <p className="text-base font-bold text-brand-dark dark:text-brand-light">{g.place}</p>
-                <h3 className="mt-2 text-2xl">{g.title}</h3>
-              </Card>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-10">
-          <ButtonLink href="/aktiv-werden/#wir-suchen" variant="secondary">
-            Alle {gesuche.length} Gesuche ansehen <Icon name="arrow" />
-          </ButtonLink>
-        </div>
-      </Section>
-
-      {/* Aktuelles */}
-      <Section title="Aktuelles">
-        <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {aktuell.map((m) => (
-            <li key={m.id}>
-              <Card className="h-full">
-                <p className="text-base font-bold text-brand-dark dark:text-brand-light">{m.dateLabel}</p>
-                <h3 className="mt-2 text-2xl">{m.title}</h3>
-                <p className="mt-3 line-clamp-3 text-lg">{m.text[0]}</p>
-              </Card>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-10">
-          <ButtonLink href="/aktuelles/" variant="ghost">
-            Alle Meldungen
-          </ButtonLink>
-        </div>
-      </Section>
-
-      {/* Spenden */}
-      <section className="bg-brand text-brand-deep">
-        <Container className="grid grid-cols-1 gap-8 py-16 sm:py-20 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-center">
-          <div data-reveal>
-            <h2 className="text-4xl text-brand-deep sm:text-5xl dark:text-brand-deep">Kultur braucht Unterstützung.</h2>
-            <p className="mt-5 max-w-2xl text-xl text-brand-deep">
-              Wir finanzieren uns ausschließlich über Zuschüsse, Förderbeiträge und Spenden. Jeder Beitrag hilft, unsere
-              Geschäftsstelle und die Vermittlung am Laufen zu halten.
+      <section className="py-16 sm:py-24">
+        <Container>
+          <div data-reveal className="text-center">
+            <h2 className="text-4xl sm:text-6xl">In drei Schritten dabei.</h2>
+            <p className="mx-auto mt-4 max-w-xl text-xl text-ink-soft dark:text-white/70">
+              Sie brauchen nichts mitzubringen außer Neugier und ein wenig Zeit.
             </p>
           </div>
-          <div className="flex flex-col gap-4 sm:flex-row lg:justify-end">
-            <ButtonLink
-              href="/spenden/"
-              variant="inverse"
-              className="text-xl"
-            >
-              <Icon name="heart" /> Jetzt spenden
+          <ol className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+            {schritte.map((s, i) => (
+              <li key={s.title} data-reveal className="rounded-[28px] bg-mist p-8 dark:bg-night-raised">
+                <span className="font-display text-5xl font-semibold text-brand dark:text-[#2997ff]">{i + 1}</span>
+                <h3 className="mt-6 text-2xl">{s.title}</h3>
+                <p className="mt-2 text-lg text-ink-soft dark:text-white/70">{s.text}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-10 text-center">
+            <ButtonLink href="/aktiv-werden/">
+              Alles zum Mitmachen <Icon name="arrow" className="size-5" />
             </ButtonLink>
           </div>
         </Container>
       </section>
 
-      <Container className="py-10">
+      {/* Gesucht – Swipe, dunkel */}
+      <section className="bg-black py-16 text-white sm:py-24">
+        <Container className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div data-reveal>
+            <h2 className="text-4xl text-white sm:text-6xl dark:text-white">Aktuell gesucht.</h2>
+            <p className="mt-3 max-w-xl text-xl text-white/60">Diese Einrichtungen freuen sich gerade besonders über Hilfe.</p>
+          </div>
+          <Link href="/aktiv-werden/#wir-suchen" className="shrink-0 text-lg text-[#2997ff] no-underline hover:underline">
+            Alle {gesuche.length} Gesuche ›
+          </Link>
+        </Container>
+        <Carousel label="Aktuelle Gesuche">
+          {gesuche.map((g) => (
+            <Slide key={g.id}>
+              <Link
+                href={`/aktiv-werden/#gesucht-${g.id}`}
+                className="flex h-[19rem] flex-col rounded-[28px] bg-[#1c1c1e] p-8 text-white no-underline transition-[background-color] duration-300 hover:bg-[#2c2c2e]"
+              >
+                <p className="text-base text-white/50">{g.place}</p>
+                <h3 className="mt-auto text-2xl text-white dark:text-white">{g.title}</h3>
+                <p className="mt-4 text-lg text-[#2997ff]">Mehr erfahren ›</p>
+              </Link>
+            </Slide>
+          ))}
+        </Carousel>
+      </section>
+
+      {/* Aktuelles – Swipe */}
+      <section className="py-16 sm:py-24">
+        <RowHeading title="Aktuelles." href="/aktuelles/" linkLabel="Alle Meldungen" />
+        <Carousel label="Aktuelle Meldungen">
+          {aktuell.map((m) => (
+            <Slide key={m.id} className="self-stretch">
+              <Link
+                href={`/aktuelles/#${m.id}`}
+                className="flex h-full min-h-[20rem] flex-col rounded-[28px] bg-mist p-8 no-underline transition-[box-shadow] duration-300 hover:shadow-[0_10px_50px_rgba(0,0,0,0.08)] dark:bg-night-raised"
+              >
+                <p className="text-base text-ink-soft dark:text-white/50">{m.dateLabel}</p>
+                <h3 className="mt-3 text-2xl">{m.title}</h3>
+                <p className="mt-3 line-clamp-3 text-lg text-ink-soft dark:text-white/70">{m.text[0]}</p>
+                <p className="mt-auto pt-4 text-lg text-brand-dark dark:text-[#2997ff]">Weiterlesen ›</p>
+              </Link>
+            </Slide>
+          ))}
+        </Carousel>
+      </section>
+
+      {/* Spenden */}
+      <section className="px-4 pb-16 sm:px-8 sm:pb-24">
+        <div data-reveal className="mx-auto max-w-6xl rounded-[36px] bg-mist px-6 py-16 text-center sm:py-24 dark:bg-night-raised">
+          <Icon name="heart" className="mx-auto size-12 text-brand dark:text-[#2997ff]" />
+          <h2 className="mx-auto mt-6 max-w-3xl text-4xl sm:text-6xl">Kultur braucht Unterstützung.</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-xl text-ink-soft dark:text-white/70">
+            Wir finanzieren uns ausschließlich über Zuschüsse, Förderbeiträge und Spenden. Jeder Beitrag hält die
+            Vermittlung am Laufen.
+          </p>
+          <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+            <ButtonLink href="/spenden/">Jetzt spenden</ButtonLink>
+            <MoreLink href="/ueber-uns/#finanzierung">Wie wir uns finanzieren</MoreLink>
+          </div>
+        </div>
+      </section>
+
+      <Container className="pb-10">
         <Todo>Fotos von Einsätzen (mit Einverständnis der abgebildeten Personen) für Startseite und Einsatzorte bereitstellen.</Todo>
       </Container>
     </>

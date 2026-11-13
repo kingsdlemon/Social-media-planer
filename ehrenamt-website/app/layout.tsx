@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "@/styles/globals.css";
-import { CustomCursor } from "@/components/CustomCursor";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionEffects } from "@/components/MotionEffects";
@@ -22,8 +21,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F8FBFC" },
-    { media: "(prefers-color-scheme: dark)", color: "#05161F" },
+    { media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
   ],
 };
 
@@ -36,7 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="flex min-h-dvh flex-col pb-24 sm:pb-0">
         <a
           href="#inhalt"
-          className="sr-only z-[60] rounded-full bg-brand-dark px-5 py-3 text-lg font-bold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          className="sr-only z-[60] rounded-full bg-brand px-5 py-3 text-lg font-medium text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
         >
           Zum Inhalt springen
         </a>
@@ -46,7 +45,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </main>
         <Footer />
         <MotionEffects />
-        <CustomCursor />
         <StructuredData />
       </body>
     </html>

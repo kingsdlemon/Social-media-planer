@@ -53,11 +53,11 @@ export function ThemeToggle({ className = "", compact = false }: { className?: s
     <button
       type="button"
       onClick={cycle}
-      className={`inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-brand-dark/30 ${compact ? "w-12 justify-center" : "px-4"} text-base font-bold text-brand-dark hover:border-brand-dark dark:border-brand-soft/30 dark:text-brand-soft dark:hover:border-brand-soft ${className}`}
+      className={`inline-flex min-h-10 items-center gap-2 rounded-full ${compact ? "w-10 justify-center" : "px-4 bg-mist dark:bg-night-raised"} text-base font-medium text-ink/70 hover:text-ink dark:text-white/70 dark:hover:text-white ${className}`}
       aria-label={`Darstellung: ${labels[current]}. Wechseln zu ${labels[next]}.`}
       title={`Darstellung: ${labels[current]}`}
     >
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.6">
         {current === "light" ? (
           <>
             <circle cx="12" cy="12" r="4.5" />

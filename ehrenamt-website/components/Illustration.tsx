@@ -7,7 +7,7 @@ export function Illustration({ alt, caption }: { alt: string; caption?: string }
       <figure data-reveal>
         <div
           data-parallax-root
-          className="overflow-hidden rounded-3xl border border-mist bg-white dark:border-brand-deep"
+          className="overflow-hidden rounded-[28px] bg-white"
         >
           {/* Mit Animation oben/unten je ~3 % Reserve (negative Ränder, Breite bleibt vollständig),
               damit die Parallax-Verschiebung keine Kanten zeigt */}
@@ -22,7 +22,7 @@ export function Illustration({ alt, caption }: { alt: string; caption?: string }
             className="h-auto w-full in-[.motion-ok]:-my-[1.7%] dark:brightness-90"
           />
         </div>
-        {caption && <figcaption className="mt-3 text-base text-ink-soft dark:text-paper/70">{caption}</figcaption>}
+        {caption && <figcaption className="mt-3 text-base text-ink-soft dark:text-white/60">{caption}</figcaption>}
       </figure>
     </Container>
   );

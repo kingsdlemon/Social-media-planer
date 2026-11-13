@@ -1,6 +1,7 @@
 import { pageMetadata } from "@/lib/seo";
 import { getGesuche } from "@/lib/content";
 import { Illustration } from "@/components/Illustration";
+import { AktivWerdenForm } from "@/components/forms/AktivWerdenForm";
 import { ButtonA, ButtonLink, Card, Icon, PageHero, Section } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
@@ -29,13 +30,22 @@ export default function AktivWerdenPage() {
         </p>
       </PageHero>
 
+      <section id="anmelden" className="scroll-mt-24 px-4 sm:px-8">
+        <div className="mx-auto max-w-3xl rounded-[36px] bg-mist p-6 sm:p-12 dark:bg-night-raised">
+          <p className="text-lg font-semibold text-brand dark:text-[#2997ff]">In 2 Minuten online</p>
+          <h2 className="mt-2 mb-8 text-4xl sm:text-5xl">Jetzt unverbindlich melden.</h2>
+          <AktivWerdenForm />
+        </div>
+        <p className="mx-auto mt-4 max-w-3xl text-center text-base text-ink-soft">Lieber auf Papier? Den Fragebogen gibt’s weiter unten als PDF.</p>
+      </section>
+
       <Illustration alt="Illustration: So vielfältig kann Ihr Ehrenamt sein – Gäste im Theater begrüßen, bei Konzerten den Weg weisen, am Infotresen beraten, Eintrittskarten verkaufen oder Skulpturen in einer Ausstellung erklären." />
 
       <Section id="so-gehts" title="So einfach geht’s">
         <ol className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <li>
             <Card className="h-full">
-              <span className="grid size-14 place-items-center rounded-full bg-brand font-display text-2xl font-bold text-brand-deep">1</span>
+              <span className="grid size-12 place-items-center rounded-full bg-brand font-display text-xl font-semibold text-white">1</span>
               <h3 className="mt-5 text-2xl">Fragebogen ausfüllen</h3>
               <p className="mt-3 text-lg">
                 Füllen Sie den Fragebogen am Computer aus, speichern Sie ihn und schicken Sie ihn per E-Mail an{" "}
@@ -51,7 +61,7 @@ export default function AktivWerdenPage() {
           </li>
           <li>
             <Card className="h-full">
-              <span className="grid size-14 place-items-center rounded-full bg-brand font-display text-2xl font-bold text-brand-deep">2</span>
+              <span className="grid size-12 place-items-center rounded-full bg-brand font-display text-xl font-semibold text-white">2</span>
               <h3 className="mt-5 text-2xl">Kennenlerngespräch</h3>
               <p className="mt-3 text-lg">
                 Anhand Ihrer Antworten suchen wir passende Einsatzmöglichkeiten. Danach laden wir Sie zu einem persönlichen
@@ -61,7 +71,7 @@ export default function AktivWerdenPage() {
           </li>
           <li>
             <Card className="h-full">
-              <span className="grid size-14 place-items-center rounded-full bg-brand font-display text-2xl font-bold text-brand-deep">3</span>
+              <span className="grid size-12 place-items-center rounded-full bg-brand font-display text-xl font-semibold text-white">3</span>
               <h3 className="mt-5 text-2xl">Mitglied werden</h3>
               <p className="mt-3 text-lg">
                 Drucken Sie die Beitrittserklärung aus, unterschreiben Sie sie und schicken Sie sie per Post – oder
@@ -108,7 +118,7 @@ export default function AktivWerdenPage() {
           {getGesuche().map((g) => (
             <li key={g.id} id={`gesucht-${g.id}`}>
               <Card className="h-full">
-                <p className="text-base font-bold text-brand-dark dark:text-brand-light">{g.place}</p>
+                <p className="text-base font-semibold text-brand-dark dark:text-brand-light">{g.place}</p>
                 <h3 className="mt-2 text-2xl sm:text-3xl">{g.title}</h3>
                 <div className="mt-4 space-y-4 text-lg">
                   {g.text.map((t) => (
@@ -134,7 +144,7 @@ export default function AktivWerdenPage() {
         </ul>
       </Section>
 
-      <Section title="Was wir Ihnen bieten" className="bg-brand-soft/60 dark:bg-brand-deep/40">
+      <Section title="Was wir Ihnen bieten" className="bg-mist dark:bg-night-raised/50">
         <div className="prose-efd">
           <p>Unsere Mitglieder sind das Wertvollste, was der Verein hat. Deshalb kümmern wir uns gut um Sie:</p>
           <ul>

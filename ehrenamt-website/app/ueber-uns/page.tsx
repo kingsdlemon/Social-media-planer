@@ -75,7 +75,7 @@ export default function UeberUnsPage() {
               <li key={s.href}>
                 <a
                   href={s.href}
-                  className="inline-flex min-h-12 items-center rounded-full border-2 border-brand-dark px-5 text-lg font-bold text-brand-dark no-underline hover:bg-brand-dark hover:text-white dark:border-brand-soft dark:text-brand-soft dark:hover:bg-brand-soft dark:hover:text-brand-deep"
+                  className="inline-flex min-h-12 items-center rounded-full border-2 border-brand-dark px-5 text-lg font-semibold text-brand-dark no-underline hover:bg-brand-dark hover:text-white dark:border-brand-soft dark:text-brand-soft dark:hover:bg-brand-soft dark:hover:text-brand-deep"
                 >
                   {s.label}
                 </a>
@@ -90,12 +90,12 @@ export default function UeberUnsPage() {
           {vorstand.map((v) => (
             <li key={`${v.role}-${v.name}`}>
               <Card className="h-full">
-                <p className="text-base font-bold tracking-wide text-brand-dark uppercase dark:text-brand-light">{v.role}</p>
+                <p className="text-base font-semibold tracking-wide text-brand-dark uppercase dark:text-brand-light">{v.role}</p>
                 {v.name ? (
-                  <p className="mt-2 font-display text-2xl font-bold text-brand-deep dark:text-paper">{v.name}</p>
+                  <p className="mt-2 font-display text-2xl font-semibold text-brand-deep dark:text-paper">{v.name}</p>
                 ) : (
                   <>
-                    <p className="mt-2 font-display text-2xl font-bold text-brand-deep dark:text-paper">Zurzeit unbesetzt</p>
+                    <p className="mt-2 font-display text-2xl font-semibold text-brand-deep dark:text-paper">Zurzeit unbesetzt</p>
                     <p className="mt-2 text-lg">
                       <a href="/aktiv-werden/#wir-suchen" className="link">
                         Wir suchen Sie!
@@ -116,7 +116,7 @@ export default function UeberUnsPage() {
           {koordination.map((k) => (
             <div key={`${k.area}-${k.name}`} data-reveal className="border-l-4 border-brand pl-4">
               <dt className="text-lg text-ink-soft dark:text-paper/75">{k.area}</dt>
-              <dd className="font-display text-xl font-bold text-brand-deep dark:text-paper">{k.name}</dd>
+              <dd className="font-display text-xl font-semibold text-brand-deep dark:text-paper">{k.name}</dd>
             </div>
           ))}
         </dl>
@@ -147,7 +147,7 @@ export default function UeberUnsPage() {
             </ul>
           </div>
           <Card className="self-start">
-            <p className="font-display text-2xl font-bold text-brand-deep dark:text-paper">Mitglied werden</p>
+            <p className="font-display text-2xl font-semibold text-brand-deep dark:text-paper">Mitglied werden</p>
             <p className="mt-3 text-lg">Als aktives Mitglied oder als Fördermitglied – Mitgliedsbeiträge erheben wir nicht.</p>
             <div className="mt-6 flex flex-col gap-3">
               <ButtonLink href="/aktiv-werden/">
@@ -180,14 +180,14 @@ export default function UeberUnsPage() {
             <Todo>Liste der aktuellen Förderer und Zuschussgeber (mit Einverständnis, ggf. mit Logos) ergänzen.</Todo>
           </div>
           <Card className="self-start bg-brand-light/30 dark:bg-night-raised">
-            <p className="font-display text-2xl font-bold text-brand-deep dark:text-paper">Spendenkonto</p>
+            <p className="font-display text-2xl font-semibold text-brand-deep dark:text-paper">Spendenkonto</p>
             <dl className="mt-4 space-y-2 text-lg">
               <div>
-                <dt className="inline font-bold">Bank: </dt>
+                <dt className="inline font-semibold">Bank: </dt>
                 <dd className="inline">{site.bank.name}</dd>
               </div>
               <div>
-                <dt className="inline font-bold">IBAN: </dt>
+                <dt className="inline font-semibold">IBAN: </dt>
                 <dd className="inline font-mono tracking-wide">{site.bank.iban}</dd>
               </div>
             </dl>
@@ -198,12 +198,12 @@ export default function UeberUnsPage() {
         </div>
       </Section>
 
-      <Section id="historie" title="Historie" className="bg-brand-soft/60 dark:bg-brand-deep/40">
+      <Section id="historie" title="Historie" className="bg-mist dark:bg-night-raised/50">
         <ol className="relative max-w-4xl border-l-4 border-brand pl-8">
           {historie.map((h) => (
             <li key={h.title} data-reveal className="relative pb-12 last:pb-0">
               <span aria-hidden="true" className="absolute top-1.5 -left-[2.65rem] size-5 rounded-full border-4 border-brand bg-paper dark:bg-night" />
-              <p className="font-display text-xl font-bold text-brand-dark dark:text-brand-light">{h.year}</p>
+              <p className="font-display text-xl font-semibold text-brand-dark dark:text-brand-light">{h.year}</p>
               <h3 className="mt-1 text-2xl sm:text-3xl">{h.title}</h3>
               <p className="mt-3 text-lg">{h.text}</p>
             </li>

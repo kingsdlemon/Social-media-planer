@@ -10,9 +10,9 @@ export function Logo({ className = "" }: { className?: string }) {
         alt=""
         width={site.logo.width}
         height={site.logo.height}
-        className="size-12 shrink-0 rounded-full transition-transform duration-300 motion-safe:group-hover:-rotate-6 sm:size-14 dark:bg-white"
+        className="size-10 shrink-0 rounded-full transition-transform duration-300 sm:size-11 dark:bg-white"
       />
-      <span className="font-display text-base leading-tight font-bold text-brand-deep min-[360px]:text-lg sm:text-xl dark:text-paper">
+      <span className="font-display text-base leading-tight font-semibold text-brand-deep min-[360px]:text-base sm:text-lg dark:text-paper">
         Ehrenamt
         <br />
         für Darmstadt

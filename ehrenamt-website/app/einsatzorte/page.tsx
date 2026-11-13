@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/seo";
 import { getKategorien } from "@/lib/content";
 import { CultureIcon } from "@/components/CultureIcons";
-import { EinsatzBento } from "@/components/EinsatzBento";
+import { EinsatzMap } from "@/components/map/EinsatzMap";
 import { ButtonA, ButtonLink, Card, Container, Icon, PageHero, Todo } from "@/components/ui";
 import { site } from "@/lib/site";
 
@@ -22,35 +22,47 @@ export default function EinsatzortePage() {
         </p>
       </PageHero>
 
-      <Container className="py-10 sm:py-14">
-        <nav aria-label="Bereiche auf dieser Seite">
-          <EinsatzBento headingLevel="h2" linkToSections={false} />
-        </nav>
-      </Container>
+      <nav aria-label="Bereiche auf dieser Seite" className="glass sticky top-[3.6rem] z-40 border-y border-black/5 dark:border-white/10">
+        <ul className="snap-row !py-3">
+          {getKategorien().map((k) => (
+            <li key={k.id}>
+              <a
+                href={`#${k.id}`}
+                className="inline-flex items-center gap-2 rounded-full bg-mist px-4 py-2 text-base whitespace-nowrap text-ink no-underline transition-colors hover:bg-line/60 dark:bg-night-raised dark:text-white"
+              >
+                <CultureIcon name={k.icon} size={18} /> {k.title}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="#karte" className="inline-flex items-center rounded-full bg-mist px-4 py-2 text-base whitespace-nowrap text-ink no-underline hover:bg-line/60 dark:bg-night-raised dark:text-white">
+              Karte
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-      {getKategorien().map((k, i) => (
-        <section key={k.id} id={k.id} className={`py-14 sm:py-16 ${i % 2 === 1 ? "bg-mist/50 dark:bg-night-raised/40" : ""}`}>
+      {getKategorien().map((k) => (
+        <section key={k.id} id={k.id} className="scroll-mt-28 py-14 sm:py-20">
           <Container>
             <div data-reveal className="flex items-center gap-4">
-              <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-brand-soft text-brand-dark sm:size-16 dark:bg-brand-deep dark:text-brand-soft">
-                <CultureIcon name={k.icon} size={34} />
-              </span>
+              <CultureIcon name={k.icon} size={40} className="shrink-0 text-brand dark:text-[#2997ff]" />
               <h2 className="text-3xl sm:text-5xl">{k.title}</h2>
             </div>
-            <p className="mt-3 text-xl text-ink-soft dark:text-paper/80">{k.intro}</p>
+            <p className="mt-3 text-xl text-ink-soft dark:text-white/70">{k.intro}</p>
             <ul className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
               {k.orte.map((o) => (
-                <li key={o.id} id={o.id}>
+                <li key={o.id} id={o.id} className="scroll-mt-28">
                   <Card className="h-full">
                     {o.wanted && (
-                      <p className="mb-3 inline-flex rounded-full bg-brand px-3 py-1 text-base font-bold text-brand-deep">
+                      <p className="mb-3 inline-flex rounded-full bg-brand px-3 py-1 text-sm font-medium text-white">
                         Verstärkung gesucht
                       </p>
                     )}
                     <h3 className="text-2xl">{o.name}</h3>
                     <p className="mt-3 text-lg">{o.about}</p>
                     <p className="mt-4 text-lg">
-                      <strong className="text-brand-dark dark:text-brand-soft">Das machen wir dort: </strong>
+                      <strong className="font-semibold">Das machen wir dort: </strong>
                       {o.tasks}
                     </p>
                     {o.note && <Todo>{o.note.replace(/^TODO:\s*/, "")}</Todo>}
@@ -61,6 +73,15 @@ export default function EinsatzortePage() {
           </Container>
         </section>
       ))}
+
+      <section id="karte" className="scroll-mt-28 py-14 sm:py-20">
+        <Container>
+          <h2 data-reveal className="text-4xl sm:text-6xl">Auf der Karte.</h2>
+          <p className="mt-3 mb-10 max-w-xl text-xl text-ink-soft dark:text-white/70">Ausgewählte Einsatzorte in Darmstadt.</p>
+          <EinsatzMap />
+          <Todo>Kartenpunkte sind ungefähre Lagen – vom Verein prüfen lassen und weitere Orte ergänzen.</Todo>
+        </Container>
+      </section>
 
       <Container className="py-14">
         <Todo>

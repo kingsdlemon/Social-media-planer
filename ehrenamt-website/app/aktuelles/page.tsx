@@ -22,7 +22,7 @@ export default function AktuellesPage() {
             <li key={m.id} id={m.id}>
               <Card>
                 <article>
-                  <p className="text-base font-bold text-brand-dark dark:text-brand-light">
+                  <p className="text-base font-semibold text-brand-dark dark:text-brand-light">
                     {m.exactDate ? <time dateTime={m.date}>{m.dateLabel}</time> : m.dateLabel}
                   </p>
                   <h2 className="mt-2 text-2xl sm:text-3xl">{m.title}</h2>

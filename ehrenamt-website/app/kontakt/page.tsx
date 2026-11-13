@@ -1,4 +1,5 @@
 import { pageMetadata } from "@/lib/seo";
+import { KontaktForm } from "@/components/forms/KontaktForm";
 import { ButtonA, Card, Icon, PageHero, Section, Todo } from "@/components/ui";
 import { mailto, site } from "@/lib/site";
 
@@ -57,7 +58,14 @@ export default function KontaktPage() {
         </div>
       </Section>
 
-      <Section title="Besuch & Sprechzeiten" className="bg-mist/50 dark:bg-night-raised/40">
+      <section className="px-4 pb-8 sm:px-8">
+        <div className="mx-auto max-w-3xl rounded-[36px] bg-mist p-6 sm:p-12 dark:bg-night-raised">
+          <h2 className="mb-8 text-4xl sm:text-5xl">Schreiben Sie uns.</h2>
+          <KontaktForm />
+        </div>
+      </section>
+
+      <Section title="Besuch & Sprechzeiten" >
         <div className="prose-efd">
           <p>
             Unsere Geschäftsstelle befindet sich im John-F.-Kennedy-Haus (Literaturhaus) in der Kasinostraße. Die Stadt
@@ -66,7 +74,7 @@ export default function KontaktPage() {
           </p>
           <Todo>Feste Sprechzeiten (falls vorhanden) ergänzen.</Todo>
           <Todo>Anfahrt mit Bus und Bahn sowie Hinweise zur Barrierefreiheit des Gebäudes ergänzen.</Todo>
-          <Todo>Optional: Kontaktformular (z. B. über Netlify Forms) – vorher Datenschutzerklärung anpassen.</Todo>
+          <Todo>Datenschutzerklärung um das Kontaktformular (Netlify Forms) und die Karte (OpenStreetMap) ergänzen.</Todo>
         </div>
       </Section>
     </>
