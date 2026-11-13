@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { meldungen } from "@/content/aktuelles";
-import { kategorien } from "@/content/einsatzorte";
 import { gesuche } from "@/content/gesucht";
+import { EinsatzBento } from "@/components/EinsatzBento";
 import { ButtonLink, Card, Container, Icon, Section, Todo } from "@/components/ui";
 import { site } from "@/lib/site";
 
@@ -157,22 +157,7 @@ export default function HomePage() {
 
       {/* Einsatzorte */}
       <Section title="Wo unsere Ehrenamtlichen wirken" intro="Eine Auswahl unserer Einsatzbereiche in Darmstadt.">
-        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {kategorien.map((k) => (
-            <li key={k.id}>
-              <Link
-                href={`/einsatzorte/#${k.id}`}
-                className="group block h-full rounded-3xl border-2 border-cream-dark bg-white p-6 no-underline transition-colors hover:border-terracotta dark:border-teal-dark dark:bg-night-raised dark:hover:border-terracotta"
-              >
-                <h3 className="text-2xl group-hover:text-terracotta-dark dark:group-hover:text-terracotta-light">{k.title}</h3>
-                <p className="mt-2 text-lg text-ink-soft dark:text-cream/80">{k.intro}</p>
-                <p className="mt-4 text-base font-bold text-teal dark:text-teal-soft">
-                  {k.orte.length} {k.orte.length === 1 ? "Einsatzort" : "Einsatzorte"} ansehen →
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <EinsatzBento />
       </Section>
 
       {/* Wir suchen */}

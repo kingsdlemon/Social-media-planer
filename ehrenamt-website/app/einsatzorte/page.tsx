@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { kategorien } from "@/content/einsatzorte";
+import { CultureIcon } from "@/components/CultureIcons";
+import { EinsatzBento } from "@/components/EinsatzBento";
 import { ButtonA, ButtonLink, Card, Container, Icon, PageHero, Todo } from "@/components/ui";
 import { site } from "@/lib/site";
 
@@ -18,27 +20,21 @@ export default function EinsatzortePage() {
         </p>
       </PageHero>
 
-      <Container className="py-10">
+      <Container className="py-10 sm:py-14">
         <nav aria-label="Bereiche auf dieser Seite">
-          <ul className="flex flex-wrap gap-3">
-            {kategorien.map((k) => (
-              <li key={k.id}>
-                <a
-                  href={`#${k.id}`}
-                  className="inline-flex min-h-12 items-center rounded-full border-2 border-teal px-5 text-lg font-bold text-teal no-underline hover:bg-teal hover:text-white dark:border-teal-soft dark:text-teal-soft dark:hover:bg-teal-soft dark:hover:text-teal-dark"
-                >
-                  {k.title}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <EinsatzBento linkToSections={false} />
         </nav>
       </Container>
 
       {kategorien.map((k, i) => (
         <section key={k.id} id={k.id} className={`py-14 sm:py-16 ${i % 2 === 1 ? "bg-cream-dark/50 dark:bg-night-raised/40" : ""}`}>
           <Container>
-            <h2 className="text-3xl sm:text-5xl">{k.title}</h2>
+            <div className="flex items-center gap-4">
+              <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-teal-soft text-teal sm:size-16 dark:bg-teal-dark dark:text-teal-soft">
+                <CultureIcon name={k.icon} size={34} />
+              </span>
+              <h2 className="text-3xl sm:text-5xl">{k.title}</h2>
+            </div>
             <p className="mt-3 text-xl text-ink-soft dark:text-cream/80">{k.intro}</p>
             <ul className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
               {k.orte.map((o) => (

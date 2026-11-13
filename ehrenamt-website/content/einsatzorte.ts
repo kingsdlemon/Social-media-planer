@@ -5,6 +5,8 @@
  * nur die Orte, die auf der alten Website beschrieben waren. Liste mit der Broschüre abgleichen.
  */
 
+import type { CultureIconName } from "@/components/CultureIcons";
+
 export type Einsatzort = {
   id: string;
   name: string;
@@ -20,6 +22,8 @@ export type Einsatzort = {
 export type Kategorie = {
   id: string;
   title: string;
+  /** Icon aus components/CultureIcons */
+  icon: CultureIconName;
   intro: string;
   orte: Einsatzort[];
 };
@@ -27,6 +31,7 @@ export type Kategorie = {
 export const kategorien: Kategorie[] = [
   {
     id: "museen-shops",
+    icon: "column",
     title: "Museen & Museumsshops",
     intro: "Beraten, verkaufen, Gäste empfangen – mitten im Kulturbetrieb.",
     orte: [
@@ -73,6 +78,7 @@ export const kategorien: Kategorie[] = [
   },
   {
     id: "archive-sammlungen",
+    icon: "film",
     title: "Archive & Sammlungen",
     intro: "Erschließen, digitalisieren, bewahren – oft mit viel Liebe zum Detail.",
     orte: [
@@ -125,6 +131,7 @@ export const kategorien: Kategorie[] = [
   },
   {
     id: "musik-veranstaltungen",
+    icon: "music",
     title: "Musik, Theater & Veranstaltungen",
     intro: "Für alle, die gern dabei sind, wenn sich der Vorhang hebt.",
     orte: [
@@ -162,6 +169,7 @@ export const kategorien: Kategorie[] = [
   },
   {
     id: "parks-denkmaeler",
+    icon: "brush",
     title: "Parks, Gärten & Denkmäler",
     intro: "Draußen anpacken – für Darmstadts grüne und steinerne Schätze.",
     orte: [
@@ -205,6 +213,7 @@ export const kategorien: Kategorie[] = [
   },
   {
     id: "soziales",
+    icon: "book",
     title: "Bildung & Nachbarschaft",
     intro: "Kultur zu den Menschen bringen.",
     orte: [
