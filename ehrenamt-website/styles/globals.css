@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces/wght.css";
+@import "@fontsource-variable/atkinson-hyperlegible-next/wght.css";
+
+/* Dark Mode per Klasse auf <html> (gesetzt durch das Theme-Skript im Layout) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Markenfarben */
+  --color-terracotta: #c26b48;
+  --color-terracotta-dark: #a55333;
+  --color-terracotta-light: #e8b59e;
+  --color-cream: #f6f1ea;
+  --color-cream-dark: #eae0d2;
+  --color-teal: #17565c;
+  --color-teal-dark: #0f3d42;
+  --color-teal-light: #4c878d;
+  --color-teal-soft: #dce9ea;
+
+  /* Neutrale Töne für Text und Dark Mode */
+  --color-ink: #1f2a2c;
+  --color-ink-soft: #4a5557;
+  --color-night: #0b1f22;
+  --color-night-raised: #12302f;
+
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+  --font-sans: "Atkinson Hyperlegible Next Variable", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    /* Basisschrift etwas größer, skaliert weiterhin mit der Browser-Einstellung */
+    font-size: 112.5%;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 7rem;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink antialiased dark:bg-night dark:text-cream;
+    line-height: 1.65;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold tracking-tight text-teal-dark dark:text-cream;
+    line-height: 1.12;
+    text-wrap: balance;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
+  a {
+    @apply underline-offset-4;
+  }
+
+  :focus-visible {
+    @apply rounded-sm outline-3 outline-offset-3 outline-terracotta;
+  }
+
+  ::selection {
+    @apply bg-terracotta-light text-teal-dark;
+  }
+}
+
+/* Fließtext-Links */
+@utility link {
+  @apply font-semibold text-teal underline decoration-terracotta decoration-2 hover:text-terracotta-dark dark:text-teal-soft dark:hover:text-terracotta-light;
+}
+
+@layer components {
+
+  /* Inhalte aus redaktionellem Text */
+  .prose-efd {
+    @apply max-w-3xl text-lg;
+  }
+  .prose-efd > * + * {
+    @apply mt-5;
+  }
+  .prose-efd h2 {
+    @apply mt-12 text-3xl sm:text-4xl;
+  }
+  .prose-efd h3 {
+    @apply mt-10 text-2xl;
+  }
+  .prose-efd ul {
+    @apply list-disc space-y-2 pl-6 marker:text-terracotta;
+  }
+  .prose-efd ol {
+    @apply list-decimal space-y-2 pl-6 marker:font-bold marker:text-terracotta;
+  }
+  .prose-efd a {
+    @apply link;
+  }
+}
