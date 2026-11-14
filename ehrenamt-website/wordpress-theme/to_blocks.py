@@ -93,6 +93,8 @@ def convert(el):
     if isinstance(el, NavigableString):
         s = str(el).strip()
         return html_block(s) if s else ""
+    if el.get("data-efd-shortcode"):
+        return f'<!-- wp:shortcode -->\n[{el["data-efd-shortcode"]}]\n<!-- /wp:shortcode -->'
     for fn in (text_block,):
         r = fn(el)
         if r: return r

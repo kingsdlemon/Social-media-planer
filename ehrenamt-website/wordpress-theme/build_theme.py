@@ -3,7 +3,7 @@ das in WordPress Studio hochgeladen und aktiviert werden kann.
 Beim Aktivieren legt das Theme alle Seiten an und setzt Startseite + Permalinks."""
 import json, os, re, shutil, html as htmlmod
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "out")
+OUT = "/home/claude/social-media-planer/ehrenamt-website/out"
 T = "/tmp/theme/ehrenamt-darmstadt"
 shutil.rmtree("/tmp/theme", ignore_errors=True)
 os.makedirs(f"{T}/assets/css", exist_ok=True)
@@ -22,6 +22,9 @@ css += """
 .wp-site-blocks>*{margin-block-start:0!important;margin-block-end:0!important}
 body{margin:0}
 .wp-block-post-content>*{margin:0!important;max-width:none!important}
+/* Formular-Auswahl-Chips ohne JavaScript */
+.efd-chip:has(input:checked){background:#1d1d1f;color:#fff;--tw-ring-color:#1d1d1f}
+.efd-chip:has(input:focus-visible){outline:3px solid #0071e3;outline-offset:2px}
 """
 open(f"{T}/assets/css/site.css", "w").write(css)
 shutil.copytree(f"{OUT}/images", f"{T}/assets/images")
@@ -43,6 +46,25 @@ def clean(s):
     return s
 
 
+def swap_forms(slug, main):
+    """React-Formulare (brauchen JavaScript) durch WordPress-Shortcodes ersetzen."""
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(main, "html.parser")
+    form = soup.find("form")
+    if not form:
+        return main
+    if slug == "aktiv-werden":
+        target, code = form.find_parent("div", class_="scroll-mt-28"), "efd_aktiv_formular"
+    elif slug == "kontakt":
+        target, code = form, "efd_kontakt_formular"
+    else:
+        return main
+    ph = soup.new_tag("div")
+    ph["data-efd-shortcode"] = code
+    target.replace_with(ph)
+    return str(soup)
+
+
 def block(html_str):
     return "<!-- wp:html -->\n" + html_str + "\n<!-- /wp:html -->"
 
@@ -51,6 +73,8 @@ home = open(f"{OUT}/index.html").read()
 body = home[home.index("<body"):]
 header_html = clean(body[body.index('<a href="#inhalt"'): body.index("<main")])  # Skip-Link + Header + mobile Leiste
 footer_html = clean(part(body, "<footer", "</footer>"))
+# Aktiver Menüpunkt wird in WordPress pro Seite gesetzt (nicht fest „Start“)
+header_html = header_html.replace(' aria-current="page"', '').replace("text-ink font-medium dark:text-white", "text-ink/70 hover:text-ink dark:text-white/70 dark:hover:text-white").replace('no-underline text-ink dark:text-white"', 'no-underline text-ink/70 hover:text-ink dark:text-white/70 dark:hover:text-white"')
 open(f"{T}/parts/header.html", "w").write(block(header_html))
 open(f"{T}/parts/footer.html", "w").write(block(footer_html))
 
@@ -75,8 +99,9 @@ for slug in ["", "aktiv-werden", "einsatzorte", "aktuelles", "ueber-uns", "spend
     h = open(f).read()
     title = htmlmod.unescape(re.search(r"<title>(.*?)</title>", h).group(1)).split(" | ")[0].split(" – ")[0].strip()
     main = clean(part(h, "<main", "</main>"))
+    main = swap_forms(slug, main)
     key = slug or "startseite"
-    import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import sys; sys.path.insert(0, "/home/claude")
     from to_blocks import to_blocks
     open(f"{T}/content/{key}.html", "w").write(to_blocks(main))
     pages.append({"slug": key, "title": "Startseite" if not slug else title, "front": not slug})
@@ -85,7 +110,7 @@ json.dump(pages, open(f"{T}/content/pages.json", "w"), ensure_ascii=False, inden
 open(f"{T}/style.css", "w").write("""/*
 Theme Name: Ehrenamt für Darmstadt
 Description: Apple-minimalistisches Theme für Ehrenamt für Darmstadt e.V. Beim Aktivieren werden alle Seiten automatisch angelegt.
-Version: 2.0
+Version: 3.0
 Requires at least: 6.4
 Requires PHP: 7.4
 Text Domain: ehrenamt-darmstadt
@@ -109,7 +134,9 @@ open(f"{T}/functions.php", "w").write(r"""<?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* Version der mitgelieferten Inhalte – bei Änderungen erhöhen */
-define( 'EFD_CONTENT_VERSION', 2 );
+define( 'EFD_CONTENT_VERSION', 3 );
+
+require_once __DIR__ . '/inc/forms.php';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
@@ -143,6 +170,22 @@ function efd_fix_urls( $html ) {
 add_filter( 'render_block', function ( $content, $block ) {
 	return efd_fix_urls( $content );
 }, 10, 2 );
+
+/* Aktuelle Seite im Menü hervorheben */
+add_filter( 'render_block_core/template-part', function ( $content, $block ) {
+	if ( 'header' !== ( $block['attrs']['slug'] ?? '' ) || is_admin() ) { return $content; }
+	$url = is_front_page() ? home_url( '/' ) : get_permalink();
+	if ( ! $url ) { return $content; }
+	$q = preg_quote( 'href="' . esc_url( $url ) . '"', '#' );
+	return preg_replace_callback(
+		'#class="([^"]*?)text-ink/70 hover:text-ink dark:text-white/70 dark:hover:text-white"\s+' . $q . '#',
+		function ( $m ) use ( $url ) {
+			$active = false !== strpos( $m[1], 'text-3xl' ) ? 'text-ink dark:text-white' : 'text-ink font-medium dark:text-white';
+			return 'aria-current="page" class="' . $m[1] . $active . '" href="' . esc_url( $url ) . '"';
+		},
+		$content
+	);
+}, 20, 2 );
 
 /* Beim Aktivieren: Seiten anlegen, Startseite + Permalinks setzen */
 function efd_setup_pages() {
@@ -189,6 +232,8 @@ add_action( 'admin_init', function () {
 } );
 """)
 
+os.makedirs(f"{T}/inc", exist_ok=True)
+shutil.copy(os.path.join(os.path.dirname(os.path.abspath(__file__)), "forms.php"), f"{T}/inc/forms.php")
 # Startseite heißt im Original "/", WordPress-Slug ist "startseite" -> Links auf "/" funktionieren über die Startseite.
 shutil.make_archive("/tmp/ehrenamt-darmstadt-theme", "zip", "/tmp/theme", "ehrenamt-darmstadt")
 print("ok", os.path.getsize("/tmp/ehrenamt-darmstadt-theme.zip"))
