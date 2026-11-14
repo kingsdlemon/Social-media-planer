@@ -5,4 +5,4 @@
 export const THEME_STORAGE_KEY = "theme";
 
 /** Läuft vor dem ersten Rendern, damit beim Laden nichts aufblitzt. */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");var d=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d)document.documentElement.classList.add("dark");}catch(e){}})();`;
+export const themeInitScript = `(function(){try{document.documentElement.classList.remove("dark");localStorage.removeItem("${THEME_STORAGE_KEY}");}catch(e){}})();`; // Seite ist immer hell

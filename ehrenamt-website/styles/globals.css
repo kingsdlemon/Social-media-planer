@@ -2,7 +2,7 @@
 @import "@fontsource-variable/inter/index.css";
 
 /* Dark Mode per Klasse auf <html> (gesetzt durch das Theme-Skript im Layout) */
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark-never, .dark-never *)); /* Seite ist immer hell */
 
 /*
  * Farbpalette – abgeleitet aus dem Vereinslogo (Hochzeitsturm-Blau #0AB3EF + Schwarz).
