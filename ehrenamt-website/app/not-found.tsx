@@ -3,7 +3,7 @@ import { ButtonLink, Container } from "@/components/ui";
 export default function NotFound() {
   return (
     <Container className="py-24">
-      <p className="text-base font-semibold tracking-normal text-brand-dark uppercase dark:text-brand-light">Fehler 404</p>
+      <p className="text-lg font-semibold text-ink-soft">Fehler 404</p>
       <h1 className="mt-4 text-4xl sm:text-6xl">Diese Seite gibt es leider nicht.</h1>
       <p className="mt-6 max-w-2xl text-xl">
         Vielleicht hat sich die Adresse geändert. Über die Navigation oben finden Sie alle Inhalte – oder Sie starten auf der

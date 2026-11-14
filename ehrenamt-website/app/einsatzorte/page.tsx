@@ -53,7 +53,16 @@ export default function EinsatzortePage() {
             <ul className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
               {k.orte.map((o) => (
                 <li key={o.id} id={o.id} className="scroll-mt-28">
-                  <Card className="h-full">
+                  <Card className="h-full overflow-hidden">
+                    {o.image && (
+                      <img
+                        src={o.image}
+                        alt={o.imageAlt ?? ""}
+                        loading="lazy"
+                        decoding="async"
+                        className="-mx-6 -mt-6 mb-6 aspect-[16/10] w-[calc(100%+3rem)] max-w-none object-cover sm:-mx-12 sm:-mt-12 sm:mb-8 sm:w-[calc(100%+6rem)]"
+                      />
+                    )}
                     {o.wanted && (
                       <p className="mb-3 inline-flex rounded-full bg-mist px-3 py-1 text-sm font-medium text-ink dark:bg-night-raised dark:text-white">
                         Verstärkung gesucht

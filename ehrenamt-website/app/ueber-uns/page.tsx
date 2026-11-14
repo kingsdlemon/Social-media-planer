@@ -90,7 +90,7 @@ export default function UeberUnsPage() {
           {vorstand.map((v) => (
             <li key={`${v.role}-${v.name}`}>
               <Card className="h-full">
-                <p className="text-base font-semibold tracking-wide text-brand-dark uppercase dark:text-brand-light">{v.role}</p>
+                <p className="text-sm font-medium text-ink-soft">{v.role}</p>
                 {v.name ? (
                   <p className="mt-2 font-display text-2xl font-semibold text-brand-deep dark:text-paper">{v.name}</p>
                 ) : (
@@ -114,7 +114,7 @@ export default function UeberUnsPage() {
         </p>
         <dl className="mt-8 grid grid-cols-1 gap-x-10 gap-y-5 sm:grid-cols-2">
           {koordination.map((k) => (
-            <div key={`${k.area}-${k.name}`} data-reveal className="border-l-4 border-brand pl-4">
+            <div key={`${k.area}-${k.name}`} data-reveal className="border-l-2 border-line pl-4">
               <dt className="text-lg text-ink-soft dark:text-paper/75">{k.area}</dt>
               <dd className="font-display text-xl font-semibold text-brand-deep dark:text-paper">{k.name}</dd>
             </div>
@@ -130,7 +130,7 @@ export default function UeberUnsPage() {
         {todo && <Todo>{todo}</Todo>}
       </Section>
 
-      <Section id="mitglieder" title="Mitglieder" className="bg-mist/50 dark:bg-night-raised/40">
+      <Section id="mitglieder" title="Mitglieder" className="bg-mist">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <div className="prose-efd">
             <p>
@@ -159,6 +159,16 @@ export default function UeberUnsPage() {
             </div>
           </Card>
         </div>
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2" data-reveal>
+          <figure>
+            <img src="/images/fotos/mv-2023.webp" alt="Collage von der 32. Mitgliederversammlung 2023" loading="lazy" className="aspect-square w-full rounded-[28px] object-cover" />
+            <figcaption className="mt-3 text-sm text-ink-soft">32. Mitgliederversammlung 2023</figcaption>
+          </figure>
+          <figure>
+            <img src="/images/fotos/fest-collage.webp" alt="Collage vom Fest im John-F.-Kennedy-Haus" loading="lazy" className="aspect-square w-full rounded-[28px] object-cover" />
+            <figcaption className="mt-3 text-sm text-ink-soft">Fest im John-F.-Kennedy-Haus</figcaption>
+          </figure>
+        </div>
       </Section>
 
       <Section id="finanzierung" title="Finanzierung">
@@ -177,7 +187,6 @@ export default function UeberUnsPage() {
               Vielfältige Sach- und Geldspenden von Firmen, Ämtern, Stiftungen und Privatpersonen haben den Aufbau des Vereins
               erst möglich gemacht – zuletzt etwa die Förderung neuer Bürotechnik durch die Bürgerstiftung Darmstadt.
             </p>
-            <Todo>Liste der aktuellen Förderer und Zuschussgeber (mit Einverständnis, ggf. mit Logos) ergänzen.</Todo>
           </div>
           <Card className="self-start dark:bg-night-raised">
             <p className="font-display text-2xl font-semibold text-brand-deep dark:text-paper">Spendenkonto</p>
@@ -196,14 +205,43 @@ export default function UeberUnsPage() {
             </ButtonLink>
           </Card>
         </div>
+        <div className="mt-12" data-reveal>
+          <p className="text-lg font-semibold text-ink-soft">Unterstützt von</p>
+          <ul className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <li className="flex h-20 items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-line/60">
+              <img src="/images/logos/logo-echo.png" alt="Darmstädter Echo" loading="lazy" className="max-h-12 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0" />
+            </li>
+            <li className="flex h-20 items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-line/60">
+              <img src="/images/logos/logo-entega.png" alt="ENTEGA Stiftung" loading="lazy" className="max-h-12 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0" />
+            </li>
+            <li className="flex h-20 items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-line/60">
+              <img src="/images/logos/logo-merck.png" alt="Merck" loading="lazy" className="max-h-12 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0" />
+            </li>
+            <li className="flex h-20 items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-line/60">
+              <img src="/images/logos/logo-sparkasse.png" alt="Sparkasse Darmstadt" loading="lazy" className="max-h-12 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0" />
+            </li>
+            <li className="flex h-20 items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-line/60">
+              <img src="/images/logos/logo-darmstadt.png" alt="Wissenschaftsstadt Darmstadt" loading="lazy" className="max-h-12 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0" />
+            </li>
+            <li className="flex h-20 items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-line/60">
+              <img src="/images/logos/logo-hessen.png" alt="Land Hessen" loading="lazy" className="max-h-12 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0" />
+            </li>
+            <li className="flex h-20 items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-line/60">
+              <img src="/images/logos/logo-maw.png" alt="Merz Arnold Wüpper" loading="lazy" className="max-h-12 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0" />
+            </li>
+            <li className="flex h-20 items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-line/60">
+              <img src="/images/logos/logo-buergerstiftung.png" alt="Bürgerstiftung Darmstadt" loading="lazy" className="max-h-12 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0" />
+            </li>
+          </ul>
+        </div>
       </Section>
 
       <Section id="historie" title="Historie" className="bg-mist dark:bg-night-raised/50">
-        <ol className="relative max-w-4xl border-l-4 border-brand pl-8">
+        <ol className="relative max-w-4xl border-l-2 border-line pl-8">
           {historie.map((h) => (
             <li key={h.title} data-reveal className="relative pb-12 last:pb-0">
-              <span aria-hidden="true" className="absolute top-1.5 -left-[2.65rem] size-5 rounded-full border-4 border-brand bg-paper dark:bg-night" />
-              <p className="font-display text-xl font-semibold text-brand-dark dark:text-brand-light">{h.year}</p>
+              <span aria-hidden="true" className="absolute top-1.5 -left-[2.55rem] size-4 rounded-full border-2 border-ink bg-paper dark:bg-night" />
+              <p className="font-display text-xl font-semibold text-ink-soft">{h.year}</p>
               <h3 className="mt-1 text-2xl sm:text-3xl">{h.title}</h3>
               <p className="mt-3 text-lg">{h.text}</p>
             </li>

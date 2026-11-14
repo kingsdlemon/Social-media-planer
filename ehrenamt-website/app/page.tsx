@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Carousel, Slide } from "@/components/Carousel";
 import { CountUp } from "@/components/CountUp";
-import { CultureIcon } from "@/components/CultureIcons";
 import { ButtonLink, Container, Icon, MoreLink, Todo } from "@/components/ui";
 import { getGesuche, getKategorien, getMeldungen } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
@@ -100,14 +99,18 @@ export default function HomePage() {
             <Slide key={k.id}>
               <Link
                 href={`/einsatzorte/#${k.id}`}
-                className="group flex h-[26rem] flex-col rounded-[28px] bg-paper p-6 sm:p-8 no-underline transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] motion-safe:hover:scale-[1.015] dark:bg-night"
+                className="group flex h-[30rem] flex-col overflow-hidden rounded-[28px] bg-paper no-underline transition-[box-shadow,scale] duration-300 ease-out hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] motion-safe:hover:scale-[1.015] dark:bg-night"
               >
-                <CultureIcon name={k.icon} size={44} className="text-ink dark:text-white" />
-                <h3 className="mt-auto text-3xl">{k.title}</h3>
-                <p className="mt-3 text-lg text-ink-soft dark:text-white/70">{k.intro}</p>
-                <p className="mt-5 text-lg text-brand-dark dark:text-[#2997ff]">
-                  {k.orte.length} {k.orte.length === 1 ? "Einsatzort" : "Einsatzorte"} ›
-                </p>
+                {k.image && (
+                  <img src={k.image} alt="" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.03]" />
+                )}
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="text-2xl">{k.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-base text-ink-soft dark:text-white/70">{k.intro}</p>
+                  <p className="mt-auto pt-3 text-lg text-brand-dark dark:text-[#2997ff]">
+                    {k.orte.length} {k.orte.length === 1 ? "Einsatzort" : "Einsatzorte"} ›
+                  </p>
+                </div>
               </Link>
             </Slide>
           ))}

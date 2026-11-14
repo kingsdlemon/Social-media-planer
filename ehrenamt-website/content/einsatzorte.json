@@ -9,33 +9,44 @@
           "name": "Museumsshop des Hessischen Landesmuseums",
           "about": "Der Shop bietet Wissen, Unterhaltung und Inspiration. Das breite Sortiment spiegelt die Vielfalt des Universalmuseums wider.",
           "tasks": "Der Museumsshop wird von unseren Mitgliedern getragen und könnte ohne diese Unterstützung nicht bestehen.",
-          "wanted": true
+          "wanted": true,
+          "image": "/images/fotos/hlmd.webp",
+          "imageAlt": "Ehrenamtliche im Museumsshop des Hessischen Landesmuseums"
         },
         {
           "name": "Museumsshop auf der Mathildenhöhe",
           "about": "Der Shop im Oktogon direkt neben dem Museum Künstlerkolonie bietet ein breites Sortiment rund um den Jugendstil. Seit 1996 wird er ehrenamtlich betrieben.",
           "tasks": "Gemeinsam mit den Mitarbeiterinnen des Museums übernehmen unsere Mitglieder Beratung und Verkauf.",
-          "wanted": false
+          "wanted": false,
+          "image": "/images/fotos/mathildenhoehe.webp",
+          "imageAlt": "Zwei Ehrenamtliche hinter der Theke im Museumsshop auf der Mathildenhöhe"
         },
         {
           "name": "Zooshop im Zoo Vivarium",
           "about": "Plüsch- und Holztiere, Postkarten mit Tieren aus dem Vivarium, Spielzeug, T-Shirts, Tassen und ein Kinderzoo-Führer – alles rund um „Tiere“ und „Natur“.",
           "tasks": "Unsere Mitglieder beraten, verkaufen, bedienen die Kasse und übernehmen die Abrechnung.",
-          "wanted": true
+          "wanted": true,
+          "image": "/images/fotos/vivarium.webp",
+          "imageAlt": "Eingang zum Zoo Vivarium Darmstadt"
         },
         {
           "name": "Kunsthalle Darmstadt",
           "about": "Getragen von einem der ältesten Kunstvereine Deutschlands, fördert die Kunsthalle das Neue und sucht das Gemeinsame – für die Menschen der Stadt, der Region und Gäste von weither.",
           "tasks": "Unterstützung bei Ausstellungen, am Empfang und im Büro sowie beim „First Friday“ einmal im Monat.",
-          "wanted": false
+          "wanted": false,
+          "image": "/images/fotos/kunsthalle.webp",
+          "imageAlt": "Die Kunsthalle Darmstadt am Steubenplatz"
         },
         {
           "name": "Ausstellungen am Spanischen Turm (Rosenhöhe)",
           "about": "Wechselnde Ausstellungen rund um den Spanischen Turm im Park Rosenhöhe.",
           "tasks": "Ausstellungsbetreuung am Wochenende: Besucherinnen und Besucher informieren und Flyer verteilen.",
-          "wanted": false
+          "wanted": false,
+          "image": "/images/fotos/spanischer-turm.webp",
+          "imageAlt": "Zeichnung des Spanischen Turms auf der Rosenhöhe"
         }
-      ]
+      ],
+      "image": "/images/fotos/hlmd.webp"
     },
     {
       "title": "Archive & Sammlungen",
@@ -46,27 +57,35 @@
           "name": "Hessisches Staatsarchiv und Stadtarchiv Darmstadt",
           "about": "Das Staatsarchiv ist die zentrale Anlaufstelle für die Geschichte Hessens; das Stadtarchiv bewahrt Unterlagen der städtischen Ämter, Sammlungsgut und Kunstwerke zur Stadtgeschichte.",
           "tasks": "Quellentexte aus dem Lateinischen, Englischen oder Französischen übersetzen, Bestände reinigen, Ausstellungen betreuen und bei der Digitalisierung helfen.",
-          "wanted": false
+          "wanted": false,
+          "image": "/images/fotos/staatsarchiv.webp",
+          "imageAlt": "Das Haus der Geschichte am Karolinenplatz"
         },
         {
           "name": "Jazzinstitut Darmstadt",
           "about": "Europas größte öffentliche Jazzsammlung – seit 1997 im barocken Bessunger Kavaliershaus. Im Gewölbekeller finden intime Konzerte statt.",
           "tasks": "Betreuung der Fotosammlung und des CD-Archivs sowie Video-Digitalisierung.",
-          "wanted": false
+          "wanted": false,
+          "image": "/images/fotos/jazzinstitut.webp",
+          "imageAlt": "Das Kavaliershaus, Sitz des Jazzinstituts Darmstadt"
         },
         {
           "name": "Kunst Archiv Darmstadt e.V.",
           "about": "Die Dokumentationsstelle für die gesamte bildende Kunst im Raum Darmstadt.",
           "tasks": "Archivieren, digitalisieren, Bestände erfassen, die Bibliothek beaufsichtigen und Mitglieder betreuen. Wegen neuer Ausstellungen, Schenkungen und eines Umzugs wird Verstärkung gesucht.",
           "wanted": false,
-          "note": "Prüfen, ob hier aktuell noch Verstärkung gesucht wird (auf der alten Website erwähnt, aber nicht unter „Wir suchen“ gelistet)."
+          "note": "Prüfen, ob hier aktuell noch Verstärkung gesucht wird (auf der alten Website erwähnt, aber nicht unter „Wir suchen“ gelistet).",
+          "image": "/images/fotos/kunstarchiv.webp",
+          "imageAlt": "Ausstellungsraum des Kunst Archivs Darmstadt"
         },
         {
           "name": "Hessische familiengeschichtliche Vereinigung (Haus der Geschichte)",
           "about": "Seit 1921 pflegt die HfV die Familienkunde. Ihre Bibliothek umfasst rund 5.500 Bände, etwa Ortsfamilienbücher und Ortsliteratur.",
           "tasks": "Hilfe bei der schrittweisen Digitalisierung der Materialien.",
           "wanted": false,
-          "note": "Prüfen, ob hier aktuell noch Verstärkung gesucht wird (auf der alten Website erwähnt, aber nicht unter „Wir suchen“ gelistet)."
+          "note": "Prüfen, ob hier aktuell noch Verstärkung gesucht wird (auf der alten Website erwähnt, aber nicht unter „Wir suchen“ gelistet).",
+          "image": "/images/fotos/haus-der-geschichte.webp",
+          "imageAlt": "Ehrenamtliche bei der Arbeit in den Räumen der Hessischen familiengeschichtlichen Vereinigung"
         },
         {
           "name": "Deutsch-Baltische Gesellschaft e.V.",
@@ -80,7 +99,8 @@
           "tasks": "Pflege und Aktualisierung der digitalisierten Inhalte auf der Plattform.",
           "wanted": false
         }
-      ]
+      ],
+      "image": "/images/fotos/staatsarchiv.webp"
     },
     {
       "title": "Musik, Theater & Veranstaltungen",
@@ -91,13 +111,17 @@
           "name": "Konzertchor Darmstadt",
           "about": "1977 von Wolfgang Seeliger gegründet, gehört der Konzertchor heute zu den bekanntesten Chören Deutschlands.",
           "tasks": "Einlass- und Ticketkontrolle, Sitzplatzzuteilung, Programmausgabe und Kontakt zur Bühne.",
-          "wanted": false
+          "wanted": false,
+          "image": "/images/fotos/konzertchor.webp",
+          "imageAlt": "Der Konzertchor Darmstadt vor dem Hochzeitsturm-Portal auf der Mathildenhöhe"
         },
         {
           "name": "Darmstädter Residenzfestspiele",
           "about": "Das Musikfestival findet jedes Jahr im Juli und August an historischen Spielstätten statt – seit 2001, heute veranstaltet vom Verein Darmstädter Residenzfestspiele e.V.",
           "tasks": "Mitarbeit in der Geschäftsstelle und Bürotätigkeiten.",
-          "wanted": false
+          "wanted": false,
+          "image": "/images/fotos/residenzfestspiele.webp",
+          "imageAlt": "Bestuhlung der Darmstädter Residenzfestspiele vor der Mathildenhöhe"
         },
         {
           "name": "Papiertheatersammlung Walter Röhler",
@@ -112,7 +136,8 @@
           "tasks": "Verkauf von Buttons, Hilfe beim Flohmarkt und einzelne Führungen über das Gelände.",
           "wanted": false
         }
-      ]
+      ],
+      "image": "/images/fotos/konzertchor.webp"
     },
     {
       "title": "Parks, Gärten & Denkmäler",
@@ -123,19 +148,25 @@
           "name": "Förderverein Park Rosenhöhe e.V.",
           "about": "Von Mai bis November blühen im Rosarium mehr als 10.000 Rosen in über 200 Sorten. Mit Hochzeitsturm und Mathildenhöhe bildet der Park ein Darmstädter Gesamtkunstwerk.",
           "tasks": "Gartenarbeit wie Rosenschnitt und Unkraut jäten – allein oder im kleinen Team.",
-          "wanted": true
+          "wanted": true,
+          "image": "/images/fotos/rosenhoehe.webp",
+          "imageAlt": "Das Rosarium mit dem Rosendom im Park Rosenhöhe"
         },
         {
           "name": "Reinigung historischer Gräber",
           "about": "In Abstimmung mit dem Grünflächenamt, Abteilung Friedhöfe, pflegen wir denkmalgeschützte Gräber – etwa das Grab des Komponisten Arnold Mendelssohn auf dem Bessunger Friedhof.",
           "tasks": "Eine feste Gruppe trifft sich regelmäßig und freut sich über neue Leute. Termine kommen über den Mailverteiler; Teilnahme nach Anmeldung.",
-          "wanted": true
+          "wanted": true,
+          "image": "/images/fotos/graeber.webp",
+          "imageAlt": "Ein gereinigtes historisches Grab auf dem Alten Friedhof"
         },
         {
           "name": "Denkmalreinigung",
           "about": "In Abstimmung mit dem Denkmalamt helfen wir, die Denkmäler der Stadt zu erhalten – zum Beispiel die Urne der Großen Landgräfin Karoline im Herrngarten.",
           "tasks": "Termine über den Mailverteiler der Abrufgruppe; Teilnahme nach vorheriger Anmeldung.",
-          "wanted": false
+          "wanted": false,
+          "image": "/images/fotos/denkmalreinigung.webp",
+          "imageAlt": "Ehrenamtliche reinigen ein Denkmal"
         },
         {
           "name": "Fotografieren für das Denkmalamt",
@@ -149,7 +180,8 @@
           "tasks": "Alte Handschriften abschreiben (transkribieren).",
           "wanted": false
         }
-      ]
+      ],
+      "image": "/images/fotos/rosenhoehe.webp"
     },
     {
       "title": "Bildung & Nachbarschaft",
@@ -168,7 +200,8 @@
           "tasks": "Einmal pro Woche rund 45 Minuten mit einem Kind lesen – vor Ort oder online, möglichst ein ganzes Schuljahr lang.",
           "wanted": true
         }
-      ]
+      ],
+      "image": "/images/fotos/tu-bibliothek.webp"
     }
   ]
 }

@@ -66,6 +66,12 @@ export default function KontaktPage() {
       </section>
 
       <Section title="Besuch & Sprechzeiten" >
+        <img
+          src="/images/fotos/kennedyhaus.webp"
+          alt="Schriftzug „John-F.-Kennedy-Haus“ an der Fassade der Geschäftsstelle"
+          loading="lazy"
+          className="mb-10 aspect-[21/9] w-full rounded-[28px] object-cover"
+        />
         <div className="prose-efd">
           <p>
             Unsere Geschäftsstelle befindet sich im John-F.-Kennedy-Haus (Literaturhaus) in der Kasinostraße. Die Stadt

@@ -118,7 +118,7 @@ export default function AktivWerdenPage() {
           {getGesuche().map((g) => (
             <li key={g.id} id={`gesucht-${g.id}`}>
               <Card className="h-full">
-                <p className="text-base font-semibold text-brand-dark dark:text-brand-light">{g.place}</p>
+                <p className="text-base font-medium text-ink-soft">{g.place}</p>
                 <h3 className="mt-2 text-2xl sm:text-3xl">{g.title}</h3>
                 <div className="mt-4 space-y-4 text-lg">
                   {g.text.map((t) => (

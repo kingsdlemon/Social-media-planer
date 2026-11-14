@@ -76,8 +76,8 @@ export function getGesuche(): Gesuch[] {
 
 /* ---------- Einsatzorte (content/einsatzorte.json) ---------- */
 
-export type Einsatzort = { id: string; name: string; about: string; tasks: string; wanted: boolean; note?: string };
-export type Kategorie = { id: string; title: string; icon: CultureIconName; intro: string; orte: Einsatzort[] };
+export type Einsatzort = { id: string; name: string; about: string; tasks: string; wanted: boolean; note?: string; image?: string; imageAlt?: string };
+export type Kategorie = { id: string; title: string; icon: CultureIconName; intro: string; image?: string; orte: Einsatzort[] };
 
 export function getKategorien(): Kategorie[] {
   const { kategorien } = readJson<{ kategorien: (Omit<Kategorie, "id" | "orte" | "icon"> & { icon: string; orte: Omit<Einsatzort, "id">[] })[] }>(
@@ -88,6 +88,7 @@ export function getKategorien(): Kategorie[] {
     title: k.title,
     icon: (k.icon in cultureIcons ? k.icon : "column") as CultureIconName,
     intro: k.intro,
+    image: (k as { image?: string }).image,
     orte: (k.orte ?? []).map((o) => ({ ...o, id: slugify(o.name), wanted: Boolean(o.wanted), note: o.note?.trim() || undefined })),
   }));
 }
